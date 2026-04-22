@@ -18,7 +18,7 @@ namespace DAL
         {
             conexion = new SqlConnection
             {
-                ConnectionString = "Data Source=.; Initial Catalog=TPIngSoft; Integrated Security=SSPI"
+                ConnectionString = "Data Source=localhost;Initial Catalog=tpingsoft;Persist Security Info=True;User ID=sa;Password=MaxiNachoIngSoft26;"
             };
             conexion.Open();
         }

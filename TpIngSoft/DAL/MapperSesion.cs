@@ -1,66 +1,56 @@
-﻿using BE;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BE;
 
 namespace DAL
 {
-    public class MapperSesion : Mapper<BE.Sesion>
+    public class MapperSesion
     {
-        public int Crear(BE.Usuario usuario)
+        private Acceso acceso = new Acceso();
+
+        public int AbrirSesion(int idUsuario)
         {
-            Acceso acceso = new Acceso();
-
             acceso.Abrir();
-            string sql = "CrearSesion";
-
-            SqlParameter sId = acceso.CrearParametroOut("@SesionId");
-            List<SqlParameter> parametros = new List<SqlParameter> {
-                    sId,
-                    acceso.CrearParametro("@UsuarioNombre", usuario.Nombre),
+            try
+            {
+                SqlParameter outParam = acceso.CrearParametroOut("@NuevaSesionId");
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@IdUsuario", idUsuario),
+                    outParam
                 };
 
-            acceso.Escribir(sql, parametros);
-            acceso.Cerrar();
-
-            if (sId.Value == DBNull.Value || sId.Value == null)
-                throw new Exception("Error al crear sesión.");
-
-            return Convert.ToInt32(sId.Value);
+                int result = acceso.Escribir("CrearSesion", parameters);
+                if (result != -1)
+                {
+                    return (int)outParam.Value;
+                }
+                return -1;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
         }
 
-        public bool Cerrar(BE.Sesion sesion)
+        public void CerrarSesion(int idSesion)
         {
-            Acceso acceso = new Acceso();
-
             acceso.Abrir();
-            string sql = "CerrarSesion";
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@IdSesion", idSesion)
+                };
 
-            acceso.Escribir(sql, new List<SqlParameter> {
-                acceso.CrearParametro("@SesionId", sesion.ID)
-            });
-            
-            acceso.Cerrar();
-
-            return true;
-        }
-
-        public bool CerrarTodas()
-        {
-            Acceso acceso = new Acceso();
-
-            acceso.Abrir();
-            string sql = "CerrarTodasLasSesiones";
-
-            acceso.Escribir(sql);
-
-            acceso.Cerrar();
-
-            return true;
+                acceso.Escribir("CerrarSesion", parameters);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
         }
     }
 }
