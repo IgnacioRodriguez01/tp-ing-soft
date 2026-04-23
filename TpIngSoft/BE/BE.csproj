@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="Usuario.cs" />
     <Compile Include="Sesion.cs" />
+    <Compile Include="Rol.cs" />
+    <Compile Include="Permiso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

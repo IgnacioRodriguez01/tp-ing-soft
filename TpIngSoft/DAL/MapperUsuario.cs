@@ -1,39 +1,74 @@
-﻿using BE;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BE;
 
 namespace DAL
 {
-    public class MapperUsuario : Mapper<BE.Usuario>
+    public class MapperUsuario
     {
-        public BE.Usuario BuscarPorNombre(string nombre)
+        private Acceso acceso = new Acceso();
+
+        public Usuario BuscarPorNombre(string nombre)
         {
-            Acceso acceso = new Acceso();
             acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@Nombre", nombre)
+                };
 
-            string sql = "BuscarUsuarioPorNombre";
+                DataTable dt = acceso.Leer("BuscarUsuarioPorNombre", parameters);
 
-            DataTable dt = acceso.Leer(sql, new List<SqlParameter> {
-                acceso.CrearParametro("@Nombre", nombre)
-            });
-
-            acceso.Cerrar();
-
-            if (dt.Rows.Count == 0)
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow row = dt.Rows[0];
+                    return new Usuario
+                    {
+                        Id = Convert.ToInt32(row["id"]),
+                        Nombre = row["nombre"].ToString(),
+                        Password = row["pass"].ToString(),
+                        Activo = Convert.ToBoolean(row["activo"])
+                    };
+                }
                 return null;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
 
-            DataRow dr = dt.Rows[0];
+        public int Crear(Usuario user)
+        {
+            acceso.Abrir();
+            try
+            {
+                SqlParameter outParam = acceso.CrearParametroOut("@NuevoId");
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@Nombre", user.Nombre),
+                    acceso.CrearParametro("@Pass", user.Password),
+                    outParam
+                };
 
-            BE.Usuario usuario = new BE.Usuario();
-            usuario.Nombre = dr["nombre"].ToString();
-            usuario.Pass = dr["pass"].ToString();
-
-            return usuario;
+                int result = acceso.Escribir("CrearUsuario", parameters);
+                if (result != -1)
+                {
+                    if (outParam.Value != null && outParam.Value != DBNull.Value)
+                    {
+                        user.Id = Convert.ToInt32(outParam.Value);
+                        return user.Id;
+                    }
+                }
+                return -1;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
         }
     }
 }

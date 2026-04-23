@@ -47,6 +47,7 @@
     <Compile Include="Mapper.cs" />
     <Compile Include="MapperUsuario.cs" />
     <Compile Include="MapperSesion.cs" />
+    <Compile Include="MapperSeguridad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

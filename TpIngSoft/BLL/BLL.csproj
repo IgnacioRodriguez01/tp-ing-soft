@@ -42,8 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Usuario.cs" />
-    <Compile Include="Sesion.cs" />
+    <Compile Include="SessionManager.cs" />
+    <Compile Include="UsuarioBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

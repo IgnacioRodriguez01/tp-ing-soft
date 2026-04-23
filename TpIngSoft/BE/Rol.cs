@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 namespace BE
 {
-    public class Usuario
+    public class Rol
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Password { get; set; }
-        public bool Activo { get; set; }
-        public List<Rol> Roles { get; set; } = new List<Rol>();
+        public List<Permiso> Permisos { get; set; } = new List<Permiso>();
 
         public override string ToString()
         {
