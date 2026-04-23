@@ -28,6 +28,12 @@ namespace TpIngSoft
                 adminToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("AccesoAdmin");
                 gestionUsuariosToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("GestionUsuarios");
             }
+            else
+            {
+                lblSesionInfo.Text = "Usuario no autenticado";
+                adminToolStripMenuItem.Visible = false;
+                gestionUsuariosToolStripMenuItem.Visible = false;
+            }
         }
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
