@@ -57,8 +57,11 @@ namespace DAL
                 int result = acceso.Escribir("CrearUsuario", parameters);
                 if (result != -1)
                 {
-                    user.Id = (int)outParam.Value;
-                    return user.Id;
+                    if (outParam.Value != null && outParam.Value != DBNull.Value)
+                    {
+                        user.Id = Convert.ToInt32(outParam.Value);
+                        return user.Id;
+                    }
                 }
                 return -1;
             }
