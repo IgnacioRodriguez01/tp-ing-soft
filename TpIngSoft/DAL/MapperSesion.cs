@@ -25,7 +25,11 @@ namespace DAL
                 int result = acceso.Escribir("CrearSesion", parameters);
                 if (result != -1)
                 {
-                    return (int)outParam.Value;
+                    object outputValue = outParam.Value;
+                    if (outputValue != null && outputValue != DBNull.Value)
+                    {
+                        return Convert.ToInt32(outputValue);
+                    }
                 }
                 return -1;
             }
