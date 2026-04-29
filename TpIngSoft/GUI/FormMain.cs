@@ -50,6 +50,14 @@ namespace TpIngSoft
             frm.Show();
         }
 
+        private void bitacoraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormBitacora frm = new FormBitacora();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();

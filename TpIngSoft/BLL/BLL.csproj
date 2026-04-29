@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="SessionManager.cs" />
     <Compile Include="UsuarioBLL.cs" />
+    <Compile Include="GestorBitacora.cs" />
+
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

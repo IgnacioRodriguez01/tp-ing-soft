@@ -48,6 +48,8 @@
     <Compile Include="MapperUsuario.cs" />
     <Compile Include="MapperSesion.cs" />
     <Compile Include="MapperSeguridad.cs" />
+    <Compile Include="MapperBitacora.cs" />
+
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

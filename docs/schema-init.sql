@@ -153,3 +153,48 @@ INSERT INTO [dbo].[Usuario] ([nombre], [pass], [activo]) VALUES ('admin', 'admin
 SET @AdminId = SCOPE_IDENTITY();
 INSERT INTO [dbo].[UsuarioRol] ([id_usuario], [id_rol]) VALUES (@AdminId, 1);
 GO
+
+-- Bitacora Table
+IF OBJECT_ID('[dbo].[Bitacora]', 'U') IS NOT NULL DROP TABLE [dbo].[Bitacora];
+GO
+
+CREATE TABLE [dbo].[Bitacora] (
+    [id] INT IDENTITY(1,1) PRIMARY KEY,
+    [fecha_hora] DATETIME DEFAULT GETDATE(),
+    [id_usuario] INT NULL,
+    [actividad] VARCHAR(100) NOT NULL,
+    [info_asociada] VARCHAR(500) NULL,
+    FOREIGN KEY ([id_usuario]) REFERENCES [dbo].[Usuario]([id])
+);
+GO
+
+-- InsertarBitacora
+CREATE PROCEDURE [dbo].[InsertarBitacora]
+    @IdUsuario INT = NULL,
+    @Actividad VARCHAR(100),
+    @InfoAsociada VARCHAR(500) = NULL
+AS
+BEGIN
+    INSERT INTO Bitacora (id_usuario, actividad, info_asociada)
+    VALUES (@IdUsuario, @Actividad, @InfoAsociada);
+END
+GO
+
+-- BuscarBitacora
+CREATE PROCEDURE [dbo].[BuscarBitacora]
+    @IdUsuario INT = NULL,
+    @Actividad VARCHAR(100) = NULL,
+    @FechaDesde DATETIME = NULL,
+    @FechaHasta DATETIME = NULL
+AS
+BEGIN
+    SELECT b.id, b.fecha_hora, b.id_usuario, u.nombre as nombre_usuario, b.actividad, b.info_asociada
+    FROM Bitacora b
+    LEFT JOIN Usuario u ON b.id_usuario = u.id
+    WHERE (@IdUsuario IS NULL OR b.id_usuario = @IdUsuario)
+      AND (@Actividad IS NULL OR b.actividad LIKE '%' + @Actividad + '%')
+      AND (@FechaDesde IS NULL OR b.fecha_hora >= @FechaDesde)
+      AND (@FechaHasta IS NULL OR b.fecha_hora <= @FechaHasta)
+    ORDER BY b.fecha_hora DESC;
+END
+GO
