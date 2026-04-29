@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using BE;
 
-namespace BLL
+namespace SERVICIOS
 {
     public class SessionManager
     {
