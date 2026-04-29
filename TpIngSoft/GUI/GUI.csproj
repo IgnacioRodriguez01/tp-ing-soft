@@ -52,6 +52,13 @@
     <Compile Include="FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormBitacora.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBitacora.Designer.cs">
+      <DependentUpon>FormBitacora.cs</DependentUpon>
+    </Compile>
+
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +107,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{d68bc72d-c1c9-493b-a460-d361cb1641a1}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SERVICIOS\SERVICIOS.csproj">
+      <Project>{bb401e30-8bf0-4522-beb5-6bbd21ae15f5}</Project>
+      <Name>SERVICIOS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

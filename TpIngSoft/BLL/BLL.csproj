@@ -42,8 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SessionManager.cs" />
     <Compile Include="UsuarioBLL.cs" />
+    <Compile Include="GestorBitacora.cs" />
+
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,10 @@
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{6d30ac80-974e-427b-a92f-f500f6328dc6}</Project>
       <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SERVICIOS\SERVICIOS.csproj">
+      <Project>{bb401e30-8bf0-4522-beb5-6bbd21ae15f5}</Project>
+      <Name>SERVICIOS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

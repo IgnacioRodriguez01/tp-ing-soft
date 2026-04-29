@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using BLL;
+using SERVICIOS;
 
 namespace TpIngSoft
 {
@@ -49,6 +50,14 @@ namespace TpIngSoft
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void bitacoraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormBitacora frm = new FormBitacora();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {

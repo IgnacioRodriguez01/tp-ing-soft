@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using BLL;
+using SERVICIOS;
 
 namespace TpIngSoft
 {
@@ -42,8 +43,10 @@ namespace TpIngSoft
             }
             catch (Exception ex)
             {
+                GestorBitacora.Instance.RegistrarEvento(null, "Error Crítico", "Error en login: " + ex.Message);
                 MostrarError("Error: " + ex.Message);
             }
+
         }
 
         private void MostrarError(string mensaje)
