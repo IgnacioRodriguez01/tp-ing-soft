@@ -31,21 +31,37 @@ namespace BLL
                 {
                     // Inicializar Singleton
                     SessionManager.Instance.Login(user, sessionId);
+                    
+                    // Registro en Bitácora
+                    GestorBitacora.Instance.RegistrarEvento(user, "Login", "Inicio de sesión exitoso");
+                    
                     return true;
                 }
             }
+            
+            // Registro de Intento Fallido
+            GestorBitacora.Instance.RegistrarEvento(null, "Login Fallido", "Intento de acceso con usuario: " + nombre);
+            
             return false;
         }
+
 
         public void Logout()
         {
             if (SessionManager.Instance.IsLoggedIn())
             {
+                Usuario user = SessionManager.Instance.CurrentUser;
                 int sessionId = SessionManager.Instance.SessionId.Value;
+                
                 mapperSesion.CerrarSesion(sessionId);
+                
+                // Registro en Bitácora
+                GestorBitacora.Instance.RegistrarEvento(user, "Logout", "Cierre de sesión de usuario");
+                
                 SessionManager.Instance.Logout();
             }
         }
+
 
         public int Registrar(BE.Usuario user)
         {
@@ -53,7 +69,15 @@ namespace BLL
             if (string.IsNullOrEmpty(user.Nombre) || string.IsNullOrEmpty(user.Password))
                 return -1;
                 
-            return mapperUsuario.Crear(user);
+            int result = mapperUsuario.Crear(user);
+            if (result != -1)
+            {
+                // Registro en Bitácora
+                Usuario editor = SessionManager.Instance.IsLoggedIn() ? SessionManager.Instance.CurrentUser : null;
+                GestorBitacora.Instance.RegistrarEvento(editor, "Alta de Usuario", "Se creó el usuario: " + user.Nombre);
+            }
+            return result;
         }
     }
 }
+
