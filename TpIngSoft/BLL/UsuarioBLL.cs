@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using BE;
 using DAL;
+using SERVICIOS;
 
 namespace BLL
 {
@@ -15,7 +16,7 @@ namespace BLL
         {
             BE.Usuario user = mapperUsuario.BuscarPorNombre(nombre);
 
-            if (user != null && user.Password == pass)
+            if (user != null && user.Password == Encriptador.Hash(pass))
             {
                 // Cargar Roles y Permisos
                 user.Roles = mapperSeguridad.LeerRolesPorUsuario(user.Id);
@@ -68,6 +69,9 @@ namespace BLL
             // Validaciones de negocio podrían ir aquí
             if (string.IsNullOrEmpty(user.Nombre) || string.IsNullOrEmpty(user.Password))
                 return -1;
+
+            // Hash de contraseña antes de persistir
+            user.Password = Encriptador.Hash(user.Password);
                 
             int result = mapperUsuario.Crear(user);
             if (result != -1)

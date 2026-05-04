@@ -149,7 +149,7 @@ INSERT INTO [dbo].[RolPermiso] ([id_rol], [id_permiso]) VALUES (1, 2); -- Admin 
 
 -- Usuario Admin por defecto
 DECLARE @AdminId INT;
-INSERT INTO [dbo].[Usuario] ([nombre], [pass], [activo]) VALUES ('admin', 'admin123', 1);
+INSERT INTO [dbo].[Usuario] ([nombre], [pass], [activo]) VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 1);
 SET @AdminId = SCOPE_IDENTITY();
 INSERT INTO [dbo].[UsuarioRol] ([id_usuario], [id_rol]) VALUES (@AdminId, 1);
 GO
