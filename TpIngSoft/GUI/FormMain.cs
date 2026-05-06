@@ -28,12 +28,14 @@ namespace TpIngSoft
                 // Ejemplo de restricción por permisos
                 adminToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("AccesoAdmin");
                 gestionUsuariosToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("GestionUsuarios");
+                controlCambiosToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("AccesoAdmin");
             }
             else
             {
                 lblSesionInfo.Text = "Usuario no autenticado";
                 adminToolStripMenuItem.Visible = false;
                 gestionUsuariosToolStripMenuItem.Visible = false;
+                controlCambiosToolStripMenuItem.Visible = false;
             }
         }
 
@@ -63,6 +65,13 @@ namespace TpIngSoft
         private void bitacoraToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormBitacora frm = new FormBitacora();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void controlCambiosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormHistorialUsuario frm = new FormHistorialUsuario();
             frm.MdiParent = this;
             frm.Show();
         }
