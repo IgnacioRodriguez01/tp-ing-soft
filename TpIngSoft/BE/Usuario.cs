@@ -11,6 +11,7 @@ namespace BE
         public bool Activo { get; set; }
         public int IntentosFallidos { get; set; }
         public DateTime? BloqueadoHasta { get; set; }
+        public long DVH { get; set; }
         public List<Rol> Roles { get; set; } = new List<Rol>();
 
         public override string ToString()
