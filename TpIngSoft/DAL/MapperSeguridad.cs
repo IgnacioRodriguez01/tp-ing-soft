@@ -67,5 +67,46 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+        public List<Rol> LeerRoles()
+        {
+            acceso.Abrir();
+            try
+            {
+                DataTable dt = acceso.Leer("LeerRoles");
+                List<Rol> roles = new List<Rol>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    roles.Add(new Rol
+                    {
+                        Id = Convert.ToInt32(row["id"]),
+                        Nombre = row["nombre"].ToString()
+                    });
+                }
+                return roles;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+        public void AsignarRol(int idUsuario, int idRol)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@IdUsuario", idUsuario),
+                    acceso.CrearParametro("@IdRol", idRol)
+                };
+                acceso.Escribir("AsignarRolUsuario", parameters);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
     }
 }

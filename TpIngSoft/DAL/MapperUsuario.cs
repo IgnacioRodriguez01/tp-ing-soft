@@ -30,7 +30,9 @@ namespace DAL
                         Id = Convert.ToInt32(row["id"]),
                         Nombre = row["nombre"].ToString(),
                         Password = row["pass"].ToString(),
-                        Activo = Convert.ToBoolean(row["activo"])
+                        Activo = Convert.ToBoolean(row["activo"]),
+                        IntentosFallidos = row["intentos_fallidos"] != DBNull.Value ? Convert.ToInt32(row["intentos_fallidos"]) : 0,
+                        BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null
                     };
                 }
                 return null;
@@ -39,6 +41,31 @@ namespace DAL
             {
                 acceso.Cerrar();
             }
+        }
+
+        public Usuario BuscarPorId(int id)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter> { acceso.CrearParametro("@Id", id) };
+                DataTable dt = acceso.Leer("BuscarUsuarioPorId", parameters);
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow row = dt.Rows[0];
+                    return new Usuario
+                    {
+                        Id = Convert.ToInt32(row["id"]),
+                        Nombre = row["nombre"].ToString(),
+                        Password = row["pass"].ToString(),
+                        Activo = Convert.ToBoolean(row["activo"]),
+                        IntentosFallidos = row["intentos_fallidos"] != DBNull.Value ? Convert.ToInt32(row["intentos_fallidos"]) : 0,
+                        BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null
+                    };
+                }
+                return null;
+            }
+            finally { acceso.Cerrar(); }
         }
 
         public int Crear(Usuario user)
@@ -64,6 +91,24 @@ namespace DAL
                     }
                 }
                 return -1;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+        public void ActualizarIntentos(string nombre, bool exitoso)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@Nombre", nombre),
+                    acceso.CrearParametro("@Exitoso", exitoso)
+                };
+                acceso.Escribir("ActualizarIntentosFallidos", parameters);
             }
             finally
             {

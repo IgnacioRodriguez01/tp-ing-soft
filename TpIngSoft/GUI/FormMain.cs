@@ -40,7 +40,16 @@ namespace TpIngSoft
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             usuarioBLL.Logout();
-            this.Close(); // O re-mostrar login
+            this.Hide();
+            if (new FormLogin().ShowDialog() == DialogResult.OK)
+            {
+                ConfigurarMenu();
+                this.Show();
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void gestionUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
