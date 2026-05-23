@@ -36,6 +36,26 @@ namespace BLL
                     if (sessionId != -1)
                     {
                         SessionManager.Instance.IniciarSesion(user, sessionId);
+                        
+                        IdiomaBLL idiomaBLL = new IdiomaBLL();
+                        Idioma idioma = null;
+                        if (user.IdIdioma.HasValue)
+                        {
+                            idioma = idiomaBLL.LeerIdiomaUsuario(user.Id);
+                        }
+                        if (idioma == null)
+                        {
+                            List<Idioma> activos = idiomaBLL.ObtenerIdiomasActivos();
+                            if (activos.Count > 0)
+                            {
+                                idioma = activos[0];
+                            }
+                        }
+                        if (idioma != null)
+                        {
+                            GestorIdioma.Instancia.CambiarIdioma(idioma);
+                        }
+
                         GuardarSesionLocal(sessionId);
                         GestorBitacora.Instance.RegistrarEvento(user, "Login", "Inicio de sesión exitoso");
                         return true;
@@ -175,6 +195,26 @@ namespace BLL
                         {
                             CargarDatosUsuario(user);
                             SessionManager.Instance.IniciarSesion(user, id);
+
+                            IdiomaBLL idiomaBLL = new IdiomaBLL();
+                            Idioma idioma = null;
+                            if (user.IdIdioma.HasValue)
+                            {
+                                idioma = idiomaBLL.LeerIdiomaUsuario(user.Id);
+                            }
+                            if (idioma == null)
+                            {
+                                List<Idioma> activos = idiomaBLL.ObtenerIdiomasActivos();
+                                if (activos.Count > 0)
+                                {
+                                    idioma = activos[0];
+                                }
+                            }
+                            if (idioma != null)
+                            {
+                                GestorIdioma.Instancia.CambiarIdioma(idioma);
+                            }
+
                             return true;
                         }
                     }

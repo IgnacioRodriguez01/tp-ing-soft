@@ -33,7 +33,8 @@ namespace DAL
                         Activo = Convert.ToBoolean(row["activo"]),
                         IntentosFallidos = row["intentos_fallidos"] != DBNull.Value ? Convert.ToInt32(row["intentos_fallidos"]) : 0,
                         BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null,
-                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0
+                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0,
+                        IdIdioma = dt.Columns.Contains("id_idioma") && row["id_idioma"] != DBNull.Value ? (int?)Convert.ToInt32(row["id_idioma"]) : null
                     };
                 }
                 return null;
@@ -62,7 +63,8 @@ namespace DAL
                         Activo = Convert.ToBoolean(row["activo"]),
                         IntentosFallidos = row["intentos_fallidos"] != DBNull.Value ? Convert.ToInt32(row["intentos_fallidos"]) : 0,
                         BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null,
-                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0
+                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0,
+                        IdIdioma = dt.Columns.Contains("id_idioma") && row["id_idioma"] != DBNull.Value ? (int?)Convert.ToInt32(row["id_idioma"]) : null
                     };
                 }
                 return null;
@@ -153,7 +155,8 @@ namespace DAL
                         Activo = Convert.ToBoolean(row["activo"]),
                         IntentosFallidos = row["intentos_fallidos"] != DBNull.Value ? Convert.ToInt32(row["intentos_fallidos"]) : 0,
                         BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null,
-                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0
+                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0,
+                        IdIdioma = dt.Columns.Contains("id_idioma") && row["id_idioma"] != DBNull.Value ? (int?)Convert.ToInt32(row["id_idioma"]) : null
                     });
                 }
                 return lista;

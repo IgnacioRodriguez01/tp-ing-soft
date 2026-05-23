@@ -52,7 +52,7 @@
     <Compile Include="MapperDVV.cs" />
     <Compile Include="MapperRol.cs" />
     <Compile Include="MapperUsuarioHistorial.cs" />
-
+    <Compile Include="MapperIdioma.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

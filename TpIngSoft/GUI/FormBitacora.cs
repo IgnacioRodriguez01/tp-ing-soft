@@ -3,16 +3,55 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using BLL;
 using BE;
+using TpIngSoft.Traduccion;
 
 namespace TpIngSoft
 {
-    public partial class FormBitacora : Form
+    public partial class FormBitacora : Form, IObservador
     {
         private GestorBitacora gestor = GestorBitacora.Instance;
+        private List<IControlTraducible> _controlesTraducibles = new List<IControlTraducible>();
+        private DataGridTraducible _dgvTraducible;
 
         public FormBitacora()
         {
             InitializeComponent();
+            RegistrarControlesTraducibles();
+            GestorIdioma.Instancia.Adjuntar(this);
+        }
+
+        private void RegistrarControlesTraducibles()
+        {
+            _controlesTraducibles.Clear();
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormBitacora", "Gestión de Bitácora"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormBitacora_labelDesde, "Desde:"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormBitacora_labelHasta, "Hasta:"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label3, BE.NombreControl.FormBitacora_labelActividad, "Actividad:"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label4, BE.NombreControl.FormBitacora_labelUsuario, "Usuario:"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnBuscar, BE.NombreControl.FormBitacora_btnBuscar, "Buscar"));
+
+            // Initialize Grid Column translation wrapper
+            _dgvTraducible = new DataGridTraducible(dgvBitacora, "FormBitacora.dgvBitacora")
+                .ConColumna("Id", BE.NombreControl.FormBitacora_dgvBitacora_id, "ID")
+                .ConColumna("FechaHora", BE.NombreControl.FormBitacora_dgvBitacora_fecha, "Fecha/Hora")
+                .ConColumna("NombreUsuario", BE.NombreControl.FormBitacora_dgvBitacora_usuario, "Usuario")
+                .ConColumna("Actividad", BE.NombreControl.FormBitacora_dgvBitacora_criticidad, "Actividad")
+                .ConColumna("InfoAsociada", BE.NombreControl.FormBitacora_dgvBitacora_descripcion, "Descripción");
+        }
+
+        public void Actualizar(Dictionary<string, string> traducciones)
+        {
+            foreach (var control in _controlesTraducibles)
+            {
+                control.Traducir(traducciones);
+            }
+            _dgvTraducible.Traducir(traducciones);
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            GestorIdioma.Instancia.Separar(this);
+            base.OnFormClosed(e);
         }
 
         private void FormBitacora_Load(object sender, EventArgs e)
@@ -53,12 +92,15 @@ namespace TpIngSoft
                 if (dgvBitacora.Columns["NombreUsuario"] != null) dgvBitacora.Columns["NombreUsuario"].Width = 100;
                 if (dgvBitacora.Columns["Actividad"] != null) dgvBitacora.Columns["Actividad"].Width = 150;
                 if (dgvBitacora.Columns["InfoAsociada"] != null) dgvBitacora.Columns["InfoAsociada"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                // Re-apply translation to grid columns after populating data
+                var traducciones = GestorIdioma.Instancia.ObtenerTraduccionesActuales();
+                _dgvTraducible.Traducir(traducciones);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar bitácora: " + ex.Message);
             }
-
         }
     }
 }

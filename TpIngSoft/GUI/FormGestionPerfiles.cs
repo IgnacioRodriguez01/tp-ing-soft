@@ -4,15 +4,53 @@ using System.Windows.Forms;
 using BE;
 using BLL;
 
+using TpIngSoft.Traduccion;
+
 namespace TpIngSoft
 {
-    public partial class FormGestionPerfiles : Form
+    public partial class FormGestionPerfiles : Form, IObservador
     {
         private RolBLL rolBLL = new RolBLL();
+        private List<IControlTraducible> _controlesTraducibles = new List<IControlTraducible>();
 
         public FormGestionPerfiles()
         {
             InitializeComponent();
+            RegistrarControlesTraducibles();
+            GestorIdioma.Instancia.Adjuntar(this);
+        }
+
+        private void RegistrarControlesTraducibles()
+        {
+            _controlesTraducibles.Clear();
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormGestionPerfiles", "Gestión de Perfiles"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(grpAcciones, BE.NombreControl.FormGestionPerfiles_grpAcciones, "Acciones"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblDetalle, BE.NombreControl.FormGestionPerfiles_lblDetalle, "Seleccione un perfil para ver su detalle."));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblModo, BE.NombreControl.FormGestionPerfiles_lblModo, "Modo:"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(rbModoCrear, BE.NombreControl.FormGestionPerfiles_rbModoCrear, "Crear"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(rbModoEditar, BE.NombreControl.FormGestionPerfiles_rbModoEditar, "Editar / Eliminar"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblNombreRol, BE.NombreControl.FormGestionPerfiles_lblNombreRol, "Nombre:"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnCrearRolRaiz, BE.NombreControl.FormGestionPerfiles_btnCrearRolRaiz, "Crear Familia Raíz"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnCrearSubRol, BE.NombreControl.FormGestionPerfiles_btnCrearSubRol, "Crear Sub-familia"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnEditarNombre, BE.NombreControl.FormGestionPerfiles_btnEditarNombre, "Guardar Nombre"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnEliminarRol, BE.NombreControl.FormGestionPerfiles_btnEliminarRol, "Eliminar Familia"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(grpAsignarPermiso, BE.NombreControl.FormGestionPerfiles_grpAsignarPermiso, "Asignar Permiso"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnAsignarPermiso, BE.NombreControl.FormGestionPerfiles_btnAsignarPermiso, "Agregar Permiso"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnQuitarItem, BE.NombreControl.FormGestionPerfiles_btnQuitarItem, "Quitar Ítem Seleccionado del Padre"));
+        }
+
+        public void Actualizar(Dictionary<string, string> traducciones)
+        {
+            foreach (var control in _controlesTraducibles)
+            {
+                control.Traducir(traducciones);
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            GestorIdioma.Instancia.Separar(this);
+            base.OnFormClosed(e);
         }
 
         private void FormGestionPerfiles_Load(object sender, EventArgs e)

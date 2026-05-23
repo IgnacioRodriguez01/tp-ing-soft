@@ -1,21 +1,135 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using BE;
 using BLL;
 using SERVICIOS;
+using TpIngSoft.Traduccion;
 
 namespace TpIngSoft
 {
-    public partial class FormLogin : Form
+    public partial class FormLogin : Form, IObservador
     {
         private UsuarioBLL usuarioBLL = new UsuarioBLL();
+        private ComboBox cmbIdiomaLogin;
+        private Label lblIdiomaLogin;
+        private List<IControlTraducible> _controlesTraducibles = new List<IControlTraducible>();
+        private bool _isChangingLanguage = false;
 
         public FormLogin()
         {
             InitializeComponent();
-            this.Text = "Acceso al Sistema";
-            label1.Text = "Login de Usuario";
-            label4.Visible = false;
-            textBoxPass.PasswordChar = '*';
+            
+            // Setup controls
+            this.ClientSize = new System.Drawing.Size(285, 250);
+            this.buttonLogin.Location = new System.Drawing.Point(102, 210);
+            this.label4.Location = new System.Drawing.Point(94, 185);
+            this.label4.Visible = false;
+            this.textBoxPass.PasswordChar = '*';
+
+            // Language controls
+            lblIdiomaLogin = new Label();
+            lblIdiomaLogin.AutoSize = true;
+            lblIdiomaLogin.Location = new System.Drawing.Point(34, 155);
+            lblIdiomaLogin.Size = new System.Drawing.Size(44, 13);
+            lblIdiomaLogin.Text = "Idioma:";
+
+            cmbIdiomaLogin = new ComboBox();
+            cmbIdiomaLogin.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbIdiomaLogin.Location = new System.Drawing.Point(90, 152);
+            cmbIdiomaLogin.Size = new System.Drawing.Size(149, 21);
+            cmbIdiomaLogin.SelectedIndexChanged += CmbIdiomaLogin_SelectedIndexChanged;
+
+            this.Controls.Add(lblIdiomaLogin);
+            this.Controls.Add(cmbIdiomaLogin);
+
+            RegistrarControlesTraducibles();
+
+            // Set default language if none is active
+            if (GestorIdioma.Instancia.IdiomaActual == null)
+            {
+                IdiomaBLL bll = new IdiomaBLL();
+                var activos = bll.ObtenerIdiomasActivos();
+                if (activos.Count > 0)
+                {
+                    GestorIdioma.Instancia.CambiarIdioma(activos[0]);
+                }
+            }
+
+            CargarIdiomas();
+            
+            // Subscribe to language changes
+            GestorIdioma.Instancia.Adjuntar(this);
+        }
+
+        private void RegistrarControlesTraducibles()
+        {
+            _controlesTraducibles.Clear();
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormLogin", "Acceso al Sistema"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormLogin_label1, "Login de Usuario"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormLogin_label2, "Nombre"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label3, BE.NombreControl.FormLogin_label3, "Contraseña"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(buttonLogin, BE.NombreControl.FormLogin_buttonLogin, "Login"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblIdiomaLogin, BE.NombreControl.FormLogin_labelIdioma, "Idioma:"));
+        }
+
+        private void CargarIdiomas()
+        {
+            _isChangingLanguage = true;
+            try
+            {
+                cmbIdiomaLogin.Items.Clear();
+                IdiomaBLL bll = new IdiomaBLL();
+                List<Idioma> activos = bll.ObtenerIdiomasActivos();
+                foreach (var id in activos)
+                {
+                    cmbIdiomaLogin.Items.Add(id);
+                }
+
+                if (GestorIdioma.Instancia.IdiomaActual != null)
+                {
+                    for (int i = 0; i < cmbIdiomaLogin.Items.Count; i++)
+                    {
+                        if (((Idioma)cmbIdiomaLogin.Items[i]).Id == GestorIdioma.Instancia.IdiomaActual.Id)
+                        {
+                            cmbIdiomaLogin.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                else if (cmbIdiomaLogin.Items.Count > 0)
+                {
+                    cmbIdiomaLogin.SelectedIndex = 0;
+                }
+            }
+            finally
+            {
+                _isChangingLanguage = false;
+            }
+        }
+
+        private void CmbIdiomaLogin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isChangingLanguage) return;
+
+            if (cmbIdiomaLogin.SelectedItem is Idioma seleccionado)
+            {
+                GestorIdioma.Instancia.CambiarIdioma(seleccionado);
+            }
+        }
+
+        public void Actualizar(Dictionary<string, string> traducciones)
+        {
+            foreach (var control in _controlesTraducibles)
+            {
+                control.Traducir(traducciones);
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            GestorIdioma.Instancia.Separar(this);
+            base.OnFormClosed(e);
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -46,7 +160,6 @@ namespace TpIngSoft
                 GestorBitacora.Instance.RegistrarEvento(null, "Error Crítico", "Error en login: " + ex.Message);
                 MostrarError("Error: " + ex.Message);
             }
-
         }
 
         private void MostrarError(string mensaje)
