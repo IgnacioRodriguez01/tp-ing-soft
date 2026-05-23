@@ -22,7 +22,10 @@ CREATE TABLE [dbo].[Usuario] (
     [id] INT IDENTITY(1,1) PRIMARY KEY,
     [nombre] VARCHAR(50) NOT NULL UNIQUE,
     [pass] VARCHAR(100) NOT NULL,
-    [activo] BIT DEFAULT 1
+    [activo] BIT DEFAULT 1,
+    [intentos_fallidos] INT DEFAULT 0,
+    [bloqueado_hasta] DATETIME NULL,
+    [dvh] BIGINT DEFAULT 0
 );
 
 CREATE TABLE [dbo].[Rol] (
@@ -67,9 +70,29 @@ CREATE PROCEDURE [dbo].[BuscarUsuarioPorNombre]
     @Nombre VARCHAR(50)
 AS
 BEGIN
-    SELECT id, nombre, pass, activo 
+    SELECT id, nombre, pass, activo, intentos_fallidos, bloqueado_hasta, dvh
     FROM Usuario 
     WHERE nombre = @Nombre AND activo = 1;
+END
+GO
+
+-- BuscarUsuarioPorId
+CREATE PROCEDURE [dbo].[BuscarUsuarioPorId]
+    @Id INT
+AS
+BEGIN
+    SELECT id, nombre, pass, activo, intentos_fallidos, bloqueado_hasta, dvh
+    FROM Usuario 
+    WHERE id = @Id;
+END
+GO
+
+-- LeerUsuarios
+CREATE PROCEDURE [dbo].[LeerUsuarios]
+AS
+BEGIN
+    SELECT id, nombre, pass, activo, intentos_fallidos, bloqueado_hasta, dvh
+    FROM Usuario;
 END
 GO
 
@@ -77,12 +100,48 @@ GO
 CREATE PROCEDURE [dbo].[CrearUsuario]
     @Nombre VARCHAR(50),
     @Pass VARCHAR(100),
+    @DVH BIGINT,
     @NuevoId INT OUTPUT
 AS
 BEGIN
-    INSERT INTO Usuario (nombre, pass, activo)
-    VALUES (@Nombre, @Pass, 1);
+    INSERT INTO Usuario (nombre, pass, activo, dvh)
+    VALUES (@Nombre, @Pass, 1, @DVH);
     SET @NuevoId = SCOPE_IDENTITY();
+END
+GO
+
+-- ActualizarUsuario
+CREATE PROCEDURE [dbo].[ActualizarUsuario]
+    @Id INT,
+    @Nombre VARCHAR(50),
+    @Pass VARCHAR(100),
+    @Activo BIT,
+    @DVH BIGINT
+AS
+BEGIN
+    UPDATE Usuario
+    SET nombre = @Nombre, pass = @Pass, activo = @Activo, dvh = @DVH
+    WHERE id = @Id;
+END
+GO
+
+-- ActualizarIntentosFallidos
+CREATE PROCEDURE [dbo].[ActualizarIntentosFallidos]
+    @Nombre VARCHAR(50),
+    @Exitoso BIT
+AS
+BEGIN
+    IF @Exitoso = 1
+    BEGIN
+        UPDATE Usuario SET intentos_fallidos = 0, bloqueado_hasta = NULL WHERE nombre = @Nombre;
+    END
+    ELSE
+    BEGIN
+        UPDATE Usuario SET intentos_fallidos = intentos_fallidos + 1 WHERE nombre = @Nombre;
+        -- Bloqueo si llega a 3 intentos
+        UPDATE Usuario SET bloqueado_hasta = DATEADD(MINUTE, 5, GETDATE()) 
+        WHERE nombre = @Nombre AND intentos_fallidos >= 3;
+    END
 END
 GO
 
@@ -197,4 +256,69 @@ BEGIN
       AND (@FechaHasta IS NULL OR b.fecha_hora <= @FechaHasta)
     ORDER BY b.fecha_hora DESC;
 END
+GO
+-- ----------------------------------------------------
+-- T06b: Control de Cambios
+-- ----------------------------------------------------
+CREATE TABLE [dbo].[Usuario_Historial] (
+    [id_historial] INT IDENTITY(1,1) PRIMARY KEY,
+    [id_usuario] INT NOT NULL,
+    [nombre] VARCHAR(50) NOT NULL,
+    [pass] VARCHAR(100) NOT NULL,
+    [activo] BIT NOT NULL,
+    [dvh] BIGINT NULL,
+    [fecha_cambio] DATETIME DEFAULT GETDATE(),
+    [id_usuario_autor] INT NOT NULL,
+    [tipo_operacion] VARCHAR(20) NOT NULL
+);
+GO
+
+CREATE PROCEDURE [dbo].[InsertarUsuarioHistorial]
+    @IdUsuario INT, @Nombre VARCHAR(50), @Pass VARCHAR(100), @Activo BIT, @DVH BIGINT,
+    @IdUsuarioAutor INT, @TipoOperacion VARCHAR(20)
+AS BEGIN
+    INSERT INTO Usuario_Historial (id_usuario, nombre, pass, activo, dvh, id_usuario_autor, tipo_operacion)
+    VALUES (@IdUsuario, @Nombre, @Pass, @Activo, @DVH, @IdUsuarioAutor, @TipoOperacion);
+END;
+GO
+
+CREATE PROCEDURE [dbo].[LeerHistorialUsuario]
+    @IdUsuario INT
+AS BEGIN
+    SELECT * FROM Usuario_Historial WHERE id_usuario = @IdUsuario ORDER BY fecha_cambio DESC;
+END;
+GO
+
+CREATE PROCEDURE [dbo].[BuscarHistorialPorId]
+    @IdHistorial INT
+AS BEGIN
+    SELECT * FROM Usuario_Historial WHERE id_historial = @IdHistorial;
+END;
+GO
+
+-- ----------------------------------------------------
+-- T07: Dígitos Verificadores Verticales
+-- ----------------------------------------------------
+CREATE TABLE [dbo].[DigitoVerificadorVertical] (
+    [tabla] VARCHAR(50) PRIMARY KEY,
+    [dvv] BIGINT NOT NULL
+);
+GO
+
+INSERT INTO [dbo].[DigitoVerificadorVertical] ([tabla], [dvv]) VALUES ('Usuario', 0);
+GO
+
+CREATE PROCEDURE [dbo].[LeerDVV]
+    @Tabla VARCHAR(50)
+AS BEGIN
+    SELECT dvv FROM DigitoVerificadorVertical WHERE tabla = @Tabla;
+END;
+GO
+
+CREATE PROCEDURE [dbo].[ActualizarDVV]
+    @Tabla VARCHAR(50),
+    @DVV BIGINT
+AS BEGIN
+    UPDATE DigitoVerificadorVertical SET dvv = @DVV WHERE tabla = @Tabla;
+END;
 GO

@@ -12,12 +12,15 @@ namespace BLL
         private MapperUsuario mapperUsuario = new MapperUsuario();
         private MapperSeguridad mapperSeguridad = new MapperSeguridad();
         private MapperSesion mapperSesion = new MapperSesion();
+        private MapperUsuarioHistorial mapperHistorial = new MapperUsuarioHistorial();
+        private MapperDVV mapperDVV = new MapperDVV();
         private const string SESSION_FILE = "session.dat";
 
         public bool Login(string nombre, string pass)
         {
+            // La verificación de integridad se hace en el arranque (Program.cs)
             BE.Usuario user = mapperUsuario.BuscarPorNombre(nombre);
-
+            // ... resto del login
             if (user != null)
             {
                 if (user.BloqueadoHasta.HasValue && user.BloqueadoHasta.Value > DateTime.Now)
@@ -83,14 +86,69 @@ namespace BLL
             }
 
             user.Password = Encriptador.Hash(user.Password);
+            
+            // T07: Calcular DVH inicial
+            user.DVH = GestorDV.CalcularDVH(user);
+
             int result = mapperUsuario.Crear(user);
             if (result != -1)
             {
+                user.Id = result;
+                // Re-calcular con ID real para el DVH final
+                user.DVH = GestorDV.CalcularDVH(user);
+                mapperUsuario.Actualizar(user);
+
+                // T07: Recalcular DVV
+                ActualizarDVV();
+
                 mapperSeguridad.AsignarRol(result, idRol);
                 Usuario editor = SessionManager.Instance.IsLoggedIn() ? SessionManager.Instance.CurrentUser : null;
                 GestorBitacora.Instance.RegistrarEvento(editor, "Alta", "Usuario creado: " + user.Nombre);
             }
             return result;
+        }
+
+        public void Actualizar(Usuario user)
+        {
+            Usuario actual = mapperUsuario.BuscarPorId(user.Id);
+            Usuario autor = SessionManager.Instance.CurrentUser;
+
+            // T06b: Guardar snapshot en historial ANTES del cambio
+            mapperHistorial.Insertar(actual, autor?.Id ?? 0, "UPDATE");
+
+            // T07: Recalcular DVH
+            user.DVH = GestorDV.CalcularDVH(user);
+            mapperUsuario.Actualizar(user);
+
+            // T07: Recalcular DVV
+            ActualizarDVV();
+
+            GestorBitacora.Instance.RegistrarEvento(autor, "Modificación", $"Usuario {user.Nombre} actualizado.");
+        }
+
+        private void ActualizarDVV()
+        {
+            var todos = mapperUsuario.LeerTodos();
+            long dvv = GestorDV.CalcularDVV(todos.Select(x => x.DVH));
+            mapperDVV.ActualizarDVV("Usuario", dvv);
+        }
+
+        public List<UsuarioHistorial> LeerHistorial(int idUsuario) => mapperHistorial.LeerHistorial(idUsuario);
+
+        public void Restaurar(int idHistorial)
+        {
+            UsuarioHistorial backup = mapperHistorial.BuscarPorId(idHistorial);
+            if (backup != null)
+            {
+                Usuario u = new Usuario
+                {
+                    Id = backup.IdUsuario,
+                    Nombre = backup.Nombre,
+                    Password = backup.Password,
+                    Activo = backup.Activo
+                };
+                Actualizar(u);
+            }
         }
 
         public List<Rol> ObtenerRoles() => mapperSeguridad.LeerRoles();

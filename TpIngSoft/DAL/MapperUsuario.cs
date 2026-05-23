@@ -32,7 +32,8 @@ namespace DAL
                         Password = row["pass"].ToString(),
                         Activo = Convert.ToBoolean(row["activo"]),
                         IntentosFallidos = row["intentos_fallidos"] != DBNull.Value ? Convert.ToInt32(row["intentos_fallidos"]) : 0,
-                        BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null
+                        BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null,
+                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0
                     };
                 }
                 return null;
@@ -60,7 +61,8 @@ namespace DAL
                         Password = row["pass"].ToString(),
                         Activo = Convert.ToBoolean(row["activo"]),
                         IntentosFallidos = row["intentos_fallidos"] != DBNull.Value ? Convert.ToInt32(row["intentos_fallidos"]) : 0,
-                        BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null
+                        BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null,
+                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0
                     };
                 }
                 return null;
@@ -78,6 +80,7 @@ namespace DAL
                 {
                     acceso.CrearParametro("@Nombre", user.Nombre),
                     acceso.CrearParametro("@Pass", user.Password),
+                    acceso.CrearParametro("@DVH", user.DVH),
                     outParam
                 };
 
@@ -114,6 +117,48 @@ namespace DAL
             {
                 acceso.Cerrar();
             }
+        }
+        public void Actualizar(Usuario user)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@Id", user.Id),
+                    acceso.CrearParametro("@Nombre", user.Nombre),
+                    acceso.CrearParametro("@Pass", user.Password),
+                    acceso.CrearParametro("@Activo", user.Activo),
+                    acceso.CrearParametro("@DVH", user.DVH)
+                };
+                acceso.Escribir("ActualizarUsuario", parameters);
+            }
+            finally { acceso.Cerrar(); }
+        }
+
+        public List<Usuario> LeerTodos()
+        {
+            acceso.Abrir();
+            try
+            {
+                DataTable dt = acceso.Leer("LeerUsuarios");
+                List<Usuario> lista = new List<Usuario>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    lista.Add(new Usuario
+                    {
+                        Id = Convert.ToInt32(row["id"]),
+                        Nombre = row["nombre"].ToString(),
+                        Password = row["pass"].ToString(),
+                        Activo = Convert.ToBoolean(row["activo"]),
+                        IntentosFallidos = row["intentos_fallidos"] != DBNull.Value ? Convert.ToInt32(row["intentos_fallidos"]) : 0,
+                        BloqueadoHasta = row["bloqueado_hasta"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(row["bloqueado_hasta"]) : null,
+                        DVH = row["dvh"] != DBNull.Value ? Convert.ToInt64(row["dvh"]) : 0
+                    });
+                }
+                return lista;
+            }
+            finally { acceso.Cerrar(); }
         }
     }
 }
