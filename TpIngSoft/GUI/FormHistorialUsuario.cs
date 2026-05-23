@@ -9,7 +9,6 @@ namespace TpIngSoft
     public partial class FormHistorialUsuario : Form
     {
         private UsuarioBLL usuarioBLL = new UsuarioBLL();
-        private MapperUsuario mapperUsuario = new DAL.MapperUsuario();
 
         public FormHistorialUsuario()
         {
@@ -25,7 +24,7 @@ namespace TpIngSoft
         private void RefrescarUsuarios()
         {
             cmbUsuarios.DataSource = null;
-            cmbUsuarios.DataSource = mapperUsuario.LeerTodos();
+            cmbUsuarios.DataSource = usuarioBLL.LeerTodos();
             cmbUsuarios.DisplayMember = "Nombre";
             cmbUsuarios.ValueMember = "Id";
         }

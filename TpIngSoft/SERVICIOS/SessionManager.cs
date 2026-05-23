@@ -9,8 +9,8 @@ namespace SERVICIOS
         private static SessionManager _instance;
         private static readonly object _lock = new object();
 
-        public BE.Usuario CurrentUser { get; private set; }
-        public int? SessionId { get; private set; }
+        public BE.Usuario UsuarioActual { get; private set; }
+        public int? IdSesion { get; private set; }
 
         private SessionManager() { }
 
@@ -29,30 +29,52 @@ namespace SERVICIOS
             }
         }
 
-        public void Login(BE.Usuario user, int sessionId)
+        public void IniciarSesion(BE.Usuario user, int sessionId)
         {
-            CurrentUser = user;
-            SessionId = sessionId;
+            UsuarioActual = user;
+            IdSesion = sessionId;
         }
 
-        public void Logout()
+        public void CerrarSesion()
         {
-            CurrentUser = null;
-            SessionId = null;
+            UsuarioActual = null;
+            IdSesion = null;
         }
 
-        public bool IsLoggedIn()
+        public bool EstaLogueado()
         {
-            return CurrentUser != null;
+            return UsuarioActual != null;
         }
 
-        public bool HasPermission(string permissionName)
+        public bool TienePermiso(string permissionName)
         {
-            if (CurrentUser == null) return false;
+            if (UsuarioActual == null) return false;
 
-            return CurrentUser.Roles.Any(r => 
-                r.Permisos.Any(p => p.Nombre.Equals(permissionName, StringComparison.OrdinalIgnoreCase))
-            );
+            foreach (var rol in UsuarioActual.Roles)
+            {
+                if (TienePermisoInterno(rol, permissionName))
+                    return true;
+            }
+            return false;
+        }
+
+        private bool TienePermisoInterno(IComponentePerfil componente, string permissionName)
+        {
+            if (componente == null) return false;
+
+            if (componente is Permiso permiso)
+            {
+                return permiso.Nombre.Equals(permissionName, StringComparison.OrdinalIgnoreCase);
+            }
+            else if (componente is Rol rol)
+            {
+                foreach (var hijo in rol.Permisos)
+                {
+                    if (TienePermisoInterno(hijo, permissionName))
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }

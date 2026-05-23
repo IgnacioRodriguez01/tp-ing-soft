@@ -7,10 +7,6 @@ namespace SERVICIOS
 {
     public static class GestorDV
     {
-        /// <summary>
-        /// Calcula el Dígito Verificador Horizontal para un Usuario.
-        /// Algoritmo: suma de (ASCII * posicion_caracter * posicion_atributo)
-        /// </summary>
         public static long CalcularDVH(Usuario user)
         {
             long dvh = 0;
@@ -33,9 +29,6 @@ namespace SERVICIOS
             return suma;
         }
 
-        /// <summary>
-        /// Calcula el Dígito Verificador Vertical como la suma de los DVHs.
-        /// </summary>
         public static long CalcularDVV(IEnumerable<long> dvhs)
         {
             return dvhs.Sum();

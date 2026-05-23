@@ -21,14 +21,15 @@ namespace TpIngSoft
         private void ConfigurarMenu()
         {
             // Ocultar o mostrar opciones según permisos
-            if (SessionManager.Instance.IsLoggedIn())
+            if (SERVICIOS.SessionManager.Instance.EstaLogueado())
             {
-                lblSesionInfo.Text = $"Usuario: {SessionManager.Instance.CurrentUser.Nombre}";
+                lblSesionInfo.Text = $"Usuario: {SERVICIOS.SessionManager.Instance.UsuarioActual.Nombre}";
                 
                 // Ejemplo de restricción por permisos
-                adminToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("AccesoAdmin");
-                gestionUsuariosToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("GestionUsuarios");
-                controlCambiosToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("AccesoAdmin");
+                adminToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
+                gestionUsuariosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("GestionUsuarios");
+                controlCambiosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
+                gestionPerfilesToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
             }
             else
             {
@@ -36,6 +37,7 @@ namespace TpIngSoft
                 adminToolStripMenuItem.Visible = false;
                 gestionUsuariosToolStripMenuItem.Visible = false;
                 controlCambiosToolStripMenuItem.Visible = false;
+                gestionPerfilesToolStripMenuItem.Visible = false;
             }
         }
 
@@ -80,6 +82,13 @@ namespace TpIngSoft
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void gestionPerfilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormGestionPerfiles frm = new FormGestionPerfiles();
+            frm.MdiParent = this;
+            frm.Show();
         }
     }
 }
