@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using BE;
 using BLL;
+using SERVICIOS;
 
 namespace TpIngSoft
 {
@@ -15,6 +16,18 @@ namespace TpIngSoft
             this.Text = "Gestión de Usuarios";
         }
 
+        private void FormGestionUsuarios_Load(object sender, EventArgs e)
+        {
+            if (SessionManager.Instance.HasPermission("AccesoAdmin"))
+            {
+                lblRol.Visible = true;
+                cmbRoles.Visible = true;
+                cmbRoles.DataSource = usuarioBLL.ObtenerRoles();
+                cmbRoles.DisplayMember = "Nombre";
+                cmbRoles.ValueMember = "Id";
+            }
+        }
+
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             try
@@ -26,15 +39,25 @@ namespace TpIngSoft
                     Activo = true
                 };
 
-                int id = usuarioBLL.Registrar(nuevo);
-                if (id != -1)
+                int idRol = 2; // Default User
+                if (cmbRoles.Visible && cmbRoles.SelectedValue != null)
                 {
-                    MessageBox.Show($"Usuario registrado con éxito. ID: {id}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    idRol = (int)cmbRoles.SelectedValue;
+                }
+
+                int result = usuarioBLL.Registrar(nuevo, idRol);
+                if (result == -2)
+                {
+                    MessageBox.Show("El usuario ya existe.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (result != -1)
+                {
+                    MessageBox.Show("Registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Error al registrar el usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error al registrar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

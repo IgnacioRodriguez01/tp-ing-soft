@@ -20,6 +20,8 @@ namespace TpIngSoft
             this.label2 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnRegistrar = new System.Windows.Forms.Button();
+            this.lblRol = new System.Windows.Forms.Label();
+            this.cmbRoles = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -57,19 +59,41 @@ namespace TpIngSoft
             // 
             // btnRegistrar
             // 
-            this.btnRegistrar.Location = new System.Drawing.Point(100, 110);
+            this.btnRegistrar.Location = new System.Drawing.Point(100, 150);
             this.btnRegistrar.Name = "btnRegistrar";
             this.btnRegistrar.Size = new System.Drawing.Size(75, 23);
-            this.btnRegistrar.TabIndex = 4;
+            this.btnRegistrar.TabIndex = 5;
             this.btnRegistrar.Text = "Registrar";
             this.btnRegistrar.UseVisualStyleBackColor = true;
             this.btnRegistrar.Click += new System.EventHandler(this.btnRegistrar_Click);
+            // 
+            // lblRol
+            // 
+            this.lblRol.AutoSize = true;
+            this.lblRol.Location = new System.Drawing.Point(30, 110);
+            this.lblRol.Name = "lblRol";
+            this.lblRol.Size = new System.Drawing.Size(26, 13);
+            this.lblRol.TabIndex = 6;
+            this.lblRol.Text = "Rol:";
+            this.lblRol.Visible = false;
+            // 
+            // cmbRoles
+            // 
+            this.cmbRoles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRoles.FormattingEnabled = true;
+            this.cmbRoles.Location = new System.Drawing.Point(100, 107);
+            this.cmbRoles.Name = "cmbRoles";
+            this.cmbRoles.Size = new System.Drawing.Size(150, 21);
+            this.cmbRoles.TabIndex = 4;
+            this.cmbRoles.Visible = false;
             // 
             // FormGestionUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 160);
+            this.ClientSize = new System.Drawing.Size(300, 200);
+            this.Controls.Add(this.cmbRoles);
+            this.Controls.Add(this.lblRol);
             this.Controls.Add(this.btnRegistrar);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.label2);
@@ -78,6 +102,7 @@ namespace TpIngSoft
             this.Name = "FormGestionUsuarios";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registro de Usuarios";
+            this.Load += new System.EventHandler(this.FormGestionUsuarios_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -87,5 +112,7 @@ namespace TpIngSoft
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnRegistrar;
+        private System.Windows.Forms.Label lblRol;
+        private System.Windows.Forms.ComboBox cmbRoles;
     }
 }

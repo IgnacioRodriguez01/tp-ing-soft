@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BE;
 using DAL;
 using SERVICIOS;
+using System.IO;
 
 namespace BLL
 {
@@ -11,41 +12,49 @@ namespace BLL
         private MapperUsuario mapperUsuario = new MapperUsuario();
         private MapperSeguridad mapperSeguridad = new MapperSeguridad();
         private MapperSesion mapperSesion = new MapperSesion();
+        private const string SESSION_FILE = "session.dat";
 
         public bool Login(string nombre, string pass)
         {
             BE.Usuario user = mapperUsuario.BuscarPorNombre(nombre);
 
-            if (user != null && user.Password == Encriptador.Hash(pass))
+            if (user != null)
             {
-                // Cargar Roles y Permisos
-                user.Roles = mapperSeguridad.LeerRolesPorUsuario(user.Id);
-                foreach (var rol in user.Roles)
+                if (user.BloqueadoHasta.HasValue && user.BloqueadoHasta.Value > DateTime.Now)
+                    throw new Exception("Usuario bloqueado temporalmente.");
+
+                if (user.Password == Encriptador.Hash(pass))
                 {
-                    rol.Permisos = mapperSeguridad.LeerPermisosPorRol(rol.Id);
+                    mapperUsuario.ActualizarIntentos(nombre, true);
+                    CargarDatosUsuario(user);
+
+                    int sessionId = mapperSesion.AbrirSesion(user.Id);
+                    if (sessionId != -1)
+                    {
+                        SessionManager.Instance.Login(user, sessionId);
+                        GuardarSesionLocal(sessionId);
+                        GestorBitacora.Instance.RegistrarEvento(user, "Login", "Inicio de sesión exitoso");
+                        return true;
+                    }
                 }
-
-                // Crear Sesión en DB
-                int sessionId = mapperSesion.AbrirSesion(user.Id);
-
-                if (sessionId != -1)
+                else
                 {
-                    // Inicializar Singleton
-                    SessionManager.Instance.Login(user, sessionId);
-                    
-                    // Registro en Bitácora
-                    GestorBitacora.Instance.RegistrarEvento(user, "Login", "Inicio de sesión exitoso");
-                    
-                    return true;
+                    mapperUsuario.ActualizarIntentos(nombre, false);
                 }
             }
             
-            // Registro de Intento Fallido
-            GestorBitacora.Instance.RegistrarEvento(null, "Login Fallido", "Intento de acceso con usuario: " + nombre);
-            
+            GestorBitacora.Instance.RegistrarEvento(null, "Login Fallido", "Intento de acceso: " + nombre);
             return false;
         }
 
+        private void CargarDatosUsuario(Usuario user)
+        {
+            user.Roles = mapperSeguridad.LeerRolesPorUsuario(user.Id);
+            foreach (var rol in user.Roles)
+            {
+                rol.Permisos = mapperSeguridad.LeerPermisosPorRol(rol.Id);
+            }
+        }
 
         public void Logout()
         {
@@ -55,33 +64,62 @@ namespace BLL
                 int sessionId = SessionManager.Instance.SessionId.Value;
                 
                 mapperSesion.CerrarSesion(sessionId);
-                
-                // Registro en Bitácora
-                GestorBitacora.Instance.RegistrarEvento(user, "Logout", "Cierre de sesión de usuario");
-                
+                BorrarSesionLocal();
+                GestorBitacora.Instance.RegistrarEvento(user, "Logout", "Cierre de sesión");
                 SessionManager.Instance.Logout();
             }
         }
 
-
-        public int Registrar(BE.Usuario user)
+        public int Registrar(BE.Usuario user, int idRol = 2)
         {
-            // Validaciones de negocio podrían ir aquí
             if (string.IsNullOrEmpty(user.Nombre) || string.IsNullOrEmpty(user.Password))
                 return -1;
 
-            // Hash de contraseña antes de persistir
+            if (mapperUsuario.BuscarPorNombre(user.Nombre) != null)
+            {
+                Usuario editor = SessionManager.Instance.IsLoggedIn() ? SessionManager.Instance.CurrentUser : null;
+                GestorBitacora.Instance.RegistrarEvento(editor, "Alta Fallida", "Usuario existente: " + user.Nombre);
+                return -2;
+            }
+
             user.Password = Encriptador.Hash(user.Password);
-                
             int result = mapperUsuario.Crear(user);
             if (result != -1)
             {
-                // Registro en Bitácora
+                mapperSeguridad.AsignarRol(result, idRol);
                 Usuario editor = SessionManager.Instance.IsLoggedIn() ? SessionManager.Instance.CurrentUser : null;
-                GestorBitacora.Instance.RegistrarEvento(editor, "Alta de Usuario", "Se creó el usuario: " + user.Nombre);
+                GestorBitacora.Instance.RegistrarEvento(editor, "Alta", "Usuario creado: " + user.Nombre);
             }
             return result;
         }
+
+        public List<Rol> ObtenerRoles() => mapperSeguridad.LeerRoles();
+
+        public void GuardarSesionLocal(int id) => File.WriteAllText(SESSION_FILE, id.ToString());
+
+        public void BorrarSesionLocal() { if (File.Exists(SESSION_FILE)) File.Delete(SESSION_FILE); }
+
+        public bool ValidarSesionLocal()
+        {
+            if (File.Exists(SESSION_FILE))
+            {
+                if (int.TryParse(File.ReadAllText(SESSION_FILE), out int id))
+                {
+                    int idUsuario = mapperSesion.ValidarYRefrescarSesion(id);
+                    if (idUsuario != -1)
+                    {
+                        Usuario user = mapperUsuario.BuscarPorId(idUsuario);
+                        if (user != null)
+                        {
+                            CargarDatosUsuario(user);
+                            SessionManager.Instance.Login(user, id);
+                            return true;
+                        }
+                    }
+                }
+                BorrarSesionLocal();
+            }
+            return false;
+        }
     }
 }
-

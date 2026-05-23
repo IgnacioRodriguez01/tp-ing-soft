@@ -11,14 +11,10 @@ namespace TpIngSoft
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FormLogin login = new FormLogin();
-            if (login.ShowDialog() == DialogResult.OK)
+            BLL.UsuarioBLL usuarioBLL = new BLL.UsuarioBLL();
+            if (usuarioBLL.ValidarSesionLocal() || new FormLogin().ShowDialog() == DialogResult.OK)
             {
                 Application.Run(new FormMain());
-            }
-            else
-            {
-                Application.Exit();
             }
         }
     }
