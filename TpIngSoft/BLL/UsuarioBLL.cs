@@ -35,7 +35,7 @@ namespace BLL
                     int sessionId = mapperSesion.AbrirSesion(user.Id);
                     if (sessionId != -1)
                     {
-                        SessionManager.Instance.Login(user, sessionId);
+                        SessionManager.Instance.IniciarSesion(user, sessionId);
                         GuardarSesionLocal(sessionId);
                         GestorBitacora.Instance.RegistrarEvento(user, "Login", "Inicio de sesión exitoso");
                         return true;
@@ -54,23 +54,24 @@ namespace BLL
         private void CargarDatosUsuario(Usuario user)
         {
             user.Roles = mapperSeguridad.LeerRolesPorUsuario(user.Id);
+            RolBLL rolBLL = new RolBLL();
             foreach (var rol in user.Roles)
             {
-                rol.Permisos = mapperSeguridad.LeerPermisosPorRol(rol.Id);
+                rolBLL.CargarHijosRecursivo(rol);
             }
         }
 
         public void Logout()
         {
-            if (SessionManager.Instance.IsLoggedIn())
+            if (SessionManager.Instance.EstaLogueado())
             {
-                Usuario user = SessionManager.Instance.CurrentUser;
-                int sessionId = SessionManager.Instance.SessionId.Value;
+                Usuario user = SessionManager.Instance.UsuarioActual;
+                int sessionId = SessionManager.Instance.IdSesion.Value;
                 
                 mapperSesion.CerrarSesion(sessionId);
                 BorrarSesionLocal();
                 GestorBitacora.Instance.RegistrarEvento(user, "Logout", "Cierre de sesión");
-                SessionManager.Instance.Logout();
+                SessionManager.Instance.CerrarSesion();
             }
         }
 
@@ -81,7 +82,7 @@ namespace BLL
 
             if (mapperUsuario.BuscarPorNombre(user.Nombre) != null)
             {
-                Usuario editor = SessionManager.Instance.IsLoggedIn() ? SessionManager.Instance.CurrentUser : null;
+                Usuario editor = SessionManager.Instance.EstaLogueado() ? SessionManager.Instance.UsuarioActual : null;
                 GestorBitacora.Instance.RegistrarEvento(editor, "Alta Fallida", "Usuario existente: " + user.Nombre);
                 return -2;
             }
@@ -103,7 +104,7 @@ namespace BLL
                 ActualizarDVV();
 
                 mapperSeguridad.AsignarRol(result, idRol);
-                Usuario editor = SessionManager.Instance.IsLoggedIn() ? SessionManager.Instance.CurrentUser : null;
+                Usuario editor = SessionManager.Instance.EstaLogueado() ? SessionManager.Instance.UsuarioActual : null;
                 GestorBitacora.Instance.RegistrarEvento(editor, "Alta", "Usuario creado: " + user.Nombre);
             }
             return result;
@@ -112,7 +113,7 @@ namespace BLL
         public void Actualizar(Usuario user)
         {
             Usuario actual = mapperUsuario.BuscarPorId(user.Id);
-            Usuario autor = SessionManager.Instance.CurrentUser;
+            Usuario autor = SessionManager.Instance.UsuarioActual;
 
             // T06b: Guardar snapshot en historial ANTES del cambio
             mapperHistorial.Insertar(actual, autor?.Id ?? 0, "UPDATE");
@@ -152,7 +153,7 @@ namespace BLL
             }
         }
 
-        public List<Rol> ObtenerRoles() => mapperSeguridad.LeerRoles();
+        public List<Rol> ObtenerRoles() => new RolBLL().ObtenerTodos();
 
         public List<Usuario> LeerTodos() => mapperUsuario.LeerTodos();
 
@@ -173,7 +174,7 @@ namespace BLL
                         if (user != null)
                         {
                             CargarDatosUsuario(user);
-                            SessionManager.Instance.Login(user, id);
+                            SessionManager.Instance.IniciarSesion(user, id);
                             return true;
                         }
                     }

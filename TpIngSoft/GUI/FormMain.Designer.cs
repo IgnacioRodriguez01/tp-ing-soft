@@ -24,6 +24,7 @@ namespace TpIngSoft
             this.gestionUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bitacoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlCambiosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gestionPerfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblSesionInfo = new System.Windows.Forms.ToolStripStatusLabel();
@@ -71,7 +72,8 @@ namespace TpIngSoft
             this.adminToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gestionUsuariosToolStripMenuItem,
             this.bitacoraToolStripMenuItem,
-            this.controlCambiosToolStripMenuItem});
+            this.controlCambiosToolStripMenuItem,
+            this.gestionPerfilesToolStripMenuItem});
 
             this.adminToolStripMenuItem.Name = "adminToolStripMenuItem";
             this.adminToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
@@ -97,6 +99,13 @@ namespace TpIngSoft
             this.controlCambiosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.controlCambiosToolStripMenuItem.Text = "Control de Cambios";
             this.controlCambiosToolStripMenuItem.Click += new System.EventHandler(this.controlCambiosToolStripMenuItem_Click);
+            // 
+            // gestionPerfilesToolStripMenuItem
+            // 
+            this.gestionPerfilesToolStripMenuItem.Name = "gestionPerfilesToolStripMenuItem";
+            this.gestionPerfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gestionPerfilesToolStripMenuItem.Text = "Gestión de Perfiles";
+            this.gestionPerfilesToolStripMenuItem.Click += new System.EventHandler(this.gestionPerfilesToolStripMenuItem_Click);
 
             // 
             // statusStrip1
@@ -142,6 +151,7 @@ namespace TpIngSoft
         private System.Windows.Forms.ToolStripMenuItem gestionUsuariosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bitacoraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem controlCambiosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gestionPerfilesToolStripMenuItem;
 
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblSesionInfo;

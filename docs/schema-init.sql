@@ -51,11 +51,11 @@ CREATE TABLE [dbo].[UsuarioRol] (
 );
 
 CREATE TABLE [dbo].[RolPermiso] (
-    [id_rol] INT NOT NULL,
-    [id_permiso] INT NOT NULL,
-    PRIMARY KEY ([id_rol], [id_permiso]),
-    FOREIGN KEY ([id_rol]) REFERENCES [dbo].[Rol]([id]),
-    FOREIGN KEY ([id_permiso]) REFERENCES [dbo].[Permiso]([id])
+    [id_padre]   INT         NOT NULL REFERENCES [dbo].[Rol]([id]),
+    [id_hijo]    INT         NOT NULL,        -- FK a Rol.id o Permiso.id según tipo_hijo
+    [tipo_hijo]  VARCHAR(10) NOT NULL CHECK ([tipo_hijo] IN ('Rol', 'Permiso')),
+    PRIMARY KEY ([id_padre], [id_hijo], [tipo_hijo]),
+    CHECK ([id_padre] <> [id_hijo] OR [tipo_hijo] = 'Permiso')
 );
 
 CREATE TABLE [dbo].[Sesion] (
@@ -106,8 +106,8 @@ INSERT INTO [dbo].[Permiso] ([nombre]) VALUES ('AccesoAdmin');
 INSERT INTO [dbo].[Permiso] ([nombre]) VALUES ('GestionUsuarios');
 
 -- Mapeo Rol-Permiso
-INSERT INTO [dbo].[RolPermiso] ([id_rol], [id_permiso]) VALUES (1, 1); -- Admin - AccesoAdmin
-INSERT INTO [dbo].[RolPermiso] ([id_rol], [id_permiso]) VALUES (1, 2); -- Admin - GestionUsuarios
+INSERT INTO [dbo].[RolPermiso] ([id_padre], [id_hijo], [tipo_hijo]) VALUES (1, 1, 'Permiso'); -- Admin - AccesoAdmin
+INSERT INTO [dbo].[RolPermiso] ([id_padre], [id_hijo], [tipo_hijo]) VALUES (1, 2, 'Permiso'); -- Admin - GestionUsuarios
 
 -- Usuario Admin por defecto
 DECLARE @AdminId INT;
