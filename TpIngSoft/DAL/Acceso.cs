@@ -18,7 +18,7 @@ namespace DAL
         {
             conexion = new SqlConnection
             {
-                ConnectionString = "Data Source=localhost;Initial Catalog=tpingsoft;Persist Security Info=True;User ID=sa;Password=MaxiNachoIngSoft26;"
+                ConnectionString = "Data Source=localhost;Initial Catalog=tpingsoft;Integrated Security=True;"
             };
             conexion.Open();
         }
@@ -75,7 +75,7 @@ namespace DAL
             {
                 filas = cmd.ExecuteNonQuery();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 filas = -1;
             }

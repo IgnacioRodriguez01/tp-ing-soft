@@ -18,7 +18,7 @@ namespace TpIngSoft
 
         private void FormGestionUsuarios_Load(object sender, EventArgs e)
         {
-            if (SessionManager.Instance.HasPermission("AccesoAdmin"))
+            if (SERVICIOS.SessionManager.Instance.HasPermission("AccesoAdmin"))
             {
                 lblRol.Visible = true;
                 cmbRoles.Visible = true;

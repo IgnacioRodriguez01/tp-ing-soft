@@ -21,14 +21,14 @@ namespace TpIngSoft
         private void ConfigurarMenu()
         {
             // Ocultar o mostrar opciones según permisos
-            if (SessionManager.Instance.IsLoggedIn())
+            if (SERVICIOS.SessionManager.Instance.IsLoggedIn())
             {
-                lblSesionInfo.Text = $"Usuario: {SessionManager.Instance.CurrentUser.Nombre}";
+                lblSesionInfo.Text = $"Usuario: {SERVICIOS.SessionManager.Instance.CurrentUser.Nombre}";
                 
                 // Ejemplo de restricción por permisos
-                adminToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("AccesoAdmin");
-                gestionUsuariosToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("GestionUsuarios");
-                controlCambiosToolStripMenuItem.Visible = SessionManager.Instance.HasPermission("AccesoAdmin");
+                adminToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.HasPermission("AccesoAdmin");
+                gestionUsuariosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.HasPermission("GestionUsuarios");
+                controlCambiosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.HasPermission("AccesoAdmin");
             }
             else
             {

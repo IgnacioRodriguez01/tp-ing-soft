@@ -4,6 +4,7 @@ using BE;
 using DAL;
 using SERVICIOS;
 using System.IO;
+using System.Linq;
 
 namespace BLL
 {
@@ -152,6 +153,8 @@ namespace BLL
         }
 
         public List<Rol> ObtenerRoles() => mapperSeguridad.LeerRoles();
+
+        public List<Usuario> LeerTodos() => mapperUsuario.LeerTodos();
 
         public void GuardarSesionLocal(int id) => File.WriteAllText(SESSION_FILE, id.ToString());
 
