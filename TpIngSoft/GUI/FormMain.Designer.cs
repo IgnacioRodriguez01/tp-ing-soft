@@ -104,7 +104,7 @@ namespace TpIngSoft
             // 
             this.gestionPerfilesToolStripMenuItem.Name = "gestionPerfilesToolStripMenuItem";
             this.gestionPerfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gestionPerfilesToolStripMenuItem.Text = "Gestión de Perfiles";
+            this.gestionPerfilesToolStripMenuItem.Text = "Gestión de Roles";
             this.gestionPerfilesToolStripMenuItem.Click += new System.EventHandler(this.gestionPerfilesToolStripMenuItem_Click);
 
             // 

@@ -37,8 +37,15 @@ IComponentePerfil (Interface)
 - Modificado el método `TienePermiso()` para evaluar recursivamente la jerarquía completa del usuario logueado en busca de permisos heredados.
 
 ### 5. Interfaz Gráfica (GUI)
-- Creado **[FormGestionPerfiles.cs](file:///c:/Users/ignac/Repos/tp-ing-soft/TpIngSoft/GUI/FormGestionPerfiles.cs)** con un control `TreeView` que muestra recursivamente todos los roles y permisos del sistema. Soporta CRUD de roles, asignación polimórfica de ítems (tanto permisos fijos como sub-roles), edición de nombres y eliminación.
-- Modificado `FormMain.cs` para integrar la opción en el menú bajo "Admin -> Gestión de Perfiles" y restringir su acceso sólo a usuarios que posean el permiso `AccesoAdmin`.
+- Renombrado el formulario a **Gestión de Roles** (tanto en el título del formulario `FormGestionPerfiles` como en la opción del menú en `FormMain` bajo "Admin -> Gestión de Roles").
+- Refactorizado el panel de acciones en **[FormGestionPerfiles.cs](file:///c:/Users/ignac/Repos/tp-ing-soft/TpIngSoft/GUI/FormGestionPerfiles.cs)** implementando un patrón de modos seleccionables mediante `RadioButton` ("Crear Rol" y "Editar / Eliminar") inspirado en el formulario `FormInventario` del parcial:
+  - **Modo Crear:** Limpia automáticamente el campo `txtNombreRol` y lo mantiene siempre habilitado. Muestra únicamente los botones para crear roles raíz o sub-roles (este último habilitado solo al seleccionar un rol en el árbol).
+  - **Modo Editar:** Habilita el campo `txtNombreRol` con el nombre del rol seleccionado para su modificación. Muestra los botones de guardar cambios, eliminar rol, asignar permisos y desasignar.
+  - **Layout Superpuesto:** Para mantener el diseño compacto y una transición fluida, los botones de acción mutuamente excluyentes se superpusieron en la misma posición (Y=135).
+- Resueltos bugs críticos de UX/Persistencia:
+  - Solucionado el problema donde al seleccionar un permiso el input de texto quedaba bloqueado impidiendo la creación de nuevos roles.
+  - Corregido el error de conversión de `DBNull` que ocurría al intentar crear un rol raíz teniendo un rol seleccionado, al desvincular el estado de creación del nodo actualmente seleccionado.
+
 
 ---
 

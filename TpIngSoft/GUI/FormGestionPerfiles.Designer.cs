@@ -30,6 +30,9 @@ namespace TpIngSoft
             this.txtNombreRol = new System.Windows.Forms.TextBox();
             this.lblNombreRol = new System.Windows.Forms.Label();
             this.lblDetalle = new System.Windows.Forms.Label();
+            this.lblModo = new System.Windows.Forms.Label();
+            this.rbModoCrear = new System.Windows.Forms.RadioButton();
+            this.rbModoEditar = new System.Windows.Forms.RadioButton();
             this.grpAcciones.SuspendLayout();
             this.grpAsignarPermiso.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +61,9 @@ namespace TpIngSoft
             this.grpAcciones.Controls.Add(this.txtNombreRol);
             this.grpAcciones.Controls.Add(this.lblNombreRol);
             this.grpAcciones.Controls.Add(this.lblDetalle);
+            this.grpAcciones.Controls.Add(this.lblModo);
+            this.grpAcciones.Controls.Add(this.rbModoCrear);
+            this.grpAcciones.Controls.Add(this.rbModoEditar);
             this.grpAcciones.Location = new System.Drawing.Point(378, 12);
             this.grpAcciones.Name = "grpAcciones";
             this.grpAcciones.Size = new System.Drawing.Size(394, 436);
@@ -67,10 +73,10 @@ namespace TpIngSoft
             // 
             // btnQuitarItem
             // 
-            this.btnQuitarItem.Location = new System.Drawing.Point(15, 300);
+            this.btnQuitarItem.Location = new System.Drawing.Point(15, 295);
             this.btnQuitarItem.Name = "btnQuitarItem";
             this.btnQuitarItem.Size = new System.Drawing.Size(364, 30);
-            this.btnQuitarItem.TabIndex = 8;
+            this.btnQuitarItem.TabIndex = 11;
             this.btnQuitarItem.Text = "Quitar Ítem Seleccionado del Padre";
             this.btnQuitarItem.UseVisualStyleBackColor = true;
             this.btnQuitarItem.Click += new System.EventHandler(this.btnQuitarItem_Click);
@@ -79,10 +85,10 @@ namespace TpIngSoft
             // 
             this.grpAsignarPermiso.Controls.Add(this.btnAsignarPermiso);
             this.grpAsignarPermiso.Controls.Add(this.cmbPermisos);
-            this.grpAsignarPermiso.Location = new System.Drawing.Point(15, 180);
+            this.grpAsignarPermiso.Location = new System.Drawing.Point(15, 175);
             this.grpAsignarPermiso.Name = "grpAsignarPermiso";
             this.grpAsignarPermiso.Size = new System.Drawing.Size(364, 100);
-            this.grpAsignarPermiso.TabIndex = 7;
+            this.grpAsignarPermiso.TabIndex = 10;
             this.grpAsignarPermiso.TabStop = false;
             this.grpAsignarPermiso.Text = "Asignar Permiso";
             // 
@@ -107,59 +113,59 @@ namespace TpIngSoft
             // 
             // btnEliminarRol
             // 
-            this.btnEliminarRol.Location = new System.Drawing.Point(204, 140);
+            this.btnEliminarRol.Location = new System.Drawing.Point(204, 135);
             this.btnEliminarRol.Name = "btnEliminarRol";
             this.btnEliminarRol.Size = new System.Drawing.Size(175, 23);
-            this.btnEliminarRol.TabIndex = 6;
+            this.btnEliminarRol.TabIndex = 9;
             this.btnEliminarRol.Text = "Eliminar Rol";
             this.btnEliminarRol.UseVisualStyleBackColor = true;
             this.btnEliminarRol.Click += new System.EventHandler(this.btnEliminarRol_Click);
             // 
             // btnEditarNombre
             // 
-            this.btnEditarNombre.Location = new System.Drawing.Point(15, 140);
+            this.btnEditarNombre.Location = new System.Drawing.Point(15, 135);
             this.btnEditarNombre.Name = "btnEditarNombre";
             this.btnEditarNombre.Size = new System.Drawing.Size(175, 23);
-            this.btnEditarNombre.TabIndex = 5;
-            this.btnEditarNombre.Text = "Editar Nombre";
+            this.btnEditarNombre.TabIndex = 8;
+            this.btnEditarNombre.Text = "Guardar Nombre";
             this.btnEditarNombre.UseVisualStyleBackColor = true;
             this.btnEditarNombre.Click += new System.EventHandler(this.btnEditarNombre_Click);
             // 
             // btnCrearSubRol
             // 
-            this.btnCrearSubRol.Location = new System.Drawing.Point(204, 110);
+            this.btnCrearSubRol.Location = new System.Drawing.Point(204, 135);
             this.btnCrearSubRol.Name = "btnCrearSubRol";
             this.btnCrearSubRol.Size = new System.Drawing.Size(175, 23);
-            this.btnCrearSubRol.TabIndex = 4;
+            this.btnCrearSubRol.TabIndex = 7;
             this.btnCrearSubRol.Text = "Crear Sub-Rol";
             this.btnCrearSubRol.UseVisualStyleBackColor = true;
             this.btnCrearSubRol.Click += new System.EventHandler(this.btnCrearSubRol_Click);
             // 
             // btnCrearRolRaiz
             // 
-            this.btnCrearRolRaiz.Location = new System.Drawing.Point(15, 110);
+            this.btnCrearRolRaiz.Location = new System.Drawing.Point(15, 135);
             this.btnCrearRolRaiz.Name = "btnCrearRolRaiz";
             this.btnCrearRolRaiz.Size = new System.Drawing.Size(175, 23);
-            this.btnCrearRolRaiz.TabIndex = 3;
+            this.btnCrearRolRaiz.TabIndex = 6;
             this.btnCrearRolRaiz.Text = "Crear Rol Raíz";
             this.btnCrearRolRaiz.UseVisualStyleBackColor = true;
             this.btnCrearRolRaiz.Click += new System.EventHandler(this.btnCrearRolRaiz_Click);
             // 
             // txtNombreRol
             // 
-            this.txtNombreRol.Location = new System.Drawing.Point(15, 80);
+            this.txtNombreRol.Location = new System.Drawing.Point(15, 105);
             this.txtNombreRol.Name = "txtNombreRol";
             this.txtNombreRol.Size = new System.Drawing.Size(364, 20);
-            this.txtNombreRol.TabIndex = 2;
+            this.txtNombreRol.TabIndex = 5;
             // 
             // lblNombreRol
             // 
             this.lblNombreRol.AutoSize = true;
-            this.lblNombreRol.Location = new System.Drawing.Point(15, 60);
+            this.lblNombreRol.Location = new System.Drawing.Point(15, 85);
             this.lblNombreRol.Name = "lblNombreRol";
-            this.lblNombreRol.Size = new System.Drawing.Size(102, 13);
-            this.lblNombreRol.TabIndex = 1;
-            this.lblNombreRol.Text = "Nombre Rol / Perfil:";
+            this.lblNombreRol.Size = new System.Drawing.Size(65, 13);
+            this.lblNombreRol.TabIndex = 4;
+            this.lblNombreRol.Text = "Nombre Rol:";
             // 
             // lblDetalle
             // 
@@ -171,6 +177,39 @@ namespace TpIngSoft
             this.lblDetalle.TabIndex = 0;
             this.lblDetalle.Text = "Detalle: Selección vacía";
             // 
+            // lblModo
+            // 
+            this.lblModo.AutoSize = true;
+            this.lblModo.Location = new System.Drawing.Point(15, 55);
+            this.lblModo.Name = "lblModo";
+            this.lblModo.Size = new System.Drawing.Size(37, 13);
+            this.lblModo.TabIndex = 1;
+            this.lblModo.Text = "Modo:";
+            // 
+            // rbModoCrear
+            // 
+            this.rbModoCrear.AutoSize = true;
+            this.rbModoCrear.Checked = true;
+            this.rbModoCrear.Location = new System.Drawing.Point(60, 53);
+            this.rbModoCrear.Name = "rbModoCrear";
+            this.rbModoCrear.Size = new System.Drawing.Size(70, 17);
+            this.rbModoCrear.TabIndex = 2;
+            this.rbModoCrear.TabStop = true;
+            this.rbModoCrear.Text = "Crear Rol";
+            this.rbModoCrear.UseVisualStyleBackColor = true;
+            this.rbModoCrear.CheckedChanged += new System.EventHandler(this.rbModo_CheckedChanged);
+            // 
+            // rbModoEditar
+            // 
+            this.rbModoEditar.AutoSize = true;
+            this.rbModoEditar.Location = new System.Drawing.Point(150, 53);
+            this.rbModoEditar.Name = "rbModoEditar";
+            this.rbModoEditar.Size = new System.Drawing.Size(102, 17);
+            this.rbModoEditar.TabIndex = 3;
+            this.rbModoEditar.Text = "Editar / Eliminar";
+            this.rbModoEditar.UseVisualStyleBackColor = true;
+            this.rbModoEditar.CheckedChanged += new System.EventHandler(this.rbModo_CheckedChanged);
+            // 
             // FormGestionPerfiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -180,7 +219,7 @@ namespace TpIngSoft
             this.Controls.Add(this.tvPerfiles);
             this.Name = "FormGestionPerfiles";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Gestión de Perfiles (Composite)";
+            this.Text = "Gestión de Roles";
             this.Load += new System.EventHandler(this.FormGestionPerfiles_Load);
             this.grpAcciones.ResumeLayout(false);
             this.grpAcciones.PerformLayout();
@@ -204,5 +243,8 @@ namespace TpIngSoft
         private System.Windows.Forms.ComboBox cmbPermisos;
         private System.Windows.Forms.Button btnAsignarPermiso;
         private System.Windows.Forms.Button btnQuitarItem;
+        private System.Windows.Forms.Label lblModo;
+        private System.Windows.Forms.RadioButton rbModoCrear;
+        private System.Windows.Forms.RadioButton rbModoEditar;
     }
 }

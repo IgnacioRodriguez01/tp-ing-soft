@@ -74,46 +74,86 @@ namespace TpIngSoft
             }
         }
 
+        private void rbModo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbModoCrear.Checked)
+            {
+                txtNombreRol.Text = "";
+            }
+            IComponentePerfil seleccionado = tvPerfiles.SelectedNode?.Tag as IComponentePerfil;
+            ActualizarControles(seleccionado);
+        }
+
         private void ActualizarControles(IComponentePerfil seleccionado)
         {
-            if (seleccionado == null)
+            if (rbModoCrear.Checked)
             {
-                lblDetalle.Text = "Detalle: Selección vacía";
-                txtNombreRol.Text = "";
-                txtNombreRol.Enabled = false;
-                btnCrearSubRol.Enabled = false;
-                btnEditarNombre.Enabled = false;
-                btnEliminarRol.Enabled = false;
-                grpAsignarPermiso.Enabled = false;
-                btnQuitarItem.Enabled = false;
-                cmbPermisos.DataSource = null;
-            }
-            else if (seleccionado is Permiso permiso)
-            {
-                lblDetalle.Text = permiso.ObtenerDescripcion();
-                txtNombreRol.Text = "";
-                txtNombreRol.Enabled = false;
-                btnCrearSubRol.Enabled = false;
-                btnEditarNombre.Enabled = false;
-                btnEliminarRol.Enabled = false;
-                grpAsignarPermiso.Enabled = false;
-                
-                // Se puede quitar si está colgado de un padre
-                btnQuitarItem.Enabled = tvPerfiles.SelectedNode.Parent != null;
-                cmbPermisos.DataSource = null;
-            }
-            else if (seleccionado is Rol rol)
-            {
-                lblDetalle.Text = rol.ObtenerDescripcion();
-                txtNombreRol.Text = rol.Nombre;
-                txtNombreRol.Enabled = true;
-                btnCrearSubRol.Enabled = true;
-                btnEditarNombre.Enabled = true;
-                btnEliminarRol.Enabled = true;
-                grpAsignarPermiso.Enabled = true;
-                btnQuitarItem.Enabled = tvPerfiles.SelectedNode.Parent != null;
+                // Visibilidad de botones en modo Crear
+                btnCrearRolRaiz.Visible = true;
+                btnCrearSubRol.Visible = true;
+                btnEditarNombre.Visible = false;
+                btnEliminarRol.Visible = false;
+                grpAsignarPermiso.Visible = false;
+                btnQuitarItem.Visible = false;
 
-                CargarComboAsignables(rol);
+                // Controles habilitados en modo Crear
+                txtNombreRol.Enabled = true;
+                btnCrearRolRaiz.Enabled = true;
+                btnCrearSubRol.Enabled = (seleccionado is Rol);
+
+                if (seleccionado == null)
+                {
+                    lblDetalle.Text = "Detalle: Selección vacía";
+                }
+                else
+                {
+                    lblDetalle.Text = seleccionado.ObtenerDescripcion();
+                }
+            }
+            else // rbModoEditar.Checked
+            {
+                // Visibilidad de botones en modo Editar/Eliminar
+                btnCrearRolRaiz.Visible = false;
+                btnCrearSubRol.Visible = false;
+                btnEditarNombre.Visible = true;
+                btnEliminarRol.Visible = true;
+                grpAsignarPermiso.Visible = true;
+                btnQuitarItem.Visible = true;
+
+                if (seleccionado == null)
+                {
+                    lblDetalle.Text = "Detalle: Selección vacía";
+                    txtNombreRol.Text = "";
+                    txtNombreRol.Enabled = false;
+                    btnEditarNombre.Enabled = false;
+                    btnEliminarRol.Enabled = false;
+                    grpAsignarPermiso.Enabled = false;
+                    btnQuitarItem.Enabled = false;
+                    cmbPermisos.DataSource = null;
+                }
+                else if (seleccionado is Permiso permiso)
+                {
+                    lblDetalle.Text = permiso.ObtenerDescripcion();
+                    txtNombreRol.Text = "";
+                    txtNombreRol.Enabled = false;
+                    btnEditarNombre.Enabled = false;
+                    btnEliminarRol.Enabled = false;
+                    grpAsignarPermiso.Enabled = false;
+                    btnQuitarItem.Enabled = tvPerfiles.SelectedNode.Parent != null;
+                    cmbPermisos.DataSource = null;
+                }
+                else if (seleccionado is Rol rol)
+                {
+                    lblDetalle.Text = rol.ObtenerDescripcion();
+                    txtNombreRol.Text = rol.Nombre;
+                    txtNombreRol.Enabled = true;
+                    btnEditarNombre.Enabled = true;
+                    btnEliminarRol.Enabled = true;
+                    grpAsignarPermiso.Enabled = true;
+                    btnQuitarItem.Enabled = tvPerfiles.SelectedNode.Parent != null;
+
+                    CargarComboAsignables(rol);
+                }
             }
         }
 
