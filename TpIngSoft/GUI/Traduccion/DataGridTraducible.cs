@@ -36,7 +36,7 @@ namespace TpIngSoft.Traduccion
                     }
                     else
                     {
-                        gridCol.HeaderText = col.Fallback;
+                        gridCol.HeaderText = $"<{col.Key}>";
                     }
                 }
             }

@@ -60,7 +60,7 @@ namespace TpIngSoft
                 .ConItem(gestionUsuariosToolStripMenuItem, BE.NombreControl.FormMain_gestionUsuariosToolStripMenuItem, "Gestión de Usuarios")
                 .ConItem(bitacoraToolStripMenuItem, BE.NombreControl.FormMain_bitacoraToolStripMenuItem, "Bitácora")
                 .ConItem(controlCambiosToolStripMenuItem, BE.NombreControl.FormMain_controlCambiosToolStripMenuItem, "Control de Cambios")
-                .ConItem(gestionPerfilesToolStripMenuItem, BE.NombreControl.FormMain_gestionPerfilesToolStripMenuItem, "Gestión de Perfiles")
+                .ConItem(gestionPerfilesToolStripMenuItem, BE.NombreControl.FormMain_gestionPerfilesToolStripMenuItem, "Gestión de Roles")
                 .ConItem(gestionIdiomasToolStripMenuItem, BE.NombreControl.FormMain_gestionIdiomasToolStripMenuItem, "Gestión de Idiomas");
 
             _controlesTraducibles.Add(menuTraducible);
@@ -221,7 +221,7 @@ namespace TpIngSoft
 
         private void gestionPerfilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormGestionPerfiles frm = new FormGestionPerfiles();
+            FormGestionRoles frm = new FormGestionRoles();
             frm.MdiParent = this;
             frm.Show();
         }

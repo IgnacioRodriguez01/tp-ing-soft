@@ -26,7 +26,9 @@ namespace BLL
                     Dictionary<string, string> dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                     foreach (var t in traducciones)
                     {
-                        string key = $"{t.Formulario}.{t.NombreControl}";
+                        string key = (t.NombreControl == "(form)" || string.IsNullOrEmpty(t.NombreControl))
+                            ? t.Formulario
+                            : $"{t.Formulario}.{t.NombreControl}";
                         dict[key] = t.Texto;
                     }
                     cache[idIdioma] = dict;

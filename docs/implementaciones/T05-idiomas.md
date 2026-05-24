@@ -35,8 +35,8 @@ Todos los formularios del sistema implementan `IObservador`, se registran en `Ge
 
 ## Base de Datos
 Se creó el script de migración `migrate_idiomas.sql` en la raíz del proyecto para crear las tablas necesarias y sus respectivos Stored Procedures:
-- Tablas: `IDIOMA`, `CONTROL`, `TRADUCCIONES`.
-- Relación: `Usuario` -> `id_idioma` FK `IDIOMA(id)`.
+- Tablas: `Idioma`, `Control`, `Traducciones`.
+- Relación: `Usuario` -> `id_idioma` FK `Idioma(id)`.
 
 ## Flujo de Trabajo para Agregar Nuevos Controles Traducibles
 1. Declarar una constante con la clave del control en `BE/NombreControl.cs`.

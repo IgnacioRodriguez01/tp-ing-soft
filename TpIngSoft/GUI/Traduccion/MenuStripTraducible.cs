@@ -34,7 +34,7 @@ namespace TpIngSoft.Traduccion
                 }
                 else
                 {
-                    mapping.Item.Text = mapping.Fallback;
+                    mapping.Item.Text = $"<{mapping.Key}>";
                 }
             }
         }

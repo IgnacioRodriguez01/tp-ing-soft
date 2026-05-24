@@ -77,11 +77,11 @@
     <Compile Include="FormHistorialUsuario.Designer.cs">
       <DependentUpon>FormHistorialUsuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormGestionPerfiles.cs">
+    <Compile Include="FormGestionRoles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormGestionPerfiles.Designer.cs">
-      <DependentUpon>FormGestionPerfiles.cs</DependentUpon>
+    <Compile Include="FormGestionRoles.Designer.cs">
+      <DependentUpon>FormGestionRoles.cs</DependentUpon>
     </Compile>
     <Compile Include="FormGestionIdiomas.cs">
       <SubType>Form</SubType>

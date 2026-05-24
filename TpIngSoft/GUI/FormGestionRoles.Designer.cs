@@ -1,6 +1,6 @@
 namespace TpIngSoft
 {
-    partial class FormGestionPerfiles
+    partial class FormGestionRoles
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -210,17 +210,17 @@ namespace TpIngSoft
             this.rbModoEditar.UseVisualStyleBackColor = true;
             this.rbModoEditar.CheckedChanged += new System.EventHandler(this.rbModo_CheckedChanged);
             // 
-            // FormGestionPerfiles
+            // FormGestionRoles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.grpAcciones);
             this.Controls.Add(this.tvPerfiles);
-            this.Name = "FormGestionPerfiles";
+            this.Name = "FormGestionRoles";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gestión de Roles";
-            this.Load += new System.EventHandler(this.FormGestionPerfiles_Load);
+            this.Load += new System.EventHandler(this.FormGestionRoles_Load);
             this.grpAcciones.ResumeLayout(false);
             this.grpAcciones.PerformLayout();
             this.grpAsignarPermiso.ResumeLayout(false);

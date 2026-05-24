@@ -40,20 +40,20 @@ namespace BE
         public const string FormBitacora_dgvBitacora_descripcion = "FormBitacora.dgvBitacora.descripcion";
         public const string FormBitacora_dgvBitacora_criticidad = "FormBitacora.dgvBitacora.criticidad";
 
-        // FormGestionPerfiles
-        public const string FormGestionPerfiles_grpAcciones = "FormGestionPerfiles.grpAcciones";
-        public const string FormGestionPerfiles_lblDetalle = "FormGestionPerfiles.lblDetalle";
-        public const string FormGestionPerfiles_lblModo = "FormGestionPerfiles.lblModo";
-        public const string FormGestionPerfiles_rbModoCrear = "FormGestionPerfiles.rbModoCrear";
-        public const string FormGestionPerfiles_rbModoEditar = "FormGestionPerfiles.rbModoEditar";
-        public const string FormGestionPerfiles_lblNombreRol = "FormGestionPerfiles.lblNombreRol";
-        public const string FormGestionPerfiles_btnCrearRolRaiz = "FormGestionPerfiles.btnCrearRolRaiz";
-        public const string FormGestionPerfiles_btnCrearSubRol = "FormGestionPerfiles.btnCrearSubRol";
-        public const string FormGestionPerfiles_btnEditarNombre = "FormGestionPerfiles.btnEditarNombre";
-        public const string FormGestionPerfiles_btnEliminarRol = "FormGestionPerfiles.btnEliminarRol";
-        public const string FormGestionPerfiles_grpAsignarPermiso = "FormGestionPerfiles.grpAsignarPermiso";
-        public const string FormGestionPerfiles_btnAsignarPermiso = "FormGestionPerfiles.btnAsignarPermiso";
-        public const string FormGestionPerfiles_btnQuitarItem = "FormGestionPerfiles.btnQuitarItem";
+        // FormGestionRoles
+        public const string FormGestionRoles_grpAcciones = "FormGestionRoles.grpAcciones";
+        public const string FormGestionRoles_lblDetalle = "FormGestionRoles.lblDetalle";
+        public const string FormGestionRoles_lblModo = "FormGestionRoles.lblModo";
+        public const string FormGestionRoles_rbModoCrear = "FormGestionRoles.rbModoCrear";
+        public const string FormGestionRoles_rbModoEditar = "FormGestionRoles.rbModoEditar";
+        public const string FormGestionRoles_lblNombreRol = "FormGestionRoles.lblNombreRol";
+        public const string FormGestionRoles_btnCrearRolRaiz = "FormGestionRoles.btnCrearRolRaiz";
+        public const string FormGestionRoles_btnCrearSubRol = "FormGestionRoles.btnCrearSubRol";
+        public const string FormGestionRoles_btnEditarNombre = "FormGestionRoles.btnEditarNombre";
+        public const string FormGestionRoles_btnEliminarRol = "FormGestionRoles.btnEliminarRol";
+        public const string FormGestionRoles_grpAsignarPermiso = "FormGestionRoles.grpAsignarPermiso";
+        public const string FormGestionRoles_btnAsignarPermiso = "FormGestionRoles.btnAsignarPermiso";
+        public const string FormGestionRoles_btnQuitarItem = "FormGestionRoles.btnQuitarItem";
 
         // FormHistorialUsuario
         public const string FormHistorialUsuario_label1 = "FormHistorialUsuario.label1";

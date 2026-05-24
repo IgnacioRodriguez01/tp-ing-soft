@@ -25,7 +25,7 @@ namespace TpIngSoft.Traduccion
             }
             else
             {
-                _control.Text = _fallback;
+                _control.Text = $"<{NombreControl}>";
             }
         }
     }

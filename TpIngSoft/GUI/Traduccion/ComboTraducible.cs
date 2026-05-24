@@ -42,7 +42,7 @@ namespace TpIngSoft.Traduccion
 
             foreach (var item in _items)
             {
-                string texto = item.Fallback;
+                string texto = $"<{item.Key}>";
                 if (traducciones.TryGetValue(item.Key, out string traducido))
                 {
                     texto = traducido;

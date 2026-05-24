@@ -70,6 +70,14 @@ namespace TpIngSoft
         {
             var list = new List<(string Form, string Ctrl)>
             {
+                ("FormLogin", "(form)"),
+                ("FormMain", "(form)"),
+                ("FormGestionUsuarios", "(form)"),
+                ("FormBitacora", "(form)"),
+                ("FormGestionRoles", "(form)"),
+                ("FormHistorialUsuario", "(form)"),
+                ("FormGestionIdiomas", "(form)"),
+
                 ("FormLogin", "label1"),
                 ("FormLogin", "label2"),
                 ("FormLogin", "label3"),
@@ -99,19 +107,19 @@ namespace TpIngSoft
                 ("FormBitacora", "dgvBitacora.usuario"),
                 ("FormBitacora", "dgvBitacora.descripcion"),
                 ("FormBitacora", "dgvBitacora.criticidad"),
-                ("FormGestionPerfiles", "grpAcciones"),
-                ("FormGestionPerfiles", "lblDetalle"),
-                ("FormGestionPerfiles", "lblModo"),
-                ("FormGestionPerfiles", "rbModoCrear"),
-                ("FormGestionPerfiles", "rbModoEditar"),
-                ("FormGestionPerfiles", "lblNombreRol"),
-                ("FormGestionPerfiles", "btnCrearRolRaiz"),
-                ("FormGestionPerfiles", "btnCrearSubRol"),
-                ("FormGestionPerfiles", "btnEditarNombre"),
-                ("FormGestionPerfiles", "btnEliminarRol"),
-                ("FormGestionPerfiles", "grpAsignarPermiso"),
-                ("FormGestionPerfiles", "btnAsignarPermiso"),
-                ("FormGestionPerfiles", "btnQuitarItem"),
+                ("FormGestionRoles", "grpAcciones"),
+                ("FormGestionRoles", "lblDetalle"),
+                ("FormGestionRoles", "lblModo"),
+                ("FormGestionRoles", "rbModoCrear"),
+                ("FormGestionRoles", "rbModoEditar"),
+                ("FormGestionRoles", "lblNombreRol"),
+                ("FormGestionRoles", "btnCrearRolRaiz"),
+                ("FormGestionRoles", "btnCrearSubRol"),
+                ("FormGestionRoles", "btnEditarNombre"),
+                ("FormGestionRoles", "btnEliminarRol"),
+                ("FormGestionRoles", "grpAsignarPermiso"),
+                ("FormGestionRoles", "btnAsignarPermiso"),
+                ("FormGestionRoles", "btnQuitarItem"),
                 ("FormHistorialUsuario", "label1"),
                 ("FormHistorialUsuario", "btnRestaurar"),
                 ("FormHistorialUsuario", "dgvHistorial.fecha"),
@@ -178,7 +186,9 @@ namespace TpIngSoft
             List<RenglonTraduccion> renglones = new List<RenglonTraduccion>();
             foreach (var control in todosControles)
             {
-                string key = $"{control.Formulario}.{control.NombreControl}";
+                string key = (control.NombreControl == "(form)" || string.IsNullOrEmpty(control.NombreControl))
+                    ? control.Formulario
+                    : $"{control.Formulario}.{control.NombreControl}";
                 string texto = "";
                 if (cache.TryGetValue(key, out string t))
                 {

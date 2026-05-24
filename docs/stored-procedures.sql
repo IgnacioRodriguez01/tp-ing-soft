@@ -514,7 +514,7 @@ IF OBJECT_ID('[dbo].[LeerIdiomasActivos]', 'P') IS NOT NULL DROP PROCEDURE [dbo]
 GO
 CREATE PROCEDURE [dbo].[LeerIdiomasActivos]
 AS BEGIN
-    SELECT id, nombre, activo FROM IDIOMA WHERE activo = 1;
+    SELECT id, nombre, activo FROM Idioma WHERE activo = 1;
 END
 GO
 
@@ -527,8 +527,8 @@ CREATE PROCEDURE [dbo].[LeerTraduccionesPorIdioma]
     @IdIdioma INT
 AS BEGIN
     SELECT t.idcontrol, t.ididioma, c.nombre AS NombreControl, c.formulario AS Formulario, t.texto
-    FROM TRADUCCIONES t
-    INNER JOIN CONTROL c ON t.idcontrol = c.id
+    FROM Traducciones t
+    INNER JOIN Control c ON t.idcontrol = c.id
     WHERE t.ididioma = @IdIdioma;
 END
 GO
@@ -542,7 +542,7 @@ CREATE PROCEDURE [dbo].[CrearIdioma]
     @Nombre NVARCHAR(50),
     @NuevoId INT OUTPUT
 AS BEGIN
-    INSERT INTO IDIOMA (nombre, activo) VALUES (@Nombre, 1);
+    INSERT INTO Idioma (nombre, activo) VALUES (@Nombre, 1);
     SET @NuevoId = SCOPE_IDENTITY();
 END
 GO
@@ -557,10 +557,10 @@ CREATE PROCEDURE [dbo].[ActualizarTraduccion]
     @IdIdioma INT,
     @Texto NVARCHAR(500)
 AS BEGIN
-    IF EXISTS (SELECT 1 FROM TRADUCCIONES WHERE idcontrol = @IdControl AND ididioma = @IdIdioma)
-        UPDATE TRADUCCIONES SET texto = @Texto WHERE idcontrol = @IdControl AND ididioma = @IdIdioma;
+    IF EXISTS (SELECT 1 FROM Traducciones WHERE idcontrol = @IdControl AND ididioma = @IdIdioma)
+        UPDATE Traducciones SET texto = @Texto WHERE idcontrol = @IdControl AND ididioma = @IdIdioma;
     ELSE
-        INSERT INTO TRADUCCIONES (idcontrol, ididioma, texto) VALUES (@IdControl, @IdIdioma, @Texto);
+        INSERT INTO Traducciones (idcontrol, ididioma, texto) VALUES (@IdControl, @IdIdioma, @Texto);
 END
 GO
 
@@ -571,7 +571,7 @@ IF OBJECT_ID('[dbo].[LeerControles]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[Lee
 GO
 CREATE PROCEDURE [dbo].[LeerControles]
 AS BEGIN
-    SELECT id, nombre, formulario FROM CONTROL;
+    SELECT id, nombre, formulario FROM Control;
 END
 GO
 
@@ -585,10 +585,10 @@ CREATE PROCEDURE [dbo].[CrearControl]
     @Formulario NVARCHAR(100),
     @NuevoId INT OUTPUT
 AS BEGIN
-    SELECT @NuevoId = id FROM CONTROL WHERE nombre = @Nombre AND formulario = @Formulario;
+    SELECT @NuevoId = id FROM Control WHERE nombre = @Nombre AND formulario = @Formulario;
     IF @NuevoId IS NULL
     BEGIN
-        INSERT INTO CONTROL (nombre, formulario) VALUES (@Nombre, @Formulario);
+        INSERT INTO Control (nombre, formulario) VALUES (@Nombre, @Formulario);
         SET @NuevoId = SCOPE_IDENTITY();
     END
 END
@@ -616,7 +616,7 @@ CREATE PROCEDURE [dbo].[LeerIdiomaUsuario]
     @IdUsuario INT
 AS BEGIN
     SELECT i.id, i.nombre, i.activo 
-    FROM IDIOMA i
+    FROM Idioma i
     INNER JOIN Usuario u ON u.id_idioma = i.id
     WHERE u.id = @IdUsuario;
 END
