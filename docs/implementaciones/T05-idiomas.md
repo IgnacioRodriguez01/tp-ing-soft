@@ -13,14 +13,14 @@ La solución se divide estrictamente en las capas de la arquitectura del proyect
 - **`BE/Usuario.cs`**: Se extendió con la propiedad `IdIdioma` (nullable) para almacenar la preferencia del usuario.
 
 ### 2. Data Access Layer (DAL)
-- **`DAL/MapperIdioma.cs`**: Realiza las consultas y actualizaciones en la base de datos a través de Stored Procedures parametrizados (`LeerIdiomasActivos`, `LeerTraduccionesPorIdioma`, `CrearIdioma`, `ActualizarTraduccion`, `LeerControles`, `CrearControl`, `GuardarIdiomaUsuario`, `LeerIdiomaUsuario`).
+- **`DAL/MapperIdioma.cs`**: Realiza las consultas y actualizaciones en la base de datos a través de Stored Procedures parametrizados (`LeerTodosIdiomas`, `LeerIdiomasActivos`, `ToggleEstadoIdioma`, `LeerTraduccionesPorIdioma`, `CrearIdioma`, `ActualizarTraduccion`, `LeerControles`, `CrearControl`, `GuardarIdiomaUsuario`, `LeerIdiomaUsuario`).
 - **`DAL/MapperUsuario.cs`**: Se actualizó para mapear la columna `id_idioma` de la tabla `Usuario`.
 
 ### 3. Business Logic Layer (BLL)
 - **`BLL/ISujeto.cs`**: Interfaz del sujeto observado (`Adjuntar`, `Separar`, `Notificar`).
 - **`BLL/IObservador.cs`**: Interfaz de los observadores (`Actualizar`).
-- **`BLL/GestorIdioma.cs`**: Singleton que actúa como el sujeto concreto (`ConcreteSubject`). Almacena la propiedad `IdiomaActual` y administra la lista de formularios activos suscritos, notificándoles un diccionario con las traducciones del idioma seleccionado al ocurrir un cambio.
-- **`BLL/IdiomaBLL.cs`**: Administra la lógica de idiomas, implementando un caché en memoria thread-safe (`Dictionary<int, Dictionary<string, string>>`) para evitar accesos repetidos a la base de datos.
+- **`BLL/GestorIdioma.cs`**: Singleton que actúa como el sujeto concreto (`ConcreteSubject`). Almacena la propiedad `IdiomaActual` y administra la lista de formularios activos suscritos, notificándoles un diccionario con las traducciones del idioma seleccionado al ocurrir un cambio. Si un control no posee traducción en el diccionario activo, el sistema genera dinámicamente un *fallback* interpolando su nombre (`"<" + NombreControl + ">"`).
+- **`BLL/IdiomaBLL.cs`**: Administra la lógica de idiomas, implementando un caché en memoria thread-safe (`Dictionary<int, Dictionary<string, string>>`) para evitar accesos repetidos a la base de datos, y exponiendo métodos para activar/desactivar idiomas.
 - **`BLL/UsuarioBLL.cs`**: Se actualizó para cargar y aplicar el idioma preferido del usuario al iniciar sesión o validar una sesión local.
 
 ### 4. Presentation Layer (GUI)
@@ -31,7 +31,8 @@ Para traducir los controles de WinForms de manera genérica sin usar herencia de
 - **`DataGridTraducible`**: Wrapper para `DataGridView` que traduce los encabezados de columnas específicas.
 - **`MenuStripTraducible`**: Wrapper para traducir jerarquías de `ToolStripItem` (`MenuStrip` o `ContextMenuStrip`).
 
-Todos los formularios del sistema implementan `IObservador`, se registran en `GestorIdioma` al crearse (`Adjuntar`) y se desvinculan al cerrarse (`Separar`).
+Todos los formularios del sistema implementan `IObservador`, se registran en `GestorIdioma` al crearse (`Adjuntar`) y se desvinculan al cerrarse (`Separar`). 
+Para sincronizaciones visuales en tiempo real de componentes MDI padres (ej. listas desplegables en `FormMain`), se utiliza el evento `FormClosed` de las ventanas hijas de gestión (como `FormGestionIdiomas`) garantizando que los menús principales reflejen inmediatamente los idiomas activados/desactivados en el sistema sin acoplamiento estrecho.
 
 ## Base de Datos
 Se creó el script de migración `migrate_idiomas.sql` en la raíz del proyecto para crear las tablas necesarias y sus respectivos Stored Procedures:
@@ -42,3 +43,4 @@ Se creó el script de migración `migrate_idiomas.sql` en la raíz del proyecto 
 1. Declarar una constante con la clave del control en `BE/NombreControl.cs`.
 2. Registrar la clave en el formulario correspondiente dentro del método `RegistrarControlesTraducibles()`.
 3. Al abrir la pantalla de **Gestión de Idiomas**, la aplicación detectará y registrará automáticamente cualquier control nuevo en la base de datos, permitiendo su traducción inline desde la grilla.
+4. La interfaz de gestión prescinde de listas desplegables para selección: al seleccionar o cambiar de fila en la grilla principal de idiomas (evento `SelectionChanged`), la grilla de traducciones se actualiza de inmediato para el idioma enfocado. Desde allí también se puede habilitar o deshabilitar la disponibilidad de un idioma para el resto de la aplicación (salvo su gestión).
