@@ -19,11 +19,10 @@ namespace TpIngSoft
             this.txtNuevoIdioma = new System.Windows.Forms.TextBox();
             this.lblNuevoIdioma = new System.Windows.Forms.Label();
             this.btnCrearIdioma = new System.Windows.Forms.Button();
-            this.cmbIdiomas = new System.Windows.Forms.ComboBox();
-            this.lblSeleccionarIdioma = new System.Windows.Forms.Label();
             this.dgvTraducciones = new System.Windows.Forms.DataGridView();
             this.btnGuardarTraducciones = new System.Windows.Forms.Button();
             this.btnAplicar = new System.Windows.Forms.Button();
+            this.btnToggleActivo = new System.Windows.Forms.Button();
             
             ((System.ComponentModel.ISupportInitialize)(this.dgvIdiomas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTraducciones)).BeginInit();
@@ -41,6 +40,7 @@ namespace TpIngSoft
             this.dgvIdiomas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvIdiomas.Size = new System.Drawing.Size(260, 290);
             this.dgvIdiomas.TabIndex = 3;
+            this.dgvIdiomas.SelectionChanged += new System.EventHandler(this.dgvIdiomas_SelectionChanged);
             // 
             // txtNuevoIdioma
             // 
@@ -67,25 +67,6 @@ namespace TpIngSoft
             this.btnCrearIdioma.Text = "Crear";
             this.btnCrearIdioma.UseVisualStyleBackColor = true;
             this.btnCrearIdioma.Click += new System.EventHandler(this.btnCrearIdioma_Click);
-            // 
-            // cmbIdiomas
-            // 
-            this.cmbIdiomas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbIdiomas.FormattingEnabled = true;
-            this.cmbIdiomas.Location = new System.Drawing.Point(310, 45);
-            this.cmbIdiomas.Name = "cmbIdiomas";
-            this.cmbIdiomas.Size = new System.Drawing.Size(200, 21);
-            this.cmbIdiomas.TabIndex = 5;
-            this.cmbIdiomas.SelectedIndexChanged += new System.EventHandler(this.cmbIdiomas_SelectedIndexChanged);
-            // 
-            // lblSeleccionarIdioma
-            // 
-            this.lblSeleccionarIdioma.AutoSize = true;
-            this.lblSeleccionarIdioma.Location = new System.Drawing.Point(310, 25);
-            this.lblSeleccionarIdioma.Name = "lblSeleccionarIdioma";
-            this.lblSeleccionarIdioma.Size = new System.Drawing.Size(99, 13);
-            this.lblSeleccionarIdioma.TabIndex = 4;
-            this.lblSeleccionarIdioma.Text = "Seleccionar Idioma:";
             // 
             // dgvTraducciones
             // 
@@ -122,16 +103,26 @@ namespace TpIngSoft
             this.btnAplicar.UseVisualStyleBackColor = true;
             this.btnAplicar.Click += new System.EventHandler(this.btnAplicar_Click);
             // 
+            // btnToggleActivo
+            // 
+            this.btnToggleActivo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnToggleActivo.Location = new System.Drawing.Point(20, 395);
+            this.btnToggleActivo.Name = "btnToggleActivo";
+            this.btnToggleActivo.Size = new System.Drawing.Size(140, 30);
+            this.btnToggleActivo.TabIndex = 9;
+            this.btnToggleActivo.Text = "Activar / Desactivar";
+            this.btnToggleActivo.UseVisualStyleBackColor = true;
+            this.btnToggleActivo.Click += new System.EventHandler(this.btnToggleActivo_Click);
+            // 
             // FormGestionIdiomas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(790, 440);
+            this.Controls.Add(this.btnToggleActivo);
             this.Controls.Add(this.btnAplicar);
             this.Controls.Add(this.btnGuardarTraducciones);
             this.Controls.Add(this.dgvTraducciones);
-            this.Controls.Add(this.lblSeleccionarIdioma);
-            this.Controls.Add(this.cmbIdiomas);
             this.Controls.Add(this.btnCrearIdioma);
             this.Controls.Add(this.lblNuevoIdioma);
             this.Controls.Add(this.txtNuevoIdioma);
@@ -150,10 +141,9 @@ namespace TpIngSoft
         private System.Windows.Forms.TextBox txtNuevoIdioma;
         private System.Windows.Forms.Label lblNuevoIdioma;
         private System.Windows.Forms.Button btnCrearIdioma;
-        private System.Windows.Forms.ComboBox cmbIdiomas;
-        private System.Windows.Forms.Label lblSeleccionarIdioma;
         private System.Windows.Forms.DataGridView dgvTraducciones;
         private System.Windows.Forms.Button btnGuardarTraducciones;
         private System.Windows.Forms.Button btnAplicar;
+        private System.Windows.Forms.Button btnToggleActivo;
     }
 }

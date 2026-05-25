@@ -519,6 +519,29 @@ END
 GO
 
 -- ====================================================
+-- LeerTodosIdiomas
+-- ====================================================
+IF OBJECT_ID('[dbo].[LeerTodosIdiomas]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[LeerTodosIdiomas];
+GO
+CREATE PROCEDURE [dbo].[LeerTodosIdiomas]
+AS BEGIN
+    SELECT id, nombre, activo FROM Idioma;
+END
+GO
+
+-- ====================================================
+-- ToggleEstadoIdioma
+-- ====================================================
+IF OBJECT_ID('[dbo].[ToggleEstadoIdioma]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[ToggleEstadoIdioma];
+GO
+CREATE PROCEDURE [dbo].[ToggleEstadoIdioma]
+    @IdIdioma INT
+AS BEGIN
+    UPDATE Idioma SET activo = activo ^ 1 WHERE id = @IdIdioma;
+END
+GO
+
+-- ====================================================
 -- LeerTraduccionesPorIdioma
 -- ====================================================
 IF OBJECT_ID('[dbo].[LeerTraduccionesPorIdioma]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[LeerTraduccionesPorIdioma];

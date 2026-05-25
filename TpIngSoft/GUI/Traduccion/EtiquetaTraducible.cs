@@ -8,18 +8,16 @@ namespace TpIngSoft.Traduccion
     {
         public string NombreControl { get; }
         private readonly Control _control;
-        private readonly string _fallback;
 
-        public EtiquetaTraducible(Control control, string nombreControl, string fallback)
+        public EtiquetaTraducible(Control control, string nombreControl)
         {
             _control = control ?? throw new ArgumentNullException(nameof(control));
             NombreControl = nombreControl;
-            _fallback = fallback;
         }
 
         public void Traducir(Dictionary<string, string> traducciones)
         {
-            if (traducciones.TryGetValue(NombreControl, out string texto))
+            if (traducciones.TryGetValue(NombreControl, out string texto) && !string.IsNullOrWhiteSpace(texto))
             {
                 _control.Text = texto;
             }

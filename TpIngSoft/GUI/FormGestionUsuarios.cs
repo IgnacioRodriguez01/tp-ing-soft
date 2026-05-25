@@ -23,11 +23,11 @@ namespace TpIngSoft
         private void RegistrarControlesTraducibles()
         {
             _controlesTraducibles.Clear();
-            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormGestionUsuarios", "Registro de Usuarios"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormGestionUsuarios_label1, "Nombre:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormGestionUsuarios_label2, "Contraseña:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(lblRol, BE.NombreControl.FormGestionUsuarios_lblRol, "Rol:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(btnRegistrar, BE.NombreControl.FormGestionUsuarios_btnRegistrar, "Registrar"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormGestionUsuarios"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormGestionUsuarios_label1));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormGestionUsuarios_label2));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblRol, BE.NombreControl.FormGestionUsuarios_lblRol));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnRegistrar, BE.NombreControl.FormGestionUsuarios_btnRegistrar));
         }
 
         public void Actualizar(Dictionary<string, string> traducciones)

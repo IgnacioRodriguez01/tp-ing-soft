@@ -11,9 +11,20 @@ namespace BLL
         private readonly Dictionary<int, Dictionary<string, string>> cache = new Dictionary<int, Dictionary<string, string>>();
         private readonly object lockObj = new object();
 
+        public List<Idioma> ObtenerTodosIdiomas()
+        {
+            return mapper.LeerTodosIdiomas();
+        }
+
         public List<Idioma> ObtenerIdiomasActivos()
         {
             return mapper.LeerIdiomasActivos();
+        }
+
+        public void ToggleEstadoIdioma(int idIdioma)
+        {
+            mapper.ToggleEstadoIdioma(idIdioma);
+            InvalidarCache();
         }
 
         public Dictionary<string, string> ObtenerTraduccionesCacheadas(int idIdioma)

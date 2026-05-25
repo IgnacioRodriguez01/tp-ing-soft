@@ -10,6 +10,30 @@ namespace DAL
     {
         private Acceso acceso = new Acceso();
 
+        public List<Idioma> LeerTodosIdiomas()
+        {
+            acceso.Abrir();
+            try
+            {
+                DataTable dt = acceso.Leer("LeerTodosIdiomas");
+                List<Idioma> lista = new List<Idioma>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    lista.Add(new Idioma
+                    {
+                        Id = Convert.ToInt32(row["id"]),
+                        Nombre = row["nombre"].ToString(),
+                        Activo = Convert.ToBoolean(row["activo"])
+                    });
+                }
+                return lista;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
         public List<Idioma> LeerIdiomasActivos()
         {
             acceso.Abrir();
@@ -27,6 +51,23 @@ namespace DAL
                     });
                 }
                 return lista;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+        public void ToggleEstadoIdioma(int idIdioma)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@IdIdioma", idIdioma)
+                };
+                acceso.Escribir("ToggleEstadoIdioma", parameters);
             }
             finally
             {

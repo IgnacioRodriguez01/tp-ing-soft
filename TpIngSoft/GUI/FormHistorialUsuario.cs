@@ -23,18 +23,18 @@ namespace TpIngSoft
         private void RegistrarControlesTraducibles()
         {
             _controlesTraducibles.Clear();
-            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormHistorialUsuario", "Control de Cambios - Usuarios"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormHistorialUsuario_label1, "Seleccionar Usuario:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(btnCargarHistorial, "FormHistorialUsuario.btnCargarHistorial", "Ver Historial"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(btnRestaurar, BE.NombreControl.FormHistorialUsuario_btnRestaurar, "Restaurar Estado"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormHistorialUsuario"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormHistorialUsuario_label1));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnCargarHistorial, BE.NombreControl.FormHistorialUsuario_btnCargarHistorial));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnRestaurar, BE.NombreControl.FormHistorialUsuario_btnRestaurar));
 
             _dgvTraducible = new DataGridTraducible(dgvHistorial, "FormHistorialUsuario.dgvHistorial")
-                .ConColumna("IdHistorial", "FormHistorialUsuario.dgvHistorial.idHistorial", "ID Historial")
-                .ConColumna("IdUsuario", "FormHistorialUsuario.dgvHistorial.idUsuario", "ID Usuario")
-                .ConColumna("Nombre", BE.NombreControl.FormHistorialUsuario_dgvHistorial_usuario, "Nombre")
-                .ConColumna("Activo", BE.NombreControl.FormHistorialUsuario_dgvHistorial_estado, "Estado Activo")
-                .ConColumna("FechaCambio", BE.NombreControl.FormHistorialUsuario_dgvHistorial_fecha, "Fecha Cambio")
-                .ConColumna("EditorNombre", "FormHistorialUsuario.dgvHistorial.editorNombre", "Modificado Por");
+                .ConColumna("IdHistorial", BE.NombreControl.FormHistorialUsuario_dgvHistorial_idHistorial)
+                .ConColumna("IdUsuario", BE.NombreControl.FormHistorialUsuario_dgvHistorial_idUsuario)
+                .ConColumna("Nombre", BE.NombreControl.FormHistorialUsuario_dgvHistorial_usuario)
+                .ConColumna("Activo", BE.NombreControl.FormHistorialUsuario_dgvHistorial_estado)
+                .ConColumna("FechaCambio", BE.NombreControl.FormHistorialUsuario_dgvHistorial_fecha)
+                .ConColumna("EditorNombre", BE.NombreControl.FormHistorialUsuario_dgvHistorial_editorNombre);
         }
 
         public void Actualizar(Dictionary<string, string> traducciones)

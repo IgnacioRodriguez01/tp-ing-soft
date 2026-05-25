@@ -23,20 +23,19 @@ namespace TpIngSoft
         private void RegistrarControlesTraducibles()
         {
             _controlesTraducibles.Clear();
-            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormBitacora", "Gestión de Bitácora"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormBitacora_labelDesde, "Desde:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormBitacora_labelHasta, "Hasta:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label3, BE.NombreControl.FormBitacora_labelActividad, "Actividad:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label4, BE.NombreControl.FormBitacora_labelUsuario, "Usuario:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(btnBuscar, BE.NombreControl.FormBitacora_btnBuscar, "Buscar"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormBitacora"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(labelDesde, BE.NombreControl.FormBitacora_labelDesde));
+            _controlesTraducibles.Add(new EtiquetaTraducible(labelHasta, BE.NombreControl.FormBitacora_labelHasta));
+            _controlesTraducibles.Add(new EtiquetaTraducible(labelActividad, BE.NombreControl.FormBitacora_labelActividad));
+            _controlesTraducibles.Add(new EtiquetaTraducible(labelUsuario, BE.NombreControl.FormBitacora_labelUsuario));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnBuscar, BE.NombreControl.FormBitacora_btnBuscar));
 
-            // Initialize Grid Column translation wrapper
             _dgvTraducible = new DataGridTraducible(dgvBitacora, "FormBitacora.dgvBitacora")
-                .ConColumna("Id", BE.NombreControl.FormBitacora_dgvBitacora_id, "ID")
-                .ConColumna("FechaHora", BE.NombreControl.FormBitacora_dgvBitacora_fecha, "Fecha/Hora")
-                .ConColumna("NombreUsuario", BE.NombreControl.FormBitacora_dgvBitacora_usuario, "Usuario")
-                .ConColumna("Actividad", BE.NombreControl.FormBitacora_dgvBitacora_criticidad, "Actividad")
-                .ConColumna("InfoAsociada", BE.NombreControl.FormBitacora_dgvBitacora_descripcion, "Descripción");
+                .ConColumna("Id", BE.NombreControl.FormBitacora_dgvBitacora_id)
+                .ConColumna("FechaHora", BE.NombreControl.FormBitacora_dgvBitacora_fecha)
+                .ConColumna("NombreUsuario", BE.NombreControl.FormBitacora_dgvBitacora_usuario)
+                .ConColumna("Actividad", BE.NombreControl.FormBitacora_dgvBitacora_descripcion)
+                .ConColumna("InfoAsociada", BE.NombreControl.FormBitacora_dgvBitacora_criticidad);
         }
 
         public void Actualizar(Dictionary<string, string> traducciones)

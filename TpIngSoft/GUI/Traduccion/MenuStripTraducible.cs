@@ -8,18 +8,18 @@ namespace TpIngSoft.Traduccion
     {
         public string NombreControl => _nombreControl;
         private readonly string _nombreControl;
-        private readonly List<(ToolStripItem Item, string Key, string Fallback)> _items = new List<(ToolStripItem, string, string)>();
+        private readonly List<(ToolStripItem Item, string Key)> _items = new List<(ToolStripItem, string)>();
 
         public MenuStripTraducible(string nombreControl)
         {
             _nombreControl = nombreControl;
         }
 
-        public MenuStripTraducible ConItem(ToolStripItem item, string key, string fallback)
+        public MenuStripTraducible ConItem(ToolStripItem item, string key)
         {
             if (item != null)
             {
-                _items.Add((item, key, fallback));
+                _items.Add((item, key));
             }
             return this;
         }
@@ -28,7 +28,7 @@ namespace TpIngSoft.Traduccion
         {
             foreach (var mapping in _items)
             {
-                if (traducciones.TryGetValue(mapping.Key, out string texto))
+                if (traducciones.TryGetValue(mapping.Key, out string texto) && !string.IsNullOrWhiteSpace(texto))
                 {
                     mapping.Item.Text = texto;
                 }

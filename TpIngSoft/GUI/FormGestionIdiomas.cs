@@ -26,22 +26,21 @@ namespace TpIngSoft
         private void RegistrarControlesTraducibles()
         {
             _controlesTraducibles.Clear();
-            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormGestionIdiomas", "Gestión de Idiomas"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(lblNuevoIdioma, BE.NombreControl.FormGestionIdiomas_lblNuevoIdioma, "Nuevo Idioma:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(btnCrearIdioma, BE.NombreControl.FormGestionIdiomas_btnCrearIdioma, "Crear"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(lblSeleccionarIdioma, BE.NombreControl.FormGestionIdiomas_lblSeleccionarIdioma, "Seleccionar Idioma:"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(btnGuardarTraducciones, BE.NombreControl.FormGestionIdiomas_btnGuardarTraducciones, "Guardar Traducciones"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(btnAplicar, "FormGestionIdiomas.btnAplicar", "Aplicar Idioma"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormGestionIdiomas"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblNuevoIdioma, BE.NombreControl.FormGestionIdiomas_lblNuevoIdioma));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnCrearIdioma, BE.NombreControl.FormGestionIdiomas_btnCrearIdioma));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnGuardarTraducciones, BE.NombreControl.FormGestionIdiomas_btnGuardarTraducciones));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnAplicar, BE.NombreControl.FormGestionIdiomas_btnAplicar));
 
             _dgvIdiomasTraducible = new DataGridTraducible(dgvIdiomas, "FormGestionIdiomas.dgvIdiomas")
-                .ConColumna("Id", BE.NombreControl.FormGestionIdiomas_dgvIdiomas_id, "ID")
-                .ConColumna("Nombre", BE.NombreControl.FormGestionIdiomas_dgvIdiomas_nombre, "Nombre")
-                .ConColumna("Activo", BE.NombreControl.FormGestionIdiomas_dgvIdiomas_activo, "Activo");
+                .ConColumna("Id", BE.NombreControl.FormGestionIdiomas_dgvIdiomas_id)
+                .ConColumna("Nombre", BE.NombreControl.FormGestionIdiomas_dgvIdiomas_nombre)
+                .ConColumna("Activo", BE.NombreControl.FormGestionIdiomas_dgvIdiomas_activo);
 
             _dgvTraduccionesTraducible = new DataGridTraducible(dgvTraducciones, "FormGestionIdiomas.dgvTraducciones")
-                .ConColumna("Formulario", BE.NombreControl.FormGestionIdiomas_dgvTraducciones_formulario, "Formulario")
-                .ConColumna("Control", BE.NombreControl.FormGestionIdiomas_dgvTraducciones_control, "Control")
-                .ConColumna("Texto", BE.NombreControl.FormGestionIdiomas_dgvTraducciones_texto, "Texto");
+                .ConColumna("Formulario", BE.NombreControl.FormGestionIdiomas_dgvTraducciones_formulario)
+                .ConColumna("Control", BE.NombreControl.FormGestionIdiomas_dgvTraducciones_control)
+                .ConColumna("Texto", BE.NombreControl.FormGestionIdiomas_dgvTraducciones_texto);
         }
 
         public void Actualizar(Dictionary<string, string> traducciones)
@@ -119,17 +118,22 @@ namespace TpIngSoft
                 ("FormGestionRoles", "btnEliminarRol"),
                 ("FormGestionRoles", "grpAsignarPermiso"),
                 ("FormGestionRoles", "btnAsignarPermiso"),
-                ("FormGestionRoles", "btnQuitarItem"),
+                ("FormHistorialUsuario", "(form)"),
                 ("FormHistorialUsuario", "label1"),
+                ("FormHistorialUsuario", "btnCargarHistorial"),
                 ("FormHistorialUsuario", "btnRestaurar"),
+                ("FormHistorialUsuario", "dgvHistorial.idHistorial"),
+                ("FormHistorialUsuario", "dgvHistorial.idUsuario"),
                 ("FormHistorialUsuario", "dgvHistorial.fecha"),
                 ("FormHistorialUsuario", "dgvHistorial.usuario"),
                 ("FormHistorialUsuario", "dgvHistorial.estado"),
+                ("FormHistorialUsuario", "dgvHistorial.editorNombre"),
+                ("FormGestionIdiomas", "(form)"),
                 ("FormGestionIdiomas", "lblNuevoIdioma"),
                 ("FormGestionIdiomas", "btnCrearIdioma"),
                 ("FormGestionIdiomas", "btnToggleActivo"),
-                ("FormGestionIdiomas", "lblSeleccionarIdioma"),
                 ("FormGestionIdiomas", "btnGuardarTraducciones"),
+                ("FormGestionIdiomas", "btnAplicar"),
                 ("FormGestionIdiomas", "dgvIdiomas.id"),
                 ("FormGestionIdiomas", "dgvIdiomas.nombre"),
                 ("FormGestionIdiomas", "dgvIdiomas.activo"),
@@ -149,19 +153,24 @@ namespace TpIngSoft
             _isChangingLanguage = true;
             try
             {
+                var todosIdiomas = _idiomaBLL.ObtenerTodosIdiomas();
                 var activeLanguages = _idiomaBLL.ObtenerIdiomasActivos();
                 
                 dgvIdiomas.DataSource = null;
-                dgvIdiomas.DataSource = activeLanguages;
-                
-                cmbIdiomas.DataSource = null;
-                cmbIdiomas.DataSource = activeLanguages;
-                cmbIdiomas.DisplayMember = "Nombre";
-                cmbIdiomas.ValueMember = "Id";
+                dgvIdiomas.DataSource = todosIdiomas;
 
-                if (GestorIdioma.Instancia.IdiomaActual != null && cmbIdiomas.Items.Count > 0)
+                if (GestorIdioma.Instancia.IdiomaActual != null && dgvIdiomas.Rows.Count > 0)
                 {
-                    cmbIdiomas.SelectedValue = GestorIdioma.Instancia.IdiomaActual.Id;
+                    foreach (DataGridViewRow row in dgvIdiomas.Rows)
+                    {
+                        var id = (Idioma)row.DataBoundItem;
+                        if (id.Id == GestorIdioma.Instancia.IdiomaActual.Id)
+                        {
+                            row.Selected = true;
+                            dgvIdiomas.CurrentCell = row.Cells[0];
+                            break;
+                        }
+                    }
                 }
 
                 var trans = GestorIdioma.Instancia.ObtenerTraduccionesActuales();
@@ -177,8 +186,9 @@ namespace TpIngSoft
 
         private void CargarTraducciones()
         {
-            if (cmbIdiomas.SelectedValue == null) return;
-            int idIdioma = (int)cmbIdiomas.SelectedValue;
+            if (dgvIdiomas.CurrentRow == null) return;
+            var idiomaSeleccionado = (Idioma)dgvIdiomas.CurrentRow.DataBoundItem;
+            int idIdioma = idiomaSeleccionado.Id;
 
             List<BE.Traduccion> todosControles = _idiomaBLL.ObtenerControles();
             var cache = _idiomaBLL.ObtenerTraduccionesCacheadas(idIdioma);
@@ -216,7 +226,7 @@ namespace TpIngSoft
             _dgvTraduccionesTraducible.Traducir(trans);
         }
 
-        private void cmbIdiomas_SelectedIndexChanged(object sender, EventArgs e)
+        private void dgvIdiomas_SelectionChanged(object sender, EventArgs e)
         {
             if (_isChangingLanguage) return;
             CargarTraducciones();
@@ -255,8 +265,9 @@ namespace TpIngSoft
         {
             try
             {
-                if (cmbIdiomas.SelectedValue == null) return;
-                int idIdioma = (int)cmbIdiomas.SelectedValue;
+                if (dgvIdiomas.CurrentRow == null) return;
+                var idiomaSeleccionado = (Idioma)dgvIdiomas.CurrentRow.DataBoundItem;
+                int idIdioma = idiomaSeleccionado.Id;
 
                 var bindingList = dgvTraducciones.DataSource as BindingList<RenglonTraduccion>;
                 if (bindingList != null)
@@ -283,10 +294,40 @@ namespace TpIngSoft
 
         private void btnAplicar_Click(object sender, EventArgs e)
         {
-            if (cmbIdiomas.SelectedItem is Idioma seleccionado)
+            if (dgvIdiomas.CurrentRow != null)
             {
+                var seleccionado = (Idioma)dgvIdiomas.CurrentRow.DataBoundItem;
                 GestorIdioma.Instancia.CambiarIdioma(seleccionado);
+                
+                if (SERVICIOS.SessionManager.Instance.EstaLogueado())
+                {
+                    _idiomaBLL.GuardarIdiomaUsuario(SERVICIOS.SessionManager.Instance.UsuarioActual.Id, seleccionado.Id);
+                    SERVICIOS.SessionManager.Instance.UsuarioActual.IdIdioma = seleccionado.Id;
+                }
+
                 MessageBox.Show($"Idioma '{seleccionado.Nombre}' aplicado al sistema.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnToggleActivo_Click(object sender, EventArgs e)
+        {
+            if (dgvIdiomas.CurrentRow != null)
+            {
+                var idiomaSeleccionado = (Idioma)dgvIdiomas.CurrentRow.DataBoundItem;
+                try
+                {
+                    _idiomaBLL.ToggleEstadoIdioma(idiomaSeleccionado.Id);
+                    MessageBox.Show($"El estado del idioma '{idiomaSeleccionado.Nombre}' ha sido modificado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RefrescarIdiomas();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cambiar el estado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Seleccione un idioma de la grilla para cambiar su estado.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

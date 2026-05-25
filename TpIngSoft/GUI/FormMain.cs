@@ -50,18 +50,18 @@ namespace TpIngSoft
         private void RegistrarControlesTraducibles()
         {
             _controlesTraducibles.Clear();
-            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormMain", "TpIngSoft - Sistema de Gestión"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormMain"));
 
             var menuTraducible = new MenuStripTraducible("FormMain.menuStrip1")
-                .ConItem(archivoToolStripMenuItem, BE.NombreControl.FormMain_archivoToolStripMenuItem, "Archivo")
-                .ConItem(logoutToolStripMenuItem, BE.NombreControl.FormMain_logoutToolStripMenuItem, "Cerrar Sesión")
-                .ConItem(salirToolStripMenuItem, BE.NombreControl.FormMain_salirToolStripMenuItem, "Salir")
-                .ConItem(adminToolStripMenuItem, BE.NombreControl.FormMain_adminToolStripMenuItem, "Admin")
-                .ConItem(gestionUsuariosToolStripMenuItem, BE.NombreControl.FormMain_gestionUsuariosToolStripMenuItem, "Gestión de Usuarios")
-                .ConItem(bitacoraToolStripMenuItem, BE.NombreControl.FormMain_bitacoraToolStripMenuItem, "Bitácora")
-                .ConItem(controlCambiosToolStripMenuItem, BE.NombreControl.FormMain_controlCambiosToolStripMenuItem, "Control de Cambios")
-                .ConItem(gestionPerfilesToolStripMenuItem, BE.NombreControl.FormMain_gestionPerfilesToolStripMenuItem, "Gestión de Roles")
-                .ConItem(gestionIdiomasToolStripMenuItem, BE.NombreControl.FormMain_gestionIdiomasToolStripMenuItem, "Gestión de Idiomas");
+                .ConItem(archivoToolStripMenuItem, BE.NombreControl.FormMain_archivoToolStripMenuItem)
+                .ConItem(logoutToolStripMenuItem, BE.NombreControl.FormMain_logoutToolStripMenuItem)
+                .ConItem(salirToolStripMenuItem, BE.NombreControl.FormMain_salirToolStripMenuItem)
+                .ConItem(adminToolStripMenuItem, BE.NombreControl.FormMain_adminToolStripMenuItem)
+                .ConItem(gestionUsuariosToolStripMenuItem, BE.NombreControl.FormMain_gestionUsuariosToolStripMenuItem)
+                .ConItem(bitacoraToolStripMenuItem, BE.NombreControl.FormMain_bitacoraToolStripMenuItem)
+                .ConItem(controlCambiosToolStripMenuItem, BE.NombreControl.FormMain_controlCambiosToolStripMenuItem)
+                .ConItem(gestionPerfilesToolStripMenuItem, BE.NombreControl.FormMain_gestionPerfilesToolStripMenuItem)
+                .ConItem(gestionIdiomasToolStripMenuItem, BE.NombreControl.FormMain_gestionIdiomasToolStripMenuItem);
 
             _controlesTraducibles.Add(menuTraducible);
         }
@@ -230,6 +230,7 @@ namespace TpIngSoft
         {
             FormGestionIdiomas frm = new FormGestionIdiomas();
             frm.MdiParent = this;
+            frm.FormClosed += (s, args) => CargarIdiomas();
             frm.Show();
         }
     }

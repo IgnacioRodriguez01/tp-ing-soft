@@ -348,23 +348,39 @@ INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@Ctr
 
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('label1', 'FormHistorialUsuario');
 SET @CtrlId = SCOPE_IDENTITY();
-INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Historial'), (@CtrlId, 2, 'History');
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Seleccionar Usuario:'), (@CtrlId, 2, 'Select User:');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnCargarHistorial', 'FormHistorialUsuario');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Ver Historial'), (@CtrlId, 2, 'View History');
 
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnRestaurar', 'FormHistorialUsuario');
 SET @CtrlId = SCOPE_IDENTITY();
-INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Restaurar'), (@CtrlId, 2, 'Restore');
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Restaurar Estado'), (@CtrlId, 2, 'Restore State');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvHistorial.idHistorial', 'FormHistorialUsuario');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'ID Historial'), (@CtrlId, 2, 'History ID');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvHistorial.idUsuario', 'FormHistorialUsuario');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'ID Usuario'), (@CtrlId, 2, 'User ID');
 
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvHistorial.fecha', 'FormHistorialUsuario');
 SET @CtrlId = SCOPE_IDENTITY();
-INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Fecha'), (@CtrlId, 2, 'Date');
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Fecha Cambio'), (@CtrlId, 2, 'Change Date');
 
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvHistorial.usuario', 'FormHistorialUsuario');
 SET @CtrlId = SCOPE_IDENTITY();
-INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Usuario'), (@CtrlId, 2, 'User');
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Nombre'), (@CtrlId, 2, 'Name');
 
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvHistorial.estado', 'FormHistorialUsuario');
 SET @CtrlId = SCOPE_IDENTITY();
-INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Estado'), (@CtrlId, 2, 'Status');
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Estado Activo'), (@CtrlId, 2, 'Active Status');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvHistorial.editorNombre', 'FormHistorialUsuario');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Modificado Por'), (@CtrlId, 2, 'Modified By');
 
 -- FormGestionIdiomas
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('(form)', 'FormGestionIdiomas');
@@ -383,13 +399,13 @@ INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnToggleActivo', 
 SET @CtrlId = SCOPE_IDENTITY();
 INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Activar / Desactivar'), (@CtrlId, 2, 'Enable / Disable');
 
-INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('lblSeleccionarIdioma', 'FormGestionIdiomas');
-SET @CtrlId = SCOPE_IDENTITY();
-INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Seleccionar Idioma:'), (@CtrlId, 2, 'Select Language:');
-
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnGuardarTraducciones', 'FormGestionIdiomas');
 SET @CtrlId = SCOPE_IDENTITY();
 INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Guardar Traducciones'), (@CtrlId, 2, 'Save Translations');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnAplicar', 'FormGestionIdiomas');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Aplicar Idioma'), (@CtrlId, 2, 'Apply Language');
 
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvIdiomas.id', 'FormGestionIdiomas');
 SET @CtrlId = SCOPE_IDENTITY();

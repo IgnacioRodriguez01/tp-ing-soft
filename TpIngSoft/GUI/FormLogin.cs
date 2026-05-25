@@ -65,12 +65,12 @@ namespace TpIngSoft
         private void RegistrarControlesTraducibles()
         {
             _controlesTraducibles.Clear();
-            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormLogin", "Acceso al Sistema"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormLogin_label1, "Login de Usuario"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormLogin_label2, "Nombre"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(label3, BE.NombreControl.FormLogin_label3, "Contraseña"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(buttonLogin, BE.NombreControl.FormLogin_buttonLogin, "Login"));
-            _controlesTraducibles.Add(new EtiquetaTraducible(lblIdiomaLogin, BE.NombreControl.FormLogin_labelIdioma, "Idioma:"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormLogin"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormLogin_label1));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormLogin_label2));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label3, BE.NombreControl.FormLogin_label3));
+            _controlesTraducibles.Add(new EtiquetaTraducible(buttonLogin, BE.NombreControl.FormLogin_buttonLogin));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblIdiomaLogin, BE.NombreControl.FormLogin_labelIdioma));
         }
 
         private void CargarIdiomas()

@@ -57,17 +57,21 @@ namespace BE
 
         // FormHistorialUsuario
         public const string FormHistorialUsuario_label1 = "FormHistorialUsuario.label1";
+        public const string FormHistorialUsuario_btnCargarHistorial = "FormHistorialUsuario.btnCargarHistorial";
         public const string FormHistorialUsuario_btnRestaurar = "FormHistorialUsuario.btnRestaurar";
+        public const string FormHistorialUsuario_dgvHistorial_idHistorial = "FormHistorialUsuario.dgvHistorial.idHistorial";
+        public const string FormHistorialUsuario_dgvHistorial_idUsuario = "FormHistorialUsuario.dgvHistorial.idUsuario";
         public const string FormHistorialUsuario_dgvHistorial_fecha = "FormHistorialUsuario.dgvHistorial.fecha";
         public const string FormHistorialUsuario_dgvHistorial_usuario = "FormHistorialUsuario.dgvHistorial.usuario";
         public const string FormHistorialUsuario_dgvHistorial_estado = "FormHistorialUsuario.dgvHistorial.estado";
+        public const string FormHistorialUsuario_dgvHistorial_editorNombre = "FormHistorialUsuario.dgvHistorial.editorNombre";
 
         // FormGestionIdiomas
         public const string FormGestionIdiomas_lblNuevoIdioma = "FormGestionIdiomas.lblNuevoIdioma";
         public const string FormGestionIdiomas_btnCrearIdioma = "FormGestionIdiomas.btnCrearIdioma";
         public const string FormGestionIdiomas_btnToggleActivo = "FormGestionIdiomas.btnToggleActivo";
-        public const string FormGestionIdiomas_lblSeleccionarIdioma = "FormGestionIdiomas.lblSeleccionarIdioma";
         public const string FormGestionIdiomas_btnGuardarTraducciones = "FormGestionIdiomas.btnGuardarTraducciones";
+        public const string FormGestionIdiomas_btnAplicar = "FormGestionIdiomas.btnAplicar";
         public const string FormGestionIdiomas_dgvIdiomas_id = "FormGestionIdiomas.dgvIdiomas.id";
         public const string FormGestionIdiomas_dgvIdiomas_nombre = "FormGestionIdiomas.dgvIdiomas.nombre";
         public const string FormGestionIdiomas_dgvIdiomas_activo = "FormGestionIdiomas.dgvIdiomas.activo";

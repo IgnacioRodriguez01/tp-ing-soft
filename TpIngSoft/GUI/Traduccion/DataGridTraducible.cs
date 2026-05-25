@@ -9,7 +9,7 @@ namespace TpIngSoft.Traduccion
         public string NombreControl => _nombreControl;
         private readonly DataGridView _dataGridView;
         private readonly string _nombreControl;
-        private readonly List<(string ColumnName, string Key, string Fallback)> _columnas = new List<(string, string, string)>();
+        private readonly List<(string ColumnName, string Key)> _columnas = new List<(string, string)>();
 
         public DataGridTraducible(DataGridView dataGridView, string nombreControl)
         {
@@ -17,9 +17,9 @@ namespace TpIngSoft.Traduccion
             _nombreControl = nombreControl;
         }
 
-        public DataGridTraducible ConColumna(string columnName, string key, string fallback)
+        public DataGridTraducible ConColumna(string columnName, string key)
         {
-            _columnas.Add((columnName, key, fallback));
+            _columnas.Add((columnName, key));
             return this;
         }
 
@@ -30,7 +30,7 @@ namespace TpIngSoft.Traduccion
                 if (_dataGridView.Columns.Contains(col.ColumnName))
                 {
                     var gridCol = _dataGridView.Columns[col.ColumnName];
-                    if (traducciones.TryGetValue(col.Key, out string texto))
+                    if (traducciones.TryGetValue(col.Key, out string texto) && !string.IsNullOrWhiteSpace(texto))
                     {
                         gridCol.HeaderText = texto;
                     }
