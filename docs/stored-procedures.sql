@@ -146,7 +146,7 @@ CREATE PROCEDURE [dbo].[LeerPermisosPorRol]
     @IdRol INT
 AS
 BEGIN
-    SELECT p.id, p.nombre
+    SELECT p.id, p.nombre, 'Permiso' AS tipo
     FROM Permiso p
     INNER JOIN RolPermiso rp ON p.id = rp.id_hijo
     WHERE rp.id_padre = @IdRol AND rp.tipo_hijo = 'Permiso';
@@ -496,6 +496,7 @@ END
 GO
 
 -- ====================================================
+-- ====================================================
 -- LeerPermisos
 -- ====================================================
 IF OBJECT_ID('[dbo].[LeerPermisos]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[LeerPermisos];
@@ -503,5 +504,143 @@ GO
 CREATE PROCEDURE [dbo].[LeerPermisos]
 AS BEGIN
     SELECT id, nombre FROM Permiso;
+END
+GO
+
+-- ====================================================
+-- LeerIdiomasActivos
+-- ====================================================
+IF OBJECT_ID('[dbo].[LeerIdiomasActivos]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[LeerIdiomasActivos];
+GO
+CREATE PROCEDURE [dbo].[LeerIdiomasActivos]
+AS BEGIN
+    SELECT id, nombre, activo FROM Idioma WHERE activo = 1;
+END
+GO
+
+-- ====================================================
+-- LeerTodosIdiomas
+-- ====================================================
+IF OBJECT_ID('[dbo].[LeerTodosIdiomas]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[LeerTodosIdiomas];
+GO
+CREATE PROCEDURE [dbo].[LeerTodosIdiomas]
+AS BEGIN
+    SELECT id, nombre, activo FROM Idioma;
+END
+GO
+
+-- ====================================================
+-- ToggleEstadoIdioma
+-- ====================================================
+IF OBJECT_ID('[dbo].[ToggleEstadoIdioma]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[ToggleEstadoIdioma];
+GO
+CREATE PROCEDURE [dbo].[ToggleEstadoIdioma]
+    @IdIdioma INT
+AS BEGIN
+    UPDATE Idioma SET activo = activo ^ 1 WHERE id = @IdIdioma;
+END
+GO
+
+-- ====================================================
+-- LeerTraduccionesPorIdioma
+-- ====================================================
+IF OBJECT_ID('[dbo].[LeerTraduccionesPorIdioma]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[LeerTraduccionesPorIdioma];
+GO
+CREATE PROCEDURE [dbo].[LeerTraduccionesPorIdioma]
+    @IdIdioma INT
+AS BEGIN
+    SELECT t.idcontrol, t.ididioma, c.nombre AS NombreControl, c.formulario AS Formulario, t.texto
+    FROM Traducciones t
+    INNER JOIN Control c ON t.idcontrol = c.id
+    WHERE t.ididioma = @IdIdioma;
+END
+GO
+
+-- ====================================================
+-- CrearIdioma
+-- ====================================================
+IF OBJECT_ID('[dbo].[CrearIdioma]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[CrearIdioma];
+GO
+CREATE PROCEDURE [dbo].[CrearIdioma]
+    @Nombre NVARCHAR(50),
+    @NuevoId INT OUTPUT
+AS BEGIN
+    INSERT INTO Idioma (nombre, activo) VALUES (@Nombre, 1);
+    SET @NuevoId = SCOPE_IDENTITY();
+END
+GO
+
+-- ====================================================
+-- ActualizarTraduccion
+-- ====================================================
+IF OBJECT_ID('[dbo].[ActualizarTraduccion]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[ActualizarTraduccion];
+GO
+CREATE PROCEDURE [dbo].[ActualizarTraduccion]
+    @IdControl INT,
+    @IdIdioma INT,
+    @Texto NVARCHAR(500)
+AS BEGIN
+    IF EXISTS (SELECT 1 FROM Traducciones WHERE idcontrol = @IdControl AND ididioma = @IdIdioma)
+        UPDATE Traducciones SET texto = @Texto WHERE idcontrol = @IdControl AND ididioma = @IdIdioma;
+    ELSE
+        INSERT INTO Traducciones (idcontrol, ididioma, texto) VALUES (@IdControl, @IdIdioma, @Texto);
+END
+GO
+
+-- ====================================================
+-- LeerControles
+-- ====================================================
+IF OBJECT_ID('[dbo].[LeerControles]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[LeerControles];
+GO
+CREATE PROCEDURE [dbo].[LeerControles]
+AS BEGIN
+    SELECT id, nombre, formulario FROM Control;
+END
+GO
+
+-- ====================================================
+-- CrearControl
+-- ====================================================
+IF OBJECT_ID('[dbo].[CrearControl]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[CrearControl];
+GO
+CREATE PROCEDURE [dbo].[CrearControl]
+    @Nombre NVARCHAR(100),
+    @Formulario NVARCHAR(100),
+    @NuevoId INT OUTPUT
+AS BEGIN
+    SELECT @NuevoId = id FROM Control WHERE nombre = @Nombre AND formulario = @Formulario;
+    IF @NuevoId IS NULL
+    BEGIN
+        INSERT INTO Control (nombre, formulario) VALUES (@Nombre, @Formulario);
+        SET @NuevoId = SCOPE_IDENTITY();
+    END
+END
+GO
+
+-- ====================================================
+-- GuardarIdiomaUsuario
+-- ====================================================
+IF OBJECT_ID('[dbo].[GuardarIdiomaUsuario]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[GuardarIdiomaUsuario];
+GO
+CREATE PROCEDURE [dbo].[GuardarIdiomaUsuario]
+    @IdUsuario INT,
+    @IdIdioma INT
+AS BEGIN
+    UPDATE Usuario SET id_idioma = @IdIdioma WHERE id = @IdUsuario;
+END
+GO
+
+-- ====================================================
+-- LeerIdiomaUsuario
+-- ====================================================
+IF OBJECT_ID('[dbo].[LeerIdiomaUsuario]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[LeerIdiomaUsuario];
+GO
+CREATE PROCEDURE [dbo].[LeerIdiomaUsuario]
+    @IdUsuario INT
+AS BEGIN
+    SELECT i.id, i.nombre, i.activo 
+    FROM Idioma i
+    INNER JOIN Usuario u ON u.id_idioma = i.id
+    WHERE u.id = @IdUsuario;
 END
 GO

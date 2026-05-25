@@ -15,27 +15,27 @@ namespace TpIngSoft
 
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelDesde = new System.Windows.Forms.Label();
             this.dtpDesde = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelHasta = new System.Windows.Forms.Label();
             this.dtpHasta = new System.Windows.Forms.DateTimePicker();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelActividad = new System.Windows.Forms.Label();
             this.txtActividad = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.dgvBitacora = new System.Windows.Forms.DataGridView();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelUsuario = new System.Windows.Forms.Label();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBitacora)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // labelDesde
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Desde:";
+            this.labelDesde.AutoSize = true;
+            this.labelDesde.Location = new System.Drawing.Point(20, 20);
+            this.labelDesde.Name = "labelDesde";
+            this.labelDesde.Size = new System.Drawing.Size(41, 13);
+            this.labelDesde.TabIndex = 0;
+            this.labelDesde.Text = "Desde:";
             // 
             // dtpDesde
             // 
@@ -45,14 +45,14 @@ namespace TpIngSoft
             this.dtpDesde.Size = new System.Drawing.Size(100, 20);
             this.dtpDesde.TabIndex = 1;
             // 
-            // label2
+            // labelHasta
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(190, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Hasta:";
+            this.labelHasta.AutoSize = true;
+            this.labelHasta.Location = new System.Drawing.Point(190, 20);
+            this.labelHasta.Name = "labelHasta";
+            this.labelHasta.Size = new System.Drawing.Size(38, 13);
+            this.labelHasta.TabIndex = 2;
+            this.labelHasta.Text = "Hasta:";
             // 
             // dtpHasta
             // 
@@ -62,14 +62,14 @@ namespace TpIngSoft
             this.dtpHasta.Size = new System.Drawing.Size(100, 20);
             this.dtpHasta.TabIndex = 3;
             // 
-            // label3
+            // labelActividad
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(540, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Actividad:";
+            this.labelActividad.AutoSize = true;
+            this.labelActividad.Location = new System.Drawing.Point(540, 20);
+            this.labelActividad.Name = "labelActividad";
+            this.labelActividad.Size = new System.Drawing.Size(54, 13);
+            this.labelActividad.TabIndex = 4;
+            this.labelActividad.Text = "Actividad:";
             // 
             // txtActividad
             // 
@@ -102,14 +102,14 @@ namespace TpIngSoft
             this.dgvBitacora.Size = new System.Drawing.Size(800, 350);
             this.dgvBitacora.TabIndex = 7;
             // 
-            // label4
+            // labelUsuario
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(360, 20);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Usuario:";
+            this.labelUsuario.AutoSize = true;
+            this.labelUsuario.Location = new System.Drawing.Point(360, 20);
+            this.labelUsuario.Name = "labelUsuario";
+            this.labelUsuario.Size = new System.Drawing.Size(46, 13);
+            this.labelUsuario.TabIndex = 8;
+            this.labelUsuario.Text = "Usuario:";
             // 
             // txtUsuario
             // 
@@ -124,15 +124,15 @@ namespace TpIngSoft
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(840, 430);
             this.Controls.Add(this.txtUsuario);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.labelUsuario);
             this.Controls.Add(this.dgvBitacora);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtActividad);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.labelActividad);
             this.Controls.Add(this.dtpHasta);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelHasta);
             this.Controls.Add(this.dtpDesde);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelDesde);
             this.Name = "FormBitacora";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestión de Bitácora";
@@ -140,17 +140,18 @@ namespace TpIngSoft
             ((System.ComponentModel.ISupportInitialize)(this.dgvBitacora)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelDesde;
         private System.Windows.Forms.DateTimePicker dtpDesde;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelHasta;
         private System.Windows.Forms.DateTimePicker dtpHasta;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelActividad;
         private System.Windows.Forms.TextBox txtActividad;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.DataGridView dgvBitacora;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelUsuario;
         private System.Windows.Forms.TextBox txtUsuario;
     }
 }

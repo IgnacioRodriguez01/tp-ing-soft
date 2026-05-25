@@ -46,7 +46,10 @@
     <Compile Include="RolBLL.cs" />
     <Compile Include="GestorBitacora.cs" />
     <Compile Include="IntegridadBLL.cs" />
-
+    <Compile Include="IObservador.cs" />
+    <Compile Include="ISujeto.cs" />
+    <Compile Include="IdiomaBLL.cs" />
+    <Compile Include="GestorIdioma.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,19 +1,47 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using BE;
 using BLL;
 using SERVICIOS;
+using TpIngSoft.Traduccion;
 
 namespace TpIngSoft
 {
-    public partial class FormGestionUsuarios : Form
+    public partial class FormGestionUsuarios : Form, IObservador
     {
         private UsuarioBLL usuarioBLL = new UsuarioBLL();
+        private List<IControlTraducible> _controlesTraducibles = new List<IControlTraducible>();
 
         public FormGestionUsuarios()
         {
             InitializeComponent();
-            this.Text = "Gestión de Usuarios";
+            RegistrarControlesTraducibles();
+            GestorIdioma.Instancia.Adjuntar(this);
+        }
+
+        private void RegistrarControlesTraducibles()
+        {
+            _controlesTraducibles.Clear();
+            _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormGestionUsuarios"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormGestionUsuarios_label1));
+            _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormGestionUsuarios_label2));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblRol, BE.NombreControl.FormGestionUsuarios_lblRol));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnRegistrar, BE.NombreControl.FormGestionUsuarios_btnRegistrar));
+        }
+
+        public void Actualizar(Dictionary<string, string> traducciones)
+        {
+            foreach (var control in _controlesTraducibles)
+            {
+                control.Traducir(traducciones);
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            GestorIdioma.Instancia.Separar(this);
+            base.OnFormClosed(e);
         }
 
         private void FormGestionUsuarios_Load(object sender, EventArgs e)
