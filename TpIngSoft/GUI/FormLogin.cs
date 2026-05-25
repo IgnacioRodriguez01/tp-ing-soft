@@ -11,37 +11,12 @@ namespace TpIngSoft
     public partial class FormLogin : Form, IObservador
     {
         private UsuarioBLL usuarioBLL = new UsuarioBLL();
-        private ComboBox cmbIdiomaLogin;
-        private Label lblIdiomaLogin;
         private List<IControlTraducible> _controlesTraducibles = new List<IControlTraducible>();
         private bool _isChangingLanguage = false;
 
         public FormLogin()
         {
             InitializeComponent();
-            
-            // Setup controls
-            this.ClientSize = new System.Drawing.Size(285, 250);
-            this.buttonLogin.Location = new System.Drawing.Point(102, 210);
-            this.label4.Location = new System.Drawing.Point(94, 185);
-            this.label4.Visible = false;
-            this.textBoxPass.PasswordChar = '*';
-
-            // Language controls
-            lblIdiomaLogin = new Label();
-            lblIdiomaLogin.AutoSize = true;
-            lblIdiomaLogin.Location = new System.Drawing.Point(34, 155);
-            lblIdiomaLogin.Size = new System.Drawing.Size(44, 13);
-            lblIdiomaLogin.Text = "Idioma:";
-
-            cmbIdiomaLogin = new ComboBox();
-            cmbIdiomaLogin.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbIdiomaLogin.Location = new System.Drawing.Point(90, 152);
-            cmbIdiomaLogin.Size = new System.Drawing.Size(149, 21);
-            cmbIdiomaLogin.SelectedIndexChanged += CmbIdiomaLogin_SelectedIndexChanged;
-
-            this.Controls.Add(lblIdiomaLogin);
-            this.Controls.Add(cmbIdiomaLogin);
 
             RegistrarControlesTraducibles();
 

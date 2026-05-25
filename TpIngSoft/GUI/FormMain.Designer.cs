@@ -15,6 +15,7 @@ namespace TpIngSoft
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -25,7 +26,6 @@ namespace TpIngSoft
             this.bitacoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlCambiosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionPerfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblSesionInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
@@ -34,21 +34,25 @@ namespace TpIngSoft
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivoToolStripMenuItem,
             this.adminToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // archivoToolStripMenuItem
             // 
+            this.archivoToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
             this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.logoutToolStripMenuItem,
             this.toolStripSeparator1,
             this.salirToolStripMenuItem});
+            this.archivoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.archivoToolStripMenuItem.Text = "Archivo";
@@ -56,31 +60,39 @@ namespace TpIngSoft
             // logoutToolStripMenuItem
             // 
             this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.logoutToolStripMenuItem.Text = "Cerrar Sesión";
             this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // adminToolStripMenuItem
             // 
+            this.adminToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
             this.adminToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gestionUsuariosToolStripMenuItem,
             this.bitacoraToolStripMenuItem,
             this.controlCambiosToolStripMenuItem,
             this.gestionPerfilesToolStripMenuItem});
-
+            this.adminToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.adminToolStripMenuItem.Name = "adminToolStripMenuItem";
             this.adminToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.adminToolStripMenuItem.Text = "Admin";
             // 
             // gestionUsuariosToolStripMenuItem
             // 
+            this.gestionUsuariosToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            this.gestionUsuariosToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.gestionUsuariosToolStripMenuItem.Name = "gestionUsuariosToolStripMenuItem";
             this.gestionUsuariosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.gestionUsuariosToolStripMenuItem.Text = "Gestión de Usuarios";
@@ -88,6 +100,8 @@ namespace TpIngSoft
             // 
             // bitacoraToolStripMenuItem
             // 
+            this.bitacoraToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            this.bitacoraToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.bitacoraToolStripMenuItem.Name = "bitacoraToolStripMenuItem";
             this.bitacoraToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bitacoraToolStripMenuItem.Text = "Bitácora";
@@ -95,6 +109,8 @@ namespace TpIngSoft
             // 
             // controlCambiosToolStripMenuItem
             // 
+            this.controlCambiosToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            this.controlCambiosToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.controlCambiosToolStripMenuItem.Name = "controlCambiosToolStripMenuItem";
             this.controlCambiosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.controlCambiosToolStripMenuItem.Text = "Control de Cambios";
@@ -102,14 +118,17 @@ namespace TpIngSoft
             // 
             // gestionPerfilesToolStripMenuItem
             // 
+            this.gestionPerfilesToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            this.gestionPerfilesToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.gestionPerfilesToolStripMenuItem.Name = "gestionPerfilesToolStripMenuItem";
             this.gestionPerfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.gestionPerfilesToolStripMenuItem.Text = "Gestión de Roles";
             this.gestionPerfilesToolStripMenuItem.Click += new System.EventHandler(this.gestionPerfilesToolStripMenuItem_Click);
-
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            this.statusStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSesionInfo});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
@@ -120,6 +139,8 @@ namespace TpIngSoft
             // 
             // lblSesionInfo
             // 
+            this.lblSesionInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            this.lblSesionInfo.ForeColor = System.Drawing.Color.White;
             this.lblSesionInfo.Name = "lblSesionInfo";
             this.lblSesionInfo.Size = new System.Drawing.Size(118, 17);
             this.lblSesionInfo.Text = "toolStripStatusLabel1";
@@ -128,9 +149,12 @@ namespace TpIngSoft
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "FormMain";
@@ -140,6 +164,7 @@ namespace TpIngSoft
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.MenuStrip menuStrip1;
