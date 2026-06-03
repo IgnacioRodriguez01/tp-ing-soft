@@ -143,5 +143,10 @@ namespace TpIngSoft
             label4.Visible = true;
             label4.Left = (this.ClientSize.Width - label4.Width) / 2;
         }
+
+        private void FormLogin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

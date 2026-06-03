@@ -33,8 +33,29 @@ namespace TpIngSoft
             // 
             this.dgvIdiomas.AllowUserToAddRows = false;
             this.dgvIdiomas.AllowUserToDeleteRows = false;
+            this.dgvIdiomas.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(31)))), ((int)(((byte)(50)))));
+            this.dgvIdiomas.GridColor = System.Drawing.Color.Black;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvIdiomas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvIdiomas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvIdiomas.Location = new System.Drawing.Point(20, 90);
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(129)))), ((int)(((byte)(158)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvIdiomas.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvIdiomas.EnableHeadersVisualStyles = false;
+            this.dgvIdiomas.Location = new System.Drawing.Point(20, 150);
             this.dgvIdiomas.Name = "dgvIdiomas";
             this.dgvIdiomas.ReadOnly = true;
             this.dgvIdiomas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -44,6 +65,9 @@ namespace TpIngSoft
             // 
             // txtNuevoIdioma
             // 
+            this.txtNuevoIdioma.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
+            this.txtNuevoIdioma.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNuevoIdioma.ForeColor = System.Drawing.Color.White;
             this.txtNuevoIdioma.Location = new System.Drawing.Point(20, 45);
             this.txtNuevoIdioma.Name = "txtNuevoIdioma";
             this.txtNuevoIdioma.Size = new System.Drawing.Size(160, 20);
@@ -52,6 +76,8 @@ namespace TpIngSoft
             // lblNuevoIdioma
             // 
             this.lblNuevoIdioma.AutoSize = true;
+            this.lblNuevoIdioma.BackColor = System.Drawing.Color.Transparent;
+            this.lblNuevoIdioma.ForeColor = System.Drawing.Color.White;
             this.lblNuevoIdioma.Location = new System.Drawing.Point(20, 25);
             this.lblNuevoIdioma.Name = "lblNuevoIdioma";
             this.lblNuevoIdioma.Size = new System.Drawing.Size(77, 13);
@@ -60,22 +86,46 @@ namespace TpIngSoft
             // 
             // btnCrearIdioma
             // 
+            this.btnCrearIdioma.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
+            this.btnCrearIdioma.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCrearIdioma.ForeColor = System.Drawing.Color.White;
             this.btnCrearIdioma.Location = new System.Drawing.Point(190, 43);
             this.btnCrearIdioma.Name = "btnCrearIdioma";
             this.btnCrearIdioma.Size = new System.Drawing.Size(90, 23);
             this.btnCrearIdioma.TabIndex = 2;
             this.btnCrearIdioma.Text = "Crear";
-            this.btnCrearIdioma.UseVisualStyleBackColor = true;
+            this.btnCrearIdioma.UseVisualStyleBackColor = false;
             this.btnCrearIdioma.Click += new System.EventHandler(this.btnCrearIdioma_Click);
             // 
             // dgvTraducciones
             // 
             this.dgvTraducciones.AllowUserToAddRows = false;
+            this.dgvTraducciones.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(31)))), ((int)(((byte)(50)))));
+            this.dgvTraducciones.GridColor = System.Drawing.Color.Black;
             this.dgvTraducciones.AllowUserToDeleteRows = false;
             this.dgvTraducciones.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTraducciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvTraducciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(129)))), ((int)(((byte)(158)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvTraducciones.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvTraducciones.EnableHeadersVisualStyles = false;
             this.dgvTraducciones.Location = new System.Drawing.Point(310, 90);
             this.dgvTraducciones.Name = "dgvTraducciones";
             this.dgvTraducciones.Size = new System.Drawing.Size(460, 290);
@@ -84,40 +134,50 @@ namespace TpIngSoft
             // btnGuardarTraducciones
             // 
             this.btnGuardarTraducciones.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGuardarTraducciones.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
+            this.btnGuardarTraducciones.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnGuardarTraducciones.ForeColor = System.Drawing.Color.White;
             this.btnGuardarTraducciones.Location = new System.Drawing.Point(620, 395);
             this.btnGuardarTraducciones.Name = "btnGuardarTraducciones";
             this.btnGuardarTraducciones.Size = new System.Drawing.Size(150, 30);
             this.btnGuardarTraducciones.TabIndex = 8;
             this.btnGuardarTraducciones.Text = "Guardar Traducciones";
-            this.btnGuardarTraducciones.UseVisualStyleBackColor = true;
+            this.btnGuardarTraducciones.UseVisualStyleBackColor = false;
             this.btnGuardarTraducciones.Click += new System.EventHandler(this.btnGuardarTraducciones_Click);
             // 
             // btnAplicar
             // 
             this.btnAplicar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAplicar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
+            this.btnAplicar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAplicar.ForeColor = System.Drawing.Color.White;
             this.btnAplicar.Location = new System.Drawing.Point(310, 395);
             this.btnAplicar.Name = "btnAplicar";
             this.btnAplicar.Size = new System.Drawing.Size(120, 30);
             this.btnAplicar.TabIndex = 7;
             this.btnAplicar.Text = "Aplicar Idioma";
-            this.btnAplicar.UseVisualStyleBackColor = true;
+            this.btnAplicar.UseVisualStyleBackColor = false;
             this.btnAplicar.Click += new System.EventHandler(this.btnAplicar_Click);
             // 
             // btnToggleActivo
             // 
             this.btnToggleActivo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnToggleActivo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
+            this.btnToggleActivo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnToggleActivo.ForeColor = System.Drawing.Color.White;
             this.btnToggleActivo.Location = new System.Drawing.Point(20, 395);
             this.btnToggleActivo.Name = "btnToggleActivo";
             this.btnToggleActivo.Size = new System.Drawing.Size(140, 30);
             this.btnToggleActivo.TabIndex = 9;
             this.btnToggleActivo.Text = "Activar / Desactivar";
-            this.btnToggleActivo.UseVisualStyleBackColor = true;
+            this.btnToggleActivo.UseVisualStyleBackColor = false;
             this.btnToggleActivo.Click += new System.EventHandler(this.btnToggleActivo_Click);
             // 
             // FormGestionIdiomas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::TpIngSoft.Properties.Resources.mesh_bg;
             this.ClientSize = new System.Drawing.Size(790, 440);
             this.Controls.Add(this.btnToggleActivo);
             this.Controls.Add(this.btnAplicar);

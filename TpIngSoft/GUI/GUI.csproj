@@ -103,6 +103,12 @@
     <EmbeddedResource Include="FormBitacora.resx">
       <DependentUpon>FormBitacora.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormGestionUsuarios.resx">
+      <DependentUpon>FormGestionUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormHistorialUsuario.resx">
+      <DependentUpon>FormHistorialUsuario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -140,6 +146,15 @@
       <Project>{bb401e30-8bf0-4522-beb5-6bbd21ae15f5}</Project>
       <Name>SERVICIOS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mesh-600x600.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mesh-1024x600.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mesh-bg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

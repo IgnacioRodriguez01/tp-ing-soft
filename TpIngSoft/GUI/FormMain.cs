@@ -11,8 +11,6 @@ namespace TpIngSoft
     public partial class FormMain : Form, IObservador
     {
         private UsuarioBLL usuarioBLL = new UsuarioBLL();
-        private ToolStripComboBox cmbIdioma;
-        private ToolStripMenuItem gestionIdiomasToolStripMenuItem;
         private List<IControlTraducible> _controlesTraducibles = new List<IControlTraducible>();
         private bool _isChangingLanguage = false;
 
@@ -22,20 +20,6 @@ namespace TpIngSoft
             this.IsMdiContainer = true;
             this.WindowState = FormWindowState.Maximized;
             this.Text = "TpIngSoft - Sistema de Gestión";
-
-            // Initialize language dropdown
-            cmbIdioma = new ToolStripComboBox();
-            cmbIdioma.Alignment = ToolStripItemAlignment.Right;
-            cmbIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbIdioma.Size = new System.Drawing.Size(120, 25);
-            cmbIdioma.SelectedIndexChanged += CmbIdioma_SelectedIndexChanged;
-            menuStrip1.Items.Add(cmbIdioma);
-
-            // Initialize admin option for language management
-            gestionIdiomasToolStripMenuItem = new ToolStripMenuItem();
-            gestionIdiomasToolStripMenuItem.Name = "gestionIdiomasToolStripMenuItem";
-            gestionIdiomasToolStripMenuItem.Click += GestionIdiomasToolStripMenuItem_Click;
-            adminToolStripMenuItem.DropDownItems.Add(gestionIdiomasToolStripMenuItem);
 
             RegistrarControlesTraducibles();
 

@@ -111,5 +111,10 @@ namespace TpIngSoft
                 MessageBox.Show("Seleccione un registro del historial.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
