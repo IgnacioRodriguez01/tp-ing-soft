@@ -5,5 +5,6 @@ Paleta de colores:
  - #594ba0
  - #41394f
  - #261f32
+ - #ec5b5b
 
 Gradientes: [UI](../UI)
