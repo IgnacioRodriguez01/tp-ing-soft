@@ -28,6 +28,7 @@ namespace TpIngSoft
         /// </summary>
         private void InitializeComponent()
         {
+            this.label1 = new System.Windows.Forms.Label();
             this.textBoxNombre = new System.Windows.Forms.TextBox();
             this.textBoxPass = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -37,8 +38,20 @@ namespace TpIngSoft
             this.lblIdiomaLogin = new System.Windows.Forms.Label();
             this.cmbIdiomaLogin = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.White;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(129)))), ((int)(((byte)(158)))));
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(347, 36);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Login de Usuario";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // textBoxNombre
             // 
@@ -61,43 +74,29 @@ namespace TpIngSoft
             this.textBoxPass.Size = new System.Drawing.Size(205, 20);
             this.textBoxPass.TabIndex = 1;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(129)))), ((int)(((byte)(158)))));
-            this.label1.Location = new System.Drawing.Point(-8, 1);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(110, 5, 110, 5);
-            this.label1.Size = new System.Drawing.Size(365, 30);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Login de Usuario";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // label2
             // 
-            this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(64, 212);
+            this.label2.Location = new System.Drawing.Point(67, 203);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 13);
+            this.label2.Size = new System.Drawing.Size(205, 22);
             this.label2.TabIndex = 3;
             this.label2.Text = "Nombre";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(64, 263);
+            this.label3.Location = new System.Drawing.Point(67, 251);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(205, 25);
             this.label3.TabIndex = 4;
             this.label3.Text = "Contraseña";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // buttonLogin
             // 
@@ -116,15 +115,14 @@ namespace TpIngSoft
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Red;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(120, 173);
-            this.label4.Margin = new System.Windows.Forms.Padding(1);
+            this.label4.Location = new System.Drawing.Point(104, 167);
+            this.label4.Margin = new System.Windows.Forms.Padding(50, 1, 50, 1);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(2);
-            this.label4.Size = new System.Drawing.Size(103, 17);
+            this.label4.Size = new System.Drawing.Size(126, 23);
             this.label4.TabIndex = 6;
             this.label4.Text = "Login incorrecto";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -132,15 +130,15 @@ namespace TpIngSoft
             // 
             // lblIdiomaLogin
             // 
-            this.lblIdiomaLogin.AutoSize = true;
             this.lblIdiomaLogin.BackColor = System.Drawing.Color.Transparent;
             this.lblIdiomaLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblIdiomaLogin.ForeColor = System.Drawing.Color.White;
-            this.lblIdiomaLogin.Location = new System.Drawing.Point(67, 318);
+            this.lblIdiomaLogin.Location = new System.Drawing.Point(4, 315);
             this.lblIdiomaLogin.Name = "lblIdiomaLogin";
-            this.lblIdiomaLogin.Size = new System.Drawing.Size(48, 13);
+            this.lblIdiomaLogin.Size = new System.Drawing.Size(116, 21);
             this.lblIdiomaLogin.TabIndex = 7;
             this.lblIdiomaLogin.Text = "Idioma:";
+            this.lblIdiomaLogin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // cmbIdiomaLogin
             // 

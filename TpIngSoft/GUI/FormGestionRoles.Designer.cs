@@ -17,6 +17,7 @@ namespace TpIngSoft
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Nodo0");
             this.tvPerfiles = new System.Windows.Forms.TreeView();
             this.grpAcciones = new System.Windows.Forms.GroupBox();
             this.btnQuitarItem = new System.Windows.Forms.Button();
@@ -45,6 +46,10 @@ namespace TpIngSoft
             this.tvPerfiles.ForeColor = System.Drawing.Color.White;
             this.tvPerfiles.Location = new System.Drawing.Point(12, 12);
             this.tvPerfiles.Name = "tvPerfiles";
+            treeNode1.Name = "Nodo0";
+            treeNode1.Text = "Nodo0";
+            this.tvPerfiles.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1});
             this.tvPerfiles.Size = new System.Drawing.Size(350, 436);
             this.tvPerfiles.TabIndex = 0;
             this.tvPerfiles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvPerfiles_AfterSelect);
@@ -55,7 +60,6 @@ namespace TpIngSoft
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpAcciones.BackColor = System.Drawing.Color.Transparent;
-            this.grpAcciones.ForeColor = System.Drawing.Color.White;
             this.grpAcciones.Controls.Add(this.btnQuitarItem);
             this.grpAcciones.Controls.Add(this.grpAsignarPermiso);
             this.grpAcciones.Controls.Add(this.btnEliminarRol);
@@ -68,6 +72,7 @@ namespace TpIngSoft
             this.grpAcciones.Controls.Add(this.lblModo);
             this.grpAcciones.Controls.Add(this.rbModoCrear);
             this.grpAcciones.Controls.Add(this.rbModoEditar);
+            this.grpAcciones.ForeColor = System.Drawing.Color.White;
             this.grpAcciones.Location = new System.Drawing.Point(378, 12);
             this.grpAcciones.Name = "grpAcciones";
             this.grpAcciones.Size = new System.Drawing.Size(394, 436);
@@ -91,9 +96,9 @@ namespace TpIngSoft
             // grpAsignarPermiso
             // 
             this.grpAsignarPermiso.BackColor = System.Drawing.Color.Transparent;
-            this.grpAsignarPermiso.ForeColor = System.Drawing.Color.White;
             this.grpAsignarPermiso.Controls.Add(this.btnAsignarPermiso);
             this.grpAsignarPermiso.Controls.Add(this.cmbPermisos);
+            this.grpAsignarPermiso.ForeColor = System.Drawing.Color.White;
             this.grpAsignarPermiso.Location = new System.Drawing.Point(15, 175);
             this.grpAsignarPermiso.Name = "grpAsignarPermiso";
             this.grpAsignarPermiso.Size = new System.Drawing.Size(364, 100);
@@ -190,35 +195,33 @@ namespace TpIngSoft
             // 
             // lblNombreRol
             // 
-            this.lblNombreRol.AutoSize = true;
             this.lblNombreRol.BackColor = System.Drawing.Color.Transparent;
             this.lblNombreRol.ForeColor = System.Drawing.Color.White;
             this.lblNombreRol.Location = new System.Drawing.Point(15, 85);
             this.lblNombreRol.Name = "lblNombreRol";
-            this.lblNombreRol.Size = new System.Drawing.Size(65, 13);
+            this.lblNombreRol.Size = new System.Drawing.Size(364, 17);
             this.lblNombreRol.TabIndex = 4;
             this.lblNombreRol.Text = "Nombre Rol:";
+            this.lblNombreRol.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblDetalle
             // 
-            this.lblDetalle.AutoSize = true;
             this.lblDetalle.BackColor = System.Drawing.Color.Transparent;
-            this.lblDetalle.ForeColor = System.Drawing.Color.White;
             this.lblDetalle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDetalle.Location = new System.Drawing.Point(15, 25);
+            this.lblDetalle.ForeColor = System.Drawing.Color.White;
+            this.lblDetalle.Location = new System.Drawing.Point(15, 20);
             this.lblDetalle.Name = "lblDetalle";
-            this.lblDetalle.Size = new System.Drawing.Size(199, 16);
+            this.lblDetalle.Size = new System.Drawing.Size(364, 34);
             this.lblDetalle.TabIndex = 0;
             this.lblDetalle.Text = "Detalle: Selección vacía";
             // 
             // lblModo
             // 
-            this.lblModo.AutoSize = true;
             this.lblModo.BackColor = System.Drawing.Color.Transparent;
             this.lblModo.ForeColor = System.Drawing.Color.White;
-            this.lblModo.Location = new System.Drawing.Point(15, 55);
+            this.lblModo.Location = new System.Drawing.Point(15, 64);
             this.lblModo.Name = "lblModo";
-            this.lblModo.Size = new System.Drawing.Size(37, 13);
+            this.lblModo.Size = new System.Drawing.Size(90, 15);
             this.lblModo.TabIndex = 1;
             this.lblModo.Text = "Modo:";
             // 
@@ -226,11 +229,11 @@ namespace TpIngSoft
             // 
             this.rbModoCrear.AutoSize = true;
             this.rbModoCrear.BackColor = System.Drawing.Color.Transparent;
-            this.rbModoCrear.ForeColor = System.Drawing.Color.White;
             this.rbModoCrear.Checked = true;
-            this.rbModoCrear.Location = new System.Drawing.Point(60, 53);
+            this.rbModoCrear.ForeColor = System.Drawing.Color.White;
+            this.rbModoCrear.Location = new System.Drawing.Point(111, 62);
             this.rbModoCrear.Name = "rbModoCrear";
-            this.rbModoCrear.Size = new System.Drawing.Size(70, 17);
+            this.rbModoCrear.Size = new System.Drawing.Size(69, 17);
             this.rbModoCrear.TabIndex = 2;
             this.rbModoCrear.TabStop = true;
             this.rbModoCrear.Text = "Crear Rol";
@@ -242,9 +245,9 @@ namespace TpIngSoft
             this.rbModoEditar.AutoSize = true;
             this.rbModoEditar.BackColor = System.Drawing.Color.Transparent;
             this.rbModoEditar.ForeColor = System.Drawing.Color.White;
-            this.rbModoEditar.Location = new System.Drawing.Point(150, 53);
+            this.rbModoEditar.Location = new System.Drawing.Point(237, 61);
             this.rbModoEditar.Name = "rbModoEditar";
-            this.rbModoEditar.Size = new System.Drawing.Size(102, 17);
+            this.rbModoEditar.Size = new System.Drawing.Size(99, 17);
             this.rbModoEditar.TabIndex = 3;
             this.rbModoEditar.Text = "Editar / Eliminar";
             this.rbModoEditar.UseVisualStyleBackColor = true;

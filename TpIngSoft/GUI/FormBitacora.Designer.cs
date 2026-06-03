@@ -15,6 +15,8 @@ namespace TpIngSoft
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labelDesde = new System.Windows.Forms.Label();
             this.dtpDesde = new System.Windows.Forms.DateTimePicker();
             this.labelHasta = new System.Windows.Forms.Label();
@@ -30,14 +32,14 @@ namespace TpIngSoft
             // 
             // labelDesde
             // 
-            this.labelDesde.AutoSize = true;
             this.labelDesde.BackColor = System.Drawing.Color.Transparent;
             this.labelDesde.ForeColor = System.Drawing.Color.White;
-            this.labelDesde.Location = new System.Drawing.Point(20, 20);
+            this.labelDesde.Location = new System.Drawing.Point(20, 9);
             this.labelDesde.Name = "labelDesde";
-            this.labelDesde.Size = new System.Drawing.Size(41, 13);
+            this.labelDesde.Size = new System.Drawing.Size(120, 17);
             this.labelDesde.TabIndex = 0;
             this.labelDesde.Text = "Desde:";
+            this.labelDesde.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // dtpDesde
             // 
@@ -46,21 +48,21 @@ namespace TpIngSoft
             this.dtpDesde.CalendarTitleBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             this.dtpDesde.CalendarTitleForeColor = System.Drawing.Color.White;
             this.dtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDesde.Location = new System.Drawing.Point(70, 17);
+            this.dtpDesde.Location = new System.Drawing.Point(20, 29);
             this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(100, 20);
+            this.dtpDesde.Size = new System.Drawing.Size(120, 20);
             this.dtpDesde.TabIndex = 1;
             // 
             // labelHasta
             // 
-            this.labelHasta.AutoSize = true;
             this.labelHasta.BackColor = System.Drawing.Color.Transparent;
             this.labelHasta.ForeColor = System.Drawing.Color.White;
-            this.labelHasta.Location = new System.Drawing.Point(190, 20);
+            this.labelHasta.Location = new System.Drawing.Point(177, 9);
             this.labelHasta.Name = "labelHasta";
-            this.labelHasta.Size = new System.Drawing.Size(38, 13);
+            this.labelHasta.Size = new System.Drawing.Size(120, 17);
             this.labelHasta.TabIndex = 2;
             this.labelHasta.Text = "Hasta:";
+            this.labelHasta.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // dtpHasta
             // 
@@ -69,30 +71,30 @@ namespace TpIngSoft
             this.dtpHasta.CalendarTitleBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             this.dtpHasta.CalendarTitleForeColor = System.Drawing.Color.White;
             this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHasta.Location = new System.Drawing.Point(240, 17);
+            this.dtpHasta.Location = new System.Drawing.Point(177, 29);
             this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(100, 20);
+            this.dtpHasta.Size = new System.Drawing.Size(120, 20);
             this.dtpHasta.TabIndex = 3;
             // 
             // labelActividad
             // 
-            this.labelActividad.AutoSize = true;
             this.labelActividad.BackColor = System.Drawing.Color.Transparent;
             this.labelActividad.ForeColor = System.Drawing.Color.White;
-            this.labelActividad.Location = new System.Drawing.Point(540, 20);
+            this.labelActividad.Location = new System.Drawing.Point(506, 9);
             this.labelActividad.Name = "labelActividad";
-            this.labelActividad.Size = new System.Drawing.Size(54, 13);
+            this.labelActividad.Size = new System.Drawing.Size(140, 17);
             this.labelActividad.TabIndex = 4;
             this.labelActividad.Text = "Actividad:";
+            this.labelActividad.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // txtActividad
             // 
             this.txtActividad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
             this.txtActividad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtActividad.ForeColor = System.Drawing.Color.White;
-            this.txtActividad.Location = new System.Drawing.Point(600, 17);
+            this.txtActividad.Location = new System.Drawing.Point(506, 29);
             this.txtActividad.Name = "txtActividad";
-            this.txtActividad.Size = new System.Drawing.Size(120, 20);
+            this.txtActividad.Size = new System.Drawing.Size(140, 20);
             this.txtActividad.TabIndex = 5;
             // 
             // btnBuscar
@@ -100,9 +102,9 @@ namespace TpIngSoft
             this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(740, 15);
+            this.btnBuscar.Location = new System.Drawing.Point(713, 12);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(75, 23);
+            this.btnBuscar.Size = new System.Drawing.Size(107, 37);
             this.btnBuscar.TabIndex = 6;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
@@ -111,13 +113,11 @@ namespace TpIngSoft
             // dgvBitacora
             // 
             this.dgvBitacora.AllowUserToAddRows = false;
-            this.dgvBitacora.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(31)))), ((int)(((byte)(50)))));
-            this.dgvBitacora.GridColor = System.Drawing.Color.Black;
             this.dgvBitacora.AllowUserToDeleteRows = false;
             this.dgvBitacora.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.dgvBitacora.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(31)))), ((int)(((byte)(50)))));
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -127,7 +127,6 @@ namespace TpIngSoft
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvBitacora.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -137,31 +136,32 @@ namespace TpIngSoft
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvBitacora.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvBitacora.EnableHeadersVisualStyles = false;
-            this.dgvBitacora.Location = new System.Drawing.Point(20, 60);
+            this.dgvBitacora.GridColor = System.Drawing.Color.Black;
+            this.dgvBitacora.Location = new System.Drawing.Point(20, 65);
             this.dgvBitacora.Name = "dgvBitacora";
             this.dgvBitacora.ReadOnly = true;
-            this.dgvBitacora.Size = new System.Drawing.Size(800, 350);
+            this.dgvBitacora.Size = new System.Drawing.Size(800, 381);
             this.dgvBitacora.TabIndex = 7;
             // 
             // labelUsuario
             // 
-            this.labelUsuario.AutoSize = true;
             this.labelUsuario.BackColor = System.Drawing.Color.Transparent;
             this.labelUsuario.ForeColor = System.Drawing.Color.White;
-            this.labelUsuario.Location = new System.Drawing.Point(360, 20);
+            this.labelUsuario.Location = new System.Drawing.Point(333, 9);
             this.labelUsuario.Name = "labelUsuario";
-            this.labelUsuario.Size = new System.Drawing.Size(46, 13);
+            this.labelUsuario.Size = new System.Drawing.Size(143, 17);
             this.labelUsuario.TabIndex = 8;
             this.labelUsuario.Text = "Usuario:";
+            this.labelUsuario.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // txtUsuario
             // 
             this.txtUsuario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
             this.txtUsuario.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtUsuario.ForeColor = System.Drawing.Color.White;
-            this.txtUsuario.Location = new System.Drawing.Point(410, 17);
+            this.txtUsuario.Location = new System.Drawing.Point(336, 29);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(100, 20);
+            this.txtUsuario.Size = new System.Drawing.Size(140, 20);
             this.txtUsuario.TabIndex = 9;
             // 
             // FormBitacora
@@ -169,7 +169,7 @@ namespace TpIngSoft
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TpIngSoft.Properties.Resources.mesh_bg;
-            this.ClientSize = new System.Drawing.Size(840, 430);
+            this.ClientSize = new System.Drawing.Size(840, 466);
             this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.labelUsuario);
             this.Controls.Add(this.dgvBitacora);

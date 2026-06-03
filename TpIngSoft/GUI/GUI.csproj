@@ -103,6 +103,12 @@
     <EmbeddedResource Include="FormBitacora.resx">
       <DependentUpon>FormBitacora.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormGestionIdiomas.resx">
+      <DependentUpon>FormGestionIdiomas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGestionRoles.resx">
+      <DependentUpon>FormGestionRoles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormGestionUsuarios.resx">
       <DependentUpon>FormGestionUsuarios.cs</DependentUpon>
     </EmbeddedResource>
