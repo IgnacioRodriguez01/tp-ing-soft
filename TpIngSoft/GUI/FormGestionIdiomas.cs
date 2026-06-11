@@ -31,6 +31,7 @@ namespace TpIngSoft
             _controlesTraducibles.Add(new EtiquetaTraducible(btnCrearIdioma, BE.NombreControl.FormGestionIdiomas_btnCrearIdioma));
             _controlesTraducibles.Add(new EtiquetaTraducible(btnGuardarTraducciones, BE.NombreControl.FormGestionIdiomas_btnGuardarTraducciones));
             _controlesTraducibles.Add(new EtiquetaTraducible(btnAplicar, BE.NombreControl.FormGestionIdiomas_btnAplicar));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnEliminarIdioma, BE.NombreControl.FormGestionIdiomas_btnEliminarIdioma));
 
             _dgvIdiomasTraducible = new DataGridTraducible(dgvIdiomas, "FormGestionIdiomas.dgvIdiomas")
                 .ConColumna("Id", BE.NombreControl.FormGestionIdiomas_dgvIdiomas_id)
@@ -134,6 +135,7 @@ namespace TpIngSoft
                 ("FormGestionIdiomas", "btnToggleActivo"),
                 ("FormGestionIdiomas", "btnGuardarTraducciones"),
                 ("FormGestionIdiomas", "btnAplicar"),
+                ("FormGestionIdiomas", "btnEliminarIdioma"),
                 ("FormGestionIdiomas", "dgvIdiomas.id"),
                 ("FormGestionIdiomas", "dgvIdiomas.nombre"),
                 ("FormGestionIdiomas", "dgvIdiomas.activo"),
@@ -316,8 +318,39 @@ namespace TpIngSoft
                 var idiomaSeleccionado = (Idioma)dgvIdiomas.CurrentRow.DataBoundItem;
                 try
                 {
+                    // Check if we are deactivating the currently active language
+                    bool isCurrentlyActiveSessionLanguage = GestorIdioma.Instancia.IdiomaActual != null && 
+                                                            GestorIdioma.Instancia.IdiomaActual.Id == idiomaSeleccionado.Id;
+
                     _idiomaBLL.ToggleEstadoIdioma(idiomaSeleccionado.Id);
                     MessageBox.Show($"El estado del idioma '{idiomaSeleccionado.Nombre}' ha sido modificado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (isCurrentlyActiveSessionLanguage)
+                    {
+                        // The active language was deactivated! Default to "Español" (ID 1) if active, else any other active
+                        var todos = _idiomaBLL.ObtenerTodosIdiomas();
+                        var espanol = todos.Find(i => i.Nombre.Equals("Español", StringComparison.OrdinalIgnoreCase) && i.Activo);
+                        if (espanol == null)
+                        {
+                            var activos = _idiomaBLL.ObtenerIdiomasActivos();
+                            if (activos.Count > 0)
+                            {
+                                espanol = activos[0];
+                            }
+                        }
+
+                        if (espanol != null)
+                        {
+                            GestorIdioma.Instancia.CambiarIdioma(espanol);
+                            if (SERVICIOS.SessionManager.Instance.EstaLogueado())
+                            {
+                                _idiomaBLL.GuardarIdiomaUsuario(SERVICIOS.SessionManager.Instance.UsuarioActual.Id, espanol.Id);
+                                SERVICIOS.SessionManager.Instance.UsuarioActual.IdIdioma = espanol.Id;
+                            }
+                            MessageBox.Show($"El idioma activo fue desactivado. Se ha cambiado automáticamente a '{espanol.Nombre}'.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+
                     RefrescarIdiomas();
                 }
                 catch (Exception ex)
@@ -328,6 +361,48 @@ namespace TpIngSoft
             else
             {
                 MessageBox.Show("Seleccione un idioma de la grilla para cambiar su estado.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnEliminarIdioma_Click(object sender, EventArgs e)
+        {
+            if (dgvIdiomas.CurrentRow != null)
+            {
+                var seleccionado = (Idioma)dgvIdiomas.CurrentRow.DataBoundItem;
+                try
+                {
+                    // Validation 1: Check if there's only 1 language in the system.
+                    var todos = _idiomaBLL.ObtenerTodosIdiomas();
+                    if (todos.Count <= 1)
+                    {
+                        MessageBox.Show("No se puede eliminar el único idioma del sistema.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Validation 2: Check if it's the active session language.
+                    if (GestorIdioma.Instancia.IdiomaActual != null && GestorIdioma.Instancia.IdiomaActual.Id == seleccionado.Id)
+                    {
+                        MessageBox.Show("No se puede eliminar el idioma activo en la sesión.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Request confirmation
+                    var result = MessageBox.Show($"¿Está seguro que desea eliminar el idioma '{seleccionado.Nombre}' y todas sus traducciones asociadas?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        _idiomaBLL.EliminarIdioma(seleccionado.Id);
+                        MessageBox.Show($"Idioma '{seleccionado.Nombre}' eliminado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefrescarIdiomas();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar el idioma: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Seleccione un idioma de la grilla para eliminar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

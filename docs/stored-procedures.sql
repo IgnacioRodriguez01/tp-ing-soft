@@ -565,7 +565,7 @@ CREATE PROCEDURE [dbo].[CrearIdioma]
     @Nombre NVARCHAR(50),
     @NuevoId INT OUTPUT
 AS BEGIN
-    INSERT INTO Idioma (nombre, activo) VALUES (@Nombre, 1);
+    INSERT INTO Idioma (nombre, activo) VALUES (@Nombre, 0);
     SET @NuevoId = SCOPE_IDENTITY();
 END
 GO
@@ -669,5 +669,24 @@ AS BEGIN
     UPDATE Usuario 
     SET bloqueado_hasta = DATEADD(MINUTE, @Minutos, GETDATE())
     WHERE nombre = @Nombre;
+END
+GO
+
+-- ====================================================
+-- EliminarIdioma
+-- ====================================================
+IF OBJECT_ID('[dbo].[EliminarIdioma]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[EliminarIdioma];
+GO
+CREATE PROCEDURE [dbo].[EliminarIdioma]
+    @IdIdioma INT
+AS BEGIN
+    -- 1. Quitar referencia de los usuarios (poner a NULL)
+    UPDATE Usuario SET id_idioma = NULL WHERE id_idioma = @IdIdioma;
+    
+    -- 2. Eliminar traducciones asociadas
+    DELETE FROM Traducciones WHERE ididioma = @IdIdioma;
+    
+    -- 3. Eliminar el idioma
+    DELETE FROM Idioma WHERE id = @IdIdioma;
 END
 GO

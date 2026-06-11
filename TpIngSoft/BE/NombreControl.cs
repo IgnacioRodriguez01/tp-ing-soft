@@ -83,6 +83,7 @@ namespace BE
         public const string FormGestionIdiomas_btnToggleActivo = "FormGestionIdiomas.btnToggleActivo";
         public const string FormGestionIdiomas_btnGuardarTraducciones = "FormGestionIdiomas.btnGuardarTraducciones";
         public const string FormGestionIdiomas_btnAplicar = "FormGestionIdiomas.btnAplicar";
+        public const string FormGestionIdiomas_btnEliminarIdioma = "FormGestionIdiomas.btnEliminarIdioma";
         public const string FormGestionIdiomas_dgvIdiomas_id = "FormGestionIdiomas.dgvIdiomas.id";
         public const string FormGestionIdiomas_dgvIdiomas_nombre = "FormGestionIdiomas.dgvIdiomas.nombre";
         public const string FormGestionIdiomas_dgvIdiomas_activo = "FormGestionIdiomas.dgvIdiomas.activo";

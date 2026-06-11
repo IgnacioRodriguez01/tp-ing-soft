@@ -489,6 +489,10 @@ INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvTraducciones.te
 SET @CtrlId = SCOPE_IDENTITY();
 INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Texto'), (@CtrlId, 2, 'Text');
 
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnEliminarIdioma', 'FormGestionIdiomas');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Eliminar Idioma'), (@CtrlId, 2, 'Delete Language');
+
 -- Digito Verificador Vertical Inicial
 INSERT INTO [dbo].[DigitoVerificadorVertical] ([tabla], [dvv]) VALUES ('Usuario', 0);
 GO

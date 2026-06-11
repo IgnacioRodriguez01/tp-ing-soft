@@ -92,5 +92,11 @@ namespace BLL
             }
             return id;
         }
+
+        public void EliminarIdioma(int idIdioma)
+        {
+            mapper.EliminarIdioma(idIdioma);
+            InvalidarCache();
+        }
     }
 }
