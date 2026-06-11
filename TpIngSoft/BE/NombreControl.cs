@@ -27,6 +27,17 @@ namespace BE
         public const string FormGestionUsuarios_label2 = "FormGestionUsuarios.label2";
         public const string FormGestionUsuarios_lblRol = "FormGestionUsuarios.lblRol";
         public const string FormGestionUsuarios_btnRegistrar = "FormGestionUsuarios.btnRegistrar";
+        public const string FormGestionUsuarios_grpAcciones = "FormGestionUsuarios.grpAcciones";
+        public const string FormGestionUsuarios_rbModoCrear = "FormGestionUsuarios.rbModoCrear";
+        public const string FormGestionUsuarios_rbModoEditar = "FormGestionUsuarios.rbModoEditar";
+        public const string FormGestionUsuarios_chkActivo = "FormGestionUsuarios.chkActivo";
+        public const string FormGestionUsuarios_lblTiempoBloqueo = "FormGestionUsuarios.lblTiempoBloqueo";
+        public const string FormGestionUsuarios_btnBloquear = "FormGestionUsuarios.btnBloquear";
+        public const string FormGestionUsuarios_btnDesbloquear = "FormGestionUsuarios.btnDesbloquear";
+        public const string FormGestionUsuarios_dgvUsuarios_nombre = "FormGestionUsuarios.dgvUsuarios.nombre";
+        public const string FormGestionUsuarios_dgvUsuarios_activo = "FormGestionUsuarios.dgvUsuarios.activo";
+        public const string FormGestionUsuarios_dgvUsuarios_intentos = "FormGestionUsuarios.dgvUsuarios.intentos";
+        public const string FormGestionUsuarios_dgvUsuarios_bloqueadoHasta = "FormGestionUsuarios.dgvUsuarios.bloqueadoHasta";
 
         // FormBitacora
         public const string FormBitacora_labelDesde = "FormBitacora.labelDesde";

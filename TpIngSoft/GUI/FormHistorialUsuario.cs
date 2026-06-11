@@ -60,9 +60,9 @@ namespace TpIngSoft
         private void RefrescarUsuarios()
         {
             cmbUsuarios.DataSource = null;
-            cmbUsuarios.DataSource = usuarioBLL.LeerTodos();
             cmbUsuarios.DisplayMember = "Nombre";
             cmbUsuarios.ValueMember = "Id";
+            cmbUsuarios.DataSource = usuarioBLL.LeerTodos();
         }
 
         private void btnCargarHistorial_Click(object sender, EventArgs e)
@@ -75,6 +75,7 @@ namespace TpIngSoft
                 
                 if (dgvHistorial.Columns["Password"] != null) dgvHistorial.Columns["Password"].Visible = false;
                 if (dgvHistorial.Columns["DVH"] != null) dgvHistorial.Columns["DVH"].Visible = false;
+                if (dgvHistorial.Columns["IdUsuarioAutor"] != null) dgvHistorial.Columns["IdUsuarioAutor"].Visible = false;
 
                 // Re-apply column translations
                 var traducciones = GestorIdioma.Instancia.ObtenerTraduccionesActuales();

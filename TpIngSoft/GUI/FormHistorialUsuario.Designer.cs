@@ -28,7 +28,7 @@ namespace TpIngSoft
             // cmbUsuarios
             // 
             this.cmbUsuarios.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
-            this.cmbUsuarios.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbUsuarios.DrawMode = System.Windows.Forms.DrawMode.Normal;
             this.cmbUsuarios.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbUsuarios.ForeColor = System.Drawing.Color.White;

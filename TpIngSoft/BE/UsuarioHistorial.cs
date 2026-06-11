@@ -13,5 +13,6 @@ namespace BE
         public DateTime FechaCambio { get; set; }
         public int IdUsuarioAutor { get; set; }
         public string TipoOperacion { get; set; }
+        public string EditorNombre { get; set; }
     }
 }

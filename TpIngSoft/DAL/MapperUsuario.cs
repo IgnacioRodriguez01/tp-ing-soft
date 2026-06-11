@@ -163,5 +163,23 @@ namespace DAL
             }
             finally { acceso.Cerrar(); }
         }
+
+        public void BloquearManual(string nombre, int minutos)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@Nombre", nombre),
+                    acceso.CrearParametro("@Minutos", minutos)
+                };
+                acceso.Escribir("BloquearUsuarioManual", parameters);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
     }
 }

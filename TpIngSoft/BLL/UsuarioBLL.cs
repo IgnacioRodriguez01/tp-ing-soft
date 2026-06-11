@@ -123,8 +123,11 @@ namespace BLL
                 // T07: Recalcular DVV
                 ActualizarDVV();
 
-                mapperSeguridad.AsignarRol(result, idRol);
+                // T06b: Guardar en historial la CREACIÓN
                 Usuario editor = SessionManager.Instance.EstaLogueado() ? SessionManager.Instance.UsuarioActual : null;
+                mapperHistorial.Insertar(user, editor?.Id ?? 0, "INSERT");
+
+                mapperSeguridad.AsignarRol(result, idRol);
                 GestorBitacora.Instance.RegistrarEvento(editor, "Alta", "Usuario creado: " + user.Nombre);
             }
             return result;
@@ -132,11 +135,7 @@ namespace BLL
 
         public void Actualizar(Usuario user)
         {
-            Usuario actual = mapperUsuario.BuscarPorId(user.Id);
             Usuario autor = SessionManager.Instance.UsuarioActual;
-
-            // T06b: Guardar snapshot en historial ANTES del cambio
-            mapperHistorial.Insertar(actual, autor?.Id ?? 0, "UPDATE");
 
             // T07: Recalcular DVH
             user.DVH = GestorDV.CalcularDVH(user);
@@ -144,6 +143,9 @@ namespace BLL
 
             // T07: Recalcular DVV
             ActualizarDVV();
+
+            // T06b: Guardar snapshot en historial DESPUÉS del cambio
+            mapperHistorial.Insertar(user, autor?.Id ?? 0, "UPDATE");
 
             GestorBitacora.Instance.RegistrarEvento(autor, "Modificación", $"Usuario {user.Nombre} actualizado.");
         }
@@ -155,13 +157,32 @@ namespace BLL
             mapperDVV.ActualizarDVV("Usuario", dvv);
         }
 
-        public List<UsuarioHistorial> LeerHistorial(int idUsuario) => mapperHistorial.LeerHistorial(idUsuario);
+        public List<UsuarioHistorial> LeerHistorial(int idUsuario)
+        {
+            var historial = mapperHistorial.LeerHistorial(idUsuario);
+            var usuarios = LeerTodos();
+            foreach (var h in historial)
+            {
+                var autor = usuarios.FirstOrDefault(u => u.Id == h.IdUsuarioAutor);
+                h.EditorNombre = autor != null ? autor.Nombre : "Desconocido";
+            }
+            return historial;
+        }
 
         public void Restaurar(int idHistorial)
         {
             UsuarioHistorial backup = mapperHistorial.BuscarPorId(idHistorial);
             if (backup != null)
             {
+                Usuario actual = mapperUsuario.BuscarPorId(backup.IdUsuario);
+                if (actual != null &&
+                    actual.Nombre == backup.Nombre &&
+                    actual.Password == backup.Password &&
+                    actual.Activo == backup.Activo)
+                {
+                    throw new Exception("El usuario ya se encuentra en el estado seleccionado.");
+                }
+
                 Usuario u = new Usuario
                 {
                     Id = backup.IdUsuario,
@@ -173,9 +194,48 @@ namespace BLL
             }
         }
 
+        public void ActualizarUsuarioYRol(Usuario user, int idRol)
+        {
+            Usuario actual = mapperUsuario.BuscarPorId(user.Id);
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                user.Password = actual.Password;
+            }
+            else
+            {
+                user.Password = Encriptador.Hash(user.Password);
+            }
+
+            // Update user details
+            Actualizar(user);
+
+            // Update role
+            mapperSeguridad.LimpiarRolesUsuario(user.Id);
+            mapperSeguridad.AsignarRol(user.Id, idRol);
+        }
+
+        public void DesbloquearUsuario(string nombre)
+        {
+            mapperUsuario.ActualizarIntentos(nombre, true);
+            Usuario autor = SessionManager.Instance.UsuarioActual;
+            GestorBitacora.Instance.RegistrarEvento(autor, "Desbloqueo", $"Usuario {nombre} desbloqueado manualmente.");
+        }
+
+        public void BloquearUsuario(string nombre, int minutos)
+        {
+            mapperUsuario.BloquearManual(nombre, minutos);
+            Usuario autor = SessionManager.Instance.UsuarioActual;
+            GestorBitacora.Instance.RegistrarEvento(autor, "Bloqueo", $"Usuario {nombre} bloqueado manualmente por {minutos} minutos.");
+        }
+
         public List<Rol> ObtenerRoles() => new RolBLL().ObtenerTodos();
 
         public List<Usuario> LeerTodos() => mapperUsuario.LeerTodos();
+
+        public void CargarRoles(Usuario user)
+        {
+            CargarDatosUsuario(user);
+        }
 
         public void GuardarSesionLocal(int id) => File.WriteAllText(SESSION_FILE, id.ToString());
 

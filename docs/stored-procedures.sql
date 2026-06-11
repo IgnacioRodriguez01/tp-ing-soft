@@ -644,3 +644,30 @@ AS BEGIN
     WHERE u.id = @IdUsuario;
 END
 GO
+
+-- ====================================================
+-- RemoverRolesUsuario
+-- ====================================================
+IF OBJECT_ID('[dbo].[RemoverRolesUsuario]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[RemoverRolesUsuario];
+GO
+CREATE PROCEDURE [dbo].[RemoverRolesUsuario]
+    @IdUsuario INT
+AS BEGIN
+    DELETE FROM UsuarioRol WHERE id_usuario = @IdUsuario;
+END
+GO
+
+-- ====================================================
+-- BloquearUsuarioManual
+-- ====================================================
+IF OBJECT_ID('[dbo].[BloquearUsuarioManual]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[BloquearUsuarioManual];
+GO
+CREATE PROCEDURE [dbo].[BloquearUsuarioManual]
+    @Nombre VARCHAR(50),
+    @Minutos INT
+AS BEGIN
+    UPDATE Usuario 
+    SET bloqueado_hasta = DATEADD(MINUTE, @Minutos, GETDATE())
+    WHERE nombre = @Nombre;
+END
+GO
