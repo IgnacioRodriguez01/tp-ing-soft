@@ -160,6 +160,55 @@ namespace TpIngSoft
 
             // Re-sync selected language in combobox when session config updates
             CargarIdiomas();
+
+            if (SERVICIOS.SessionManager.Instance.EstaLogueado() && 
+                SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin") && 
+                SERVICIOS.SessionManager.Instance.ReporteIntegridadTemporal != null)
+            {
+                this.BeginInvoke((MethodInvoker)ChequearErroresIntegridad);
+            }
+        }
+
+        private void ChequearErroresIntegridad()
+        {
+            var rep = SERVICIOS.SessionManager.Instance.ReporteIntegridadTemporal;
+            if (rep == null) return;
+
+            string usuariosCorruptosStr = string.Join(", ", rep.UsuariosCorruptos);
+
+            DialogResult res = MessageBox.Show(
+                $"ATENCIÓN: Se detectaron fallos de integridad de datos en la tabla Usuario.\n\n" +
+                $"Usuarios afectados: {usuariosCorruptosStr}\n\n" +
+                $"¿Desea recalcular los dígitos verificadores ahora?\n" +
+                $"Si elige 'No', la base de datos permanecerá en este estado y se sugiere cerrar la aplicación para restaurar un backup desde la CLI.",
+                "Fallo de Integridad de Datos",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (res == DialogResult.Yes)
+            {
+                try
+                {
+                    new BLL.IntegridadBLL().RepararIntegridad();
+                    SERVICIOS.SessionManager.Instance.ReporteIntegridadTemporal = null;
+                    MessageBox.Show(
+                        "Dígitos verificadores recalculados y restaurados con éxito.",
+                        "Éxito",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Error al recalcular dígitos verificadores: " + ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+            }
         }
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)

@@ -11,43 +11,43 @@ namespace TpIngSoft
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            BE.ReporteIntegridad reporte = null;
             try
             {
-                new BLL.IntegridadBLL().VerificarIntegridad();
+                reporte = new BLL.IntegridadBLL().VerificarIntegridad();
             }
             catch (Exception ex)
             {
-                DialogResult res = MessageBox.Show(
-                    ex.Message + "\n\n¿Desea restaurar/recalcular los dígitos verificadores (DVH/DVV) ahora?", 
-                    "Error de Integridad", 
-                    MessageBoxButtons.YesNo, 
-                    MessageBoxIcon.Warning
+                MessageBox.Show(
+                    "Error al intentar realizar la comprobación de integridad: " + ex.Message,
+                    "Error Crítico",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
                 );
-
-                if (res == DialogResult.Yes)
-                {
-                    try
-                    {
-                        new BLL.IntegridadBLL().RepararIntegridad();
-                        MessageBox.Show(
-                            "Dígitos verificadores recalculados y restaurados con éxito. Vuelva a iniciar la aplicación.", 
-                            "Restauración Exitosa", 
-                            MessageBoxButtons.OK, 
-                            MessageBoxIcon.Information
-                        );
-                    }
-                    catch (Exception exReparar)
-                    {
-                        MessageBox.Show(
-                            "Error al restaurar integridad: " + exReparar.Message, 
-                            "Error de Restauración", 
-                            MessageBoxButtons.OK, 
-                            MessageBoxIcon.Error
-                        );
-                    }
-                }
                 Application.Exit();
                 return;
+            }
+
+            if (reporte != null && !reporte.EsValido)
+            {
+                if (reporte.AdminCorrupto || reporte.DvvInvalido)
+                {
+                    string msg = reporte.DvvInvalido
+                        ? "ERROR CRÍTICO DE INTEGRIDAD: La estructura de la tabla de usuarios ha sido alterada externamente."
+                        : "ERROR CRÍTICO DE INTEGRIDAD: Un usuario Administrador ha sido corrompido.";
+                    MessageBox.Show(
+                        msg + "\n\nEl inicio de sesión ha sido deshabilitado por seguridad.\nPor favor, use la herramienta externa CLI para restaurar un backup.",
+                        "Error de Integridad Crítico",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    Application.Exit();
+                    return;
+                }
+                else
+                {
+                    SERVICIOS.SessionManager.Instance.ReporteIntegridadTemporal = reporte;
+                }
             }
 
             BLL.UsuarioBLL usuarioBLL = new BLL.UsuarioBLL();

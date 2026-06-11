@@ -46,6 +46,7 @@
     <Compile Include="Sesion.cs" />
     <Compile Include="Bitacora.cs" />
     <Compile Include="UsuarioHistorial.cs" />
+    <Compile Include="ReporteIntegridad.cs" />
 
     <Compile Include="Rol.cs" />
     <Compile Include="Permiso.cs" />
