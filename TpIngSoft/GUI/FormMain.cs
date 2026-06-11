@@ -29,6 +29,7 @@ namespace TpIngSoft
             GestorIdioma.Instancia.Adjuntar(this);
 
             ConfigurarMenu();
+            this.Shown += FormMain_Shown;
         }
 
         private void RegistrarControlesTraducibles()
@@ -97,7 +98,7 @@ namespace TpIngSoft
                     user.IdIdioma = seleccionado.Id;
                     new IdiomaBLL().GuardarIdiomaUsuario(user.Id, seleccionado.Id);
                 }
-                
+
                 GestorIdioma.Instancia.CambiarIdioma(seleccionado);
             }
         }
@@ -141,7 +142,7 @@ namespace TpIngSoft
                     usuarioLabel = trans;
                 }
                 lblSesionInfo.Text = $"{usuarioLabel}{SERVICIOS.SessionManager.Instance.UsuarioActual.Nombre}";
-                
+
                 adminToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
                 gestionUsuariosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("GestionUsuarios");
                 controlCambiosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
@@ -160,13 +161,11 @@ namespace TpIngSoft
 
             // Re-sync selected language in combobox when session config updates
             CargarIdiomas();
+        }
 
-            if (SERVICIOS.SessionManager.Instance.EstaLogueado() && 
-                SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin") && 
-                SERVICIOS.SessionManager.Instance.ReporteIntegridadTemporal != null)
-            {
-                this.BeginInvoke((MethodInvoker)ChequearErroresIntegridad);
-            }
+        private void FormMain_Shown(object sender, EventArgs e)
+        {
+            ChequearErroresIntegridad();
         }
 
         private void ChequearErroresIntegridad()
@@ -219,6 +218,7 @@ namespace TpIngSoft
             {
                 ConfigurarMenu();
                 this.Show();
+                ChequearErroresIntegridad();
             }
             else
             {
