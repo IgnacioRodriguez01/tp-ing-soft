@@ -565,7 +565,7 @@ CREATE PROCEDURE [dbo].[CrearIdioma]
     @Nombre NVARCHAR(50),
     @NuevoId INT OUTPUT
 AS BEGIN
-    INSERT INTO Idioma (nombre, activo) VALUES (@Nombre, 1);
+    INSERT INTO Idioma (nombre, activo) VALUES (@Nombre, 0);
     SET @NuevoId = SCOPE_IDENTITY();
 END
 GO
@@ -642,5 +642,51 @@ AS BEGIN
     FROM Idioma i
     INNER JOIN Usuario u ON u.id_idioma = i.id
     WHERE u.id = @IdUsuario;
+END
+GO
+
+-- ====================================================
+-- RemoverRolesUsuario
+-- ====================================================
+IF OBJECT_ID('[dbo].[RemoverRolesUsuario]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[RemoverRolesUsuario];
+GO
+CREATE PROCEDURE [dbo].[RemoverRolesUsuario]
+    @IdUsuario INT
+AS BEGIN
+    DELETE FROM UsuarioRol WHERE id_usuario = @IdUsuario;
+END
+GO
+
+-- ====================================================
+-- BloquearUsuarioManual
+-- ====================================================
+IF OBJECT_ID('[dbo].[BloquearUsuarioManual]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[BloquearUsuarioManual];
+GO
+CREATE PROCEDURE [dbo].[BloquearUsuarioManual]
+    @Nombre VARCHAR(50),
+    @Minutos INT
+AS BEGIN
+    UPDATE Usuario 
+    SET bloqueado_hasta = DATEADD(MINUTE, @Minutos, GETDATE())
+    WHERE nombre = @Nombre;
+END
+GO
+
+-- ====================================================
+-- EliminarIdioma
+-- ====================================================
+IF OBJECT_ID('[dbo].[EliminarIdioma]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[EliminarIdioma];
+GO
+CREATE PROCEDURE [dbo].[EliminarIdioma]
+    @IdIdioma INT
+AS BEGIN
+    -- 1. Quitar referencia de los usuarios (poner a NULL)
+    UPDATE Usuario SET id_idioma = NULL WHERE id_idioma = @IdIdioma;
+    
+    -- 2. Eliminar traducciones asociadas
+    DELETE FROM Traducciones WHERE ididioma = @IdIdioma;
+    
+    -- 3. Eliminar el idioma
+    DELETE FROM Idioma WHERE id = @IdIdioma;
 END
 GO

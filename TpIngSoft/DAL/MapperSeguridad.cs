@@ -86,5 +86,22 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+        public void LimpiarRolesUsuario(int idUsuario)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@IdUsuario", idUsuario)
+                };
+                acceso.Escribir("RemoverRolesUsuario", parameters);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using BE;
 using BLL;
@@ -12,6 +13,7 @@ namespace TpIngSoft
     {
         private UsuarioBLL usuarioBLL = new UsuarioBLL();
         private List<IControlTraducible> _controlesTraducibles = new List<IControlTraducible>();
+        private DataGridTraducible _dgvTraducible;
 
         public FormGestionUsuarios()
         {
@@ -24,10 +26,23 @@ namespace TpIngSoft
         {
             _controlesTraducibles.Clear();
             _controlesTraducibles.Add(new EtiquetaTraducible(this, "FormGestionUsuarios"));
+            _controlesTraducibles.Add(new EtiquetaTraducible(grpAcciones, BE.NombreControl.FormGestionUsuarios_grpAcciones));
+            _controlesTraducibles.Add(new EtiquetaTraducible(rbModoCrear, BE.NombreControl.FormGestionUsuarios_rbModoCrear));
+            _controlesTraducibles.Add(new EtiquetaTraducible(rbModoEditar, BE.NombreControl.FormGestionUsuarios_rbModoEditar));
             _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormGestionUsuarios_label1));
             _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormGestionUsuarios_label2));
             _controlesTraducibles.Add(new EtiquetaTraducible(lblRol, BE.NombreControl.FormGestionUsuarios_lblRol));
+            _controlesTraducibles.Add(new EtiquetaTraducible(chkActivo, BE.NombreControl.FormGestionUsuarios_chkActivo));
+            _controlesTraducibles.Add(new EtiquetaTraducible(lblTiempoBloqueo, BE.NombreControl.FormGestionUsuarios_lblTiempoBloqueo));
             _controlesTraducibles.Add(new EtiquetaTraducible(btnRegistrar, BE.NombreControl.FormGestionUsuarios_btnRegistrar));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnBloquear, BE.NombreControl.FormGestionUsuarios_btnBloquear));
+            _controlesTraducibles.Add(new EtiquetaTraducible(btnDesbloquear, BE.NombreControl.FormGestionUsuarios_btnDesbloquear));
+
+            _dgvTraducible = new DataGridTraducible(dgvUsuarios, "FormGestionUsuarios.dgvUsuarios")
+                .ConColumna("Nombre", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_nombre)
+                .ConColumna("Activo", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_activo)
+                .ConColumna("IntentosFallidos", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_intentos)
+                .ConColumna("BloqueadoHasta", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_bloqueadoHasta);
         }
 
         public void Actualizar(Dictionary<string, string> traducciones)
@@ -35,6 +50,10 @@ namespace TpIngSoft
             foreach (var control in _controlesTraducibles)
             {
                 control.Traducir(traducciones);
+            }
+            if (_dgvTraducible != null)
+            {
+                _dgvTraducible.Traducir(traducciones);
             }
         }
 
@@ -46,13 +65,125 @@ namespace TpIngSoft
 
         private void FormGestionUsuarios_Load(object sender, EventArgs e)
         {
-            if (SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin"))
+            // Cargar tiempo bloqueo opciones
+            cmbTiempoBloqueo.Items.Clear();
+            cmbTiempoBloqueo.Items.Add("5 min");
+            cmbTiempoBloqueo.Items.Add("1 hora");
+            cmbTiempoBloqueo.Items.Add("1 día");
+            cmbTiempoBloqueo.SelectedIndex = 0;
+
+            // Cargar roles
+            cmbRoles.DataSource = usuarioBLL.ObtenerRoles();
+            cmbRoles.DisplayMember = "Nombre";
+            cmbRoles.ValueMember = "Id";
+
+            CargarUsuarios();
+            ActualizarControlesPorModo();
+        }
+
+        private void CargarUsuarios()
+        {
+            try
             {
-                lblRol.Visible = true;
-                cmbRoles.Visible = true;
-                cmbRoles.DataSource = usuarioBLL.ObtenerRoles();
-                cmbRoles.DisplayMember = "Nombre";
-                cmbRoles.ValueMember = "Id";
+                dgvUsuarios.DataSource = null;
+                var list = usuarioBLL.LeerTodos();
+                dgvUsuarios.DataSource = list;
+
+                if (dgvUsuarios.Columns["Password"] != null) dgvUsuarios.Columns["Password"].Visible = false;
+                if (dgvUsuarios.Columns["DVH"] != null) dgvUsuarios.Columns["DVH"].Visible = false;
+                if (dgvUsuarios.Columns["IdIdioma"] != null) dgvUsuarios.Columns["IdIdioma"].Visible = false;
+                
+                // Refresh translation
+                var traducciones = GestorIdioma.Instancia.ObtenerTraduccionesActuales();
+                if (traducciones != null)
+                {
+                    _dgvTraducible.Traducir(traducciones);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar usuarios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ActualizarControlesPorModo()
+        {
+            if (rbModoCrear.Checked)
+            {
+                txtNombre.Text = "";
+                txtNombre.ReadOnly = false;
+                txtPassword.Text = "";
+                chkActivo.Checked = true;
+                chkActivo.Enabled = false; // default for new user is true / active
+
+                lblTiempoBloqueo.Visible = false;
+                cmbTiempoBloqueo.Visible = false;
+                btnBloquear.Visible = false;
+                btnDesbloquear.Visible = false;
+            }
+            else // rbModoEditar.Checked
+            {
+                txtNombre.ReadOnly = true; // name cannot be edited to avoid corruption or let it be read-only
+                chkActivo.Enabled = true;
+
+                lblTiempoBloqueo.Visible = true;
+                cmbTiempoBloqueo.Visible = true;
+                btnBloquear.Visible = true;
+                btnDesbloquear.Visible = true;
+
+                CargarUsuarioSeleccionado();
+            }
+        }
+
+        private void CargarUsuarioSeleccionado()
+        {
+            if (dgvUsuarios.CurrentRow != null)
+            {
+                Usuario user = dgvUsuarios.CurrentRow.DataBoundItem as Usuario;
+                if (user != null)
+                {
+                    txtNombre.Text = user.Nombre;
+                    txtPassword.Text = ""; // leave blank to keep existing
+                    chkActivo.Checked = user.Activo;
+
+                    // Load roles
+                    usuarioBLL.CargarRoles(user);
+                    if (user.Roles != null && user.Roles.Count > 0)
+                    {
+                        cmbRoles.SelectedValue = user.Roles[0].Id;
+                    }
+                    else
+                    {
+                        cmbRoles.SelectedIndex = -1;
+                    }
+
+                    // Enable/disable blocking buttons
+                    bool isBlocked = user.BloqueadoHasta.HasValue && user.BloqueadoHasta.Value > DateTime.Now;
+                    btnBloquear.Enabled = !isBlocked;
+                    btnDesbloquear.Enabled = isBlocked;
+                }
+            }
+            else
+            {
+                txtNombre.Text = "";
+                txtPassword.Text = "";
+                chkActivo.Checked = false;
+                cmbRoles.SelectedIndex = -1;
+                btnBloquear.Enabled = false;
+                btnDesbloquear.Enabled = false;
+            }
+        }
+
+        private void rbModo_CheckedChanged(object sender, EventArgs e)
+        {
+            ActualizarControlesPorModo();
+        }
+
+        private void dgvUsuarios_SelectionChanged(object sender, EventArgs e)
+        {
+            if (rbModoEditar.Checked)
+            {
+                CargarUsuarioSeleccionado();
             }
         }
 
@@ -60,37 +191,123 @@ namespace TpIngSoft
         {
             try
             {
-                Usuario nuevo = new Usuario
+                string nombre = txtNombre.Text.Trim();
+                string password = txtPassword.Text.Trim();
+
+                if (string.IsNullOrEmpty(nombre))
                 {
-                    Nombre = txtNombre.Text.Trim(),
-                    Password = txtPassword.Text.Trim(),
-                    Activo = true
-                };
+                    MessageBox.Show("El nombre de usuario es requerido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 int idRol = 2; // Default User
-                if (cmbRoles.Visible && cmbRoles.SelectedValue != null)
+                if (cmbRoles.SelectedValue != null)
                 {
                     idRol = (int)cmbRoles.SelectedValue;
                 }
 
-                int result = usuarioBLL.Registrar(nuevo, idRol);
-                if (result == -2)
+                if (rbModoCrear.Checked)
                 {
-                    MessageBox.Show("El usuario ya existe.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (string.IsNullOrEmpty(password))
+                    {
+                        MessageBox.Show("La contraseña es requerida para un nuevo usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    Usuario nuevo = new Usuario
+                    {
+                        Nombre = nombre,
+                        Password = password,
+                        Activo = true
+                    };
+
+                    int result = usuarioBLL.Registrar(nuevo, idRol);
+                    if (result == -2)
+                    {
+                        MessageBox.Show("El usuario ya existe.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else if (result != -1)
+                    {
+                        MessageBox.Show("Usuario registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CargarUsuarios();
+                        rbModoEditar.Checked = true; // Switch to edit mode to see the newly created user
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al registrar el usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else if (result != -1)
+                else // rbModoEditar.Checked
                 {
-                    MessageBox.Show("Registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Error al registrar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (dgvUsuarios.CurrentRow == null) return;
+                    Usuario selected = dgvUsuarios.CurrentRow.DataBoundItem as Usuario;
+                    if (selected == null) return;
+
+                    selected.Nombre = nombre;
+                    selected.Activo = chkActivo.Checked;
+                    if (!string.IsNullOrEmpty(password))
+                    {
+                        selected.Password = password; // Will be hashed in BLL
+                    }
+                    else
+                    {
+                        selected.Password = null; // Will trigger BLL to keep existing in ActualizarUsuarioYRol
+                    }
+
+                    usuarioBLL.ActualizarUsuarioYRol(selected, idRol);
+                    MessageBox.Show("Usuario actualizado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarUsuarios();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnBloquear_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvUsuarios.CurrentRow == null) return;
+                Usuario selected = dgvUsuarios.CurrentRow.DataBoundItem as Usuario;
+                if (selected == null) return;
+
+                int minutos = 5;
+                switch (cmbTiempoBloqueo.SelectedIndex)
+                {
+                    case 0: minutos = 5; break;
+                    case 1: minutos = 60; break;
+                    case 2: minutos = 1440; break;
+                }
+
+                usuarioBLL.BloquearUsuario(selected.Nombre, minutos);
+                MessageBox.Show("Usuario bloqueado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarUsuarios();
+                CargarUsuarioSeleccionado();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al bloquear: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnDesbloquear_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvUsuarios.CurrentRow == null) return;
+                Usuario selected = dgvUsuarios.CurrentRow.DataBoundItem as Usuario;
+                if (selected == null) return;
+
+                usuarioBLL.DesbloquearUsuario(selected.Nombre);
+                MessageBox.Show("Usuario desbloqueado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarUsuarios();
+                CargarUsuarioSeleccionado();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al desbloquear: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

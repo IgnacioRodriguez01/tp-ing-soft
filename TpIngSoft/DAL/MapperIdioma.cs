@@ -244,5 +244,22 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+        public void EliminarIdioma(int idIdioma)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@IdIdioma", idIdioma)
+                };
+                acceso.Escribir("EliminarIdioma", parameters);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
     }
 }

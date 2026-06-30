@@ -18,7 +18,7 @@ namespace DAL
         {
             conexion = new SqlConnection
             {
-                ConnectionString = "Data Source=localhost;Initial Catalog=tpingsoft;Integrated Security=True;"
+                ConnectionString = @"Data Source=NOTE-MAX\SQLEXPRESS;Initial Catalog=tpingsoft;Integrated Security=True;"
             };
             conexion.Open();
         }

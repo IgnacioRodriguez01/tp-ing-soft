@@ -113,6 +113,7 @@ namespace TpIngSoft
             // dgvBitacora
             // 
             this.dgvBitacora.AllowUserToAddRows = false;
+            this.dgvBitacora.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvBitacora.AllowUserToDeleteRows = false;
             this.dgvBitacora.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 

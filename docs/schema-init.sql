@@ -143,6 +143,20 @@ INSERT INTO [dbo].[Usuario] ([nombre], [pass], [activo], [id_idioma]) VALUES ('a
 SET @AdminId = SCOPE_IDENTITY();
 INSERT INTO [dbo].[UsuarioRol] ([id_usuario], [id_rol]) VALUES (@AdminId, 1);
 
+-- Historial para Admin (tipo 'INSERT')
+INSERT INTO [dbo].[Usuario_Historial] ([id_usuario], [nombre], [pass], [activo], [dvh], [id_usuario_autor], [tipo_operacion])
+VALUES (@AdminId, 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 1, 0, @AdminId, 'INSERT');
+
+-- Usuario Normal por defecto (apunta al Idioma Español = 1)
+DECLARE @UserId INT;
+INSERT INTO [dbo].[Usuario] ([nombre], [pass], [activo], [id_idioma]) VALUES ('user', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 1, 1);
+SET @UserId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[UsuarioRol] ([id_usuario], [id_rol]) VALUES (@UserId, 2);
+
+-- Historial para User (tipo 'INSERT')
+INSERT INTO [dbo].[Usuario_Historial] ([id_usuario], [nombre], [pass], [activo], [dvh], [id_usuario_autor], [tipo_operacion])
+VALUES (@UserId, 'user', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 1, 0, @AdminId, 'INSERT');
+
 -- ====================================================
 -- 3. Seeds de Controles y Traducciones (Español e Inglés)
 -- ====================================================
@@ -237,7 +251,51 @@ INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@Ctr
 
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnRegistrar', 'FormGestionUsuarios');
 SET @CtrlId = SCOPE_IDENTITY();
-INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Registrar'), (@CtrlId, 2, 'Register');
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Guardar'), (@CtrlId, 2, 'Save');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('grpAcciones', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Acciones'), (@CtrlId, 2, 'Actions');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('rbModoCrear', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Crear Usuario'), (@CtrlId, 2, 'Create User');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('rbModoEditar', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Editar Usuario'), (@CtrlId, 2, 'Edit User');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('chkActivo', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Activo'), (@CtrlId, 2, 'Active');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('lblTiempoBloqueo', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Bloqueo Duración:'), (@CtrlId, 2, 'Block Duration:');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnBloquear', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Bloquear'), (@CtrlId, 2, 'Block');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnDesbloquear', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Desbloquear'), (@CtrlId, 2, 'Unblock');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvUsuarios.nombre', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Nombre'), (@CtrlId, 2, 'Name');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvUsuarios.activo', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Activo'), (@CtrlId, 2, 'Active');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvUsuarios.intentos', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Intentos Fallidos'), (@CtrlId, 2, 'Failed Attempts');
+
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvUsuarios.bloqueadoHasta', 'FormGestionUsuarios');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Bloqueado Hasta'), (@CtrlId, 2, 'Blocked Until');
 
 -- FormBitacora
 INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('(form)', 'FormBitacora');
@@ -431,6 +489,81 @@ INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('dgvTraducciones.te
 SET @CtrlId = SCOPE_IDENTITY();
 INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Texto'), (@CtrlId, 2, 'Text');
 
+INSERT INTO [dbo].[Control] ([nombre], [formulario]) VALUES ('btnEliminarIdioma', 'FormGestionIdiomas');
+SET @CtrlId = SCOPE_IDENTITY();
+INSERT INTO [dbo].[Traducciones] ([idcontrol], [ididioma], [texto]) VALUES (@CtrlId, 1, 'Eliminar Idioma'), (@CtrlId, 2, 'Delete Language');
+
 -- Digito Verificador Vertical Inicial
 INSERT INTO [dbo].[DigitoVerificadorVertical] ([tabla], [dvv]) VALUES ('Usuario', 0);
+GO
+
+-- ====================================================
+-- Cálculo e inicialización de Dígitos Verificadores
+-- ====================================================
+IF OBJECT_ID('dbo.CalcularValorString', 'FN') IS NOT NULL DROP FUNCTION dbo.CalcularValorString;
+GO
+CREATE FUNCTION dbo.CalcularValorString (
+    @Valor NVARCHAR(MAX),
+    @PosicionAtributo INT
+)
+RETURNS BIGINT
+AS
+BEGIN
+    IF @Valor IS NULL OR @Valor = ''
+        RETURN 0;
+        
+    DECLARE @Suma BIGINT = 0;
+    DECLARE @i INT = 1;
+    DECLARE @Len INT = LEN(@Valor);
+    
+    WHILE @i <= @Len
+    BEGIN
+        SET @Suma = @Suma + (UNICODE(SUBSTRING(@Valor, @i, 1)) * @i * @PosicionAtributo);
+        SET @i = @i + 1;
+    END
+    
+    RETURN @Suma;
+END;
+GO
+
+IF OBJECT_ID('dbo.CalcularDVH', 'FN') IS NOT NULL DROP FUNCTION dbo.CalcularDVH;
+GO
+CREATE FUNCTION dbo.CalcularDVH (
+    @Id INT,
+    @Nombre NVARCHAR(100),
+    @Password NVARCHAR(200),
+    @Activo BIT
+)
+RETURNS BIGINT
+AS
+BEGIN
+    DECLARE @DVH BIGINT = 0;
+    SET @DVH = @DVH + dbo.CalcularValorString(CAST(@Id AS NVARCHAR(50)), 1);
+    SET @DVH = @DVH + dbo.CalcularValorString(@Nombre, 2);
+    SET @DVH = @DVH + dbo.CalcularValorString(@Password, 3);
+    SET @DVH = @DVH + dbo.CalcularValorString(CASE WHEN @Activo = 1 THEN '1' ELSE '0' END, 4);
+    RETURN @DVH;
+END;
+GO
+
+-- 1. Calcular y actualizar DVH para los usuarios semilla
+UPDATE dbo.Usuario
+SET dvh = dbo.CalcularDVH(id, nombre, pass, activo);
+
+-- 2. Calcular y actualizar DVH para los registros de historial de los usuarios semilla
+UPDATE dbo.Usuario_Historial
+SET dvh = dbo.CalcularDVH(id_usuario, nombre, pass, activo);
+
+-- 3. Calcular e inicializar el DVV para la tabla Usuario
+DECLARE @CalculatedDVV BIGINT;
+SELECT @CalculatedDVV = SUM(dvh) FROM dbo.Usuario;
+
+UPDATE dbo.DigitoVerificadorVertical
+SET dvv = ISNULL(@CalculatedDVV, 0)
+WHERE tabla = 'Usuario';
+GO
+
+-- Limpieza de las funciones auxiliares de cálculo
+DROP FUNCTION dbo.CalcularDVH;
+DROP FUNCTION dbo.CalcularValorString;
 GO

@@ -11,6 +11,7 @@ namespace SERVICIOS
 
         public BE.Usuario UsuarioActual { get; private set; }
         public int? IdSesion { get; private set; }
+        public BE.ReporteIntegridad ReporteIntegridadTemporal { get; set; }
 
         private SessionManager() { }
 

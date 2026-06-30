@@ -11,17 +11,32 @@ namespace BLL
         private MapperUsuario mapperUsuario = new MapperUsuario();
         private MapperDVV mapperDVV = new MapperDVV();
 
-        public void VerificarIntegridad()
+        public BE.ReporteIntegridad VerificarIntegridad()
         {
+            var reporte = new BE.ReporteIntegridad();
             var usuarios = mapperUsuario.LeerTodos();
             List<long> dvhs = new List<long>();
+            var mapperSeguridad = new MapperSeguridad();
+            var rolBLL = new RolBLL();
 
             foreach (var u in usuarios)
             {
                 long dvhCalculado = GestorDV.CalcularDVH(u);
                 if (u.DVH != dvhCalculado)
                 {
-                    throw new Exception($"ERROR DE INTEGRIDAD: El usuario '{u.Nombre}' (ID: {u.Id}) ha sido alterado externamente.");
+                    reporte.EsValido = false;
+                    reporte.UsuariosCorruptos.Add(u.Nombre);
+
+                    // Check if this corrupted user is an admin
+                    var roles = mapperSeguridad.LeerRolesPorUsuario(u.Id);
+                    foreach (var rol in roles)
+                    {
+                        rolBLL.CargarHijosRecursivo(rol);
+                        if (TienePermisoInterno(rol, "AccesoAdmin"))
+                        {
+                            reporte.AdminCorrupto = true;
+                        }
+                    }
                 }
                 dvhs.Add(u.DVH);
             }
@@ -31,8 +46,30 @@ namespace BLL
 
             if (dvvCalculado != dvvAlmacenado)
             {
-                throw new Exception("ERROR DE INTEGRIDAD: La tabla Usuario ha sufrido cambios estructurales (inserciones o eliminaciones externas).");
+                reporte.EsValido = false;
+                reporte.DvvInvalido = true;
             }
+
+            return reporte;
+        }
+
+        private bool TienePermisoInterno(BE.IComponentePerfil componente, string permissionName)
+        {
+            if (componente == null) return false;
+
+            if (componente is BE.Permiso permiso)
+            {
+                return permiso.Nombre.Equals(permissionName, StringComparison.OrdinalIgnoreCase);
+            }
+            else if (componente is BE.Rol rol)
+            {
+                foreach (var hijo in rol.Permisos)
+                {
+                    if (TienePermisoInterno(hijo, permissionName))
+                        return true;
+                }
+            }
+            return false;
         }
 
         public void RepararIntegridad()

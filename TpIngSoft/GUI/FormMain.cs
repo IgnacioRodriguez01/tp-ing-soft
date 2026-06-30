@@ -29,6 +29,7 @@ namespace TpIngSoft
             GestorIdioma.Instancia.Adjuntar(this);
 
             ConfigurarMenu();
+            this.Shown += FormMain_Shown;
         }
 
         private void RegistrarControlesTraducibles()
@@ -97,7 +98,7 @@ namespace TpIngSoft
                     user.IdIdioma = seleccionado.Id;
                     new IdiomaBLL().GuardarIdiomaUsuario(user.Id, seleccionado.Id);
                 }
-                
+
                 GestorIdioma.Instancia.CambiarIdioma(seleccionado);
             }
         }
@@ -141,7 +142,7 @@ namespace TpIngSoft
                     usuarioLabel = trans;
                 }
                 lblSesionInfo.Text = $"{usuarioLabel}{SERVICIOS.SessionManager.Instance.UsuarioActual.Nombre}";
-                
+
                 adminToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
                 gestionUsuariosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("GestionUsuarios");
                 controlCambiosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
@@ -162,6 +163,59 @@ namespace TpIngSoft
             CargarIdiomas();
         }
 
+        private void FormMain_Shown(object sender, EventArgs e)
+        {
+            ChequearErroresIntegridad();
+        }
+
+        private void ChequearErroresIntegridad()
+        {
+            if (!SERVICIOS.SessionManager.Instance.EstaLogueado() || 
+                !SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin"))
+            {
+                return;
+            }
+
+            var rep = SERVICIOS.SessionManager.Instance.ReporteIntegridadTemporal;
+            if (rep == null) return;
+
+            string usuariosCorruptosStr = string.Join(", ", rep.UsuariosCorruptos);
+
+            DialogResult res = MessageBox.Show(
+                $"ATENCIÓN: Se detectaron fallos de integridad de datos en la tabla Usuario.\n\n" +
+                $"Usuarios afectados: {usuariosCorruptosStr}\n\n" +
+                $"¿Desea recalcular los dígitos verificadores ahora?\n" +
+                $"Si elige 'No', la base de datos permanecerá en este estado y se sugiere cerrar la aplicación para restaurar un backup desde la CLI.",
+                "Fallo de Integridad de Datos",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (res == DialogResult.Yes)
+            {
+                try
+                {
+                    new BLL.IntegridadBLL().RepararIntegridad();
+                    SERVICIOS.SessionManager.Instance.ReporteIntegridadTemporal = null;
+                    MessageBox.Show(
+                        "Dígitos verificadores recalculados y restaurados con éxito.",
+                        "Éxito",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Error al recalcular dígitos verificadores: " + ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+            }
+        }
+
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             usuarioBLL.Logout();
@@ -170,6 +224,7 @@ namespace TpIngSoft
             {
                 ConfigurarMenu();
                 this.Show();
+                ChequearErroresIntegridad();
             }
             else
             {
