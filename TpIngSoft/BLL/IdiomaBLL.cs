@@ -23,6 +23,24 @@ namespace BLL
 
         public void ToggleEstadoIdioma(int idIdioma)
         {
+            var idiomasActivos = ObtenerIdiomasActivos();
+            var idiomaAToggle = ObtenerTodosIdiomas().Find(i => i.Id == idIdioma);
+            if (idiomaAToggle != null)
+            {
+                if (idiomaAToggle.Activo)
+                {
+                    if (idiomasActivos.Count <= 1)
+                    {
+                        throw new Exception("No se puede desactivar el único idioma activo del sistema.");
+                    }
+
+                    var fallback = idiomasActivos.Find(i => i.Id != idIdioma);
+                    if (fallback != null)
+                    {
+                        mapper.ReasignarUsuariosIdioma(idIdioma, fallback.Id);
+                    }
+                }
+            }
             mapper.ToggleEstadoIdioma(idIdioma);
             InvalidarCache();
         }
@@ -95,6 +113,24 @@ namespace BLL
 
         public void EliminarIdioma(int idIdioma)
         {
+            var idiomasActivos = ObtenerIdiomasActivos();
+            var idiomaAEliminar = ObtenerTodosIdiomas().Find(i => i.Id == idIdioma);
+            if (idiomaAEliminar != null)
+            {
+                if (idiomaAEliminar.Activo)
+                {
+                    if (idiomasActivos.Count <= 1)
+                    {
+                        throw new Exception("No se puede desactivar o eliminar el único idioma activo del sistema.");
+                    }
+
+                    var fallback = idiomasActivos.Find(i => i.Id != idIdioma);
+                    if (fallback != null)
+                    {
+                        mapper.ReasignarUsuariosIdioma(idIdioma, fallback.Id);
+                    }
+                }
+            }
             mapper.EliminarIdioma(idIdioma);
             InvalidarCache();
         }

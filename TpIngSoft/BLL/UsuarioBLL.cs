@@ -43,12 +43,14 @@ namespace BLL
                         {
                             idioma = idiomaBLL.LeerIdiomaUsuario(user.Id);
                         }
-                        if (idioma == null)
+                        if (idioma == null || !idioma.Activo)
                         {
                             List<Idioma> activos = idiomaBLL.ObtenerIdiomasActivos();
                             if (activos.Count > 0)
                             {
                                 idioma = activos[0];
+                                idiomaBLL.GuardarIdiomaUsuario(user.Id, idioma.Id);
+                                user.IdIdioma = idioma.Id;
                             }
                         }
                         if (idioma != null)
@@ -176,8 +178,8 @@ namespace BLL
             {
                 Usuario actual = mapperUsuario.BuscarPorId(backup.IdUsuario);
                 if (actual != null &&
-                    actual.Nombre == backup.Nombre &&
-                    actual.Password == backup.Password &&
+                    actual.NombrePersona == backup.NombrePersona &&
+                    actual.Apellido == backup.Apellido &&
                     actual.Activo == backup.Activo)
                 {
                     throw new Exception("El usuario ya se encuentra en el estado seleccionado.");
@@ -185,10 +187,15 @@ namespace BLL
 
                 Usuario u = new Usuario
                 {
-                    Id = backup.IdUsuario,
-                    Nombre = backup.Nombre,
-                    Password = backup.Password,
-                    Activo = backup.Activo
+                    Id = actual.Id,
+                    Nombre = actual.Nombre, // Mantener login actual
+                    Password = actual.Password, // Mantener password actual
+                    NombrePersona = backup.NombrePersona,
+                    Apellido = backup.Apellido,
+                    Activo = backup.Activo,
+                    IdIdioma = actual.IdIdioma,
+                    IntentosFallidos = actual.IntentosFallidos,
+                    BloqueadoHasta = actual.BloqueadoHasta
                 };
                 Actualizar(u);
             }
@@ -256,24 +263,26 @@ namespace BLL
                             CargarDatosUsuario(user);
                             SessionManager.Instance.IniciarSesion(user, id);
 
-                            IdiomaBLL idiomaBLL = new IdiomaBLL();
-                            Idioma idioma = null;
-                            if (user.IdIdioma.HasValue)
-                            {
-                                idioma = idiomaBLL.LeerIdiomaUsuario(user.Id);
-                            }
-                            if (idioma == null)
-                            {
-                                List<Idioma> activos = idiomaBLL.ObtenerIdiomasActivos();
-                                if (activos.Count > 0)
-                                {
-                                    idioma = activos[0];
-                                }
-                            }
-                            if (idioma != null)
-                            {
-                                GestorIdioma.Instancia.CambiarIdioma(idioma);
-                            }
+                             IdiomaBLL idiomaBLL = new IdiomaBLL();
+                             Idioma idioma = null;
+                             if (user.IdIdioma.HasValue)
+                             {
+                                 idioma = idiomaBLL.LeerIdiomaUsuario(user.Id);
+                             }
+                             if (idioma == null || !idioma.Activo)
+                             {
+                                 List<Idioma> activos = idiomaBLL.ObtenerIdiomasActivos();
+                                 if (activos.Count > 0)
+                                 {
+                                     idioma = activos[0];
+                                     idiomaBLL.GuardarIdiomaUsuario(user.Id, idioma.Id);
+                                     user.IdIdioma = idioma.Id;
+                                 }
+                             }
+                             if (idioma != null)
+                             {
+                                 GestorIdioma.Instancia.CambiarIdioma(idioma);
+                             }
 
                             return true;
                         }

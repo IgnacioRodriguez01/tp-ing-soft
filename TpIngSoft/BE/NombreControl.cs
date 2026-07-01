@@ -20,6 +20,7 @@ namespace BE
         public const string FormMain_controlCambiosToolStripMenuItem = "FormMain.controlCambiosToolStripMenuItem";
         public const string FormMain_gestionPerfilesToolStripMenuItem = "FormMain.gestionPerfilesToolStripMenuItem";
         public const string FormMain_gestionIdiomasToolStripMenuItem = "FormMain.gestionIdiomasToolStripMenuItem";
+        public const string FormMain_verificarIntegridadToolStripMenuItem = "FormMain.verificarIntegridadToolStripMenuItem";
         public const string FormMain_lblSesionInfo = "FormMain.lblSesionInfo";
 
         // FormGestionUsuarios
@@ -34,7 +35,11 @@ namespace BE
         public const string FormGestionUsuarios_lblTiempoBloqueo = "FormGestionUsuarios.lblTiempoBloqueo";
         public const string FormGestionUsuarios_btnBloquear = "FormGestionUsuarios.btnBloquear";
         public const string FormGestionUsuarios_btnDesbloquear = "FormGestionUsuarios.btnDesbloquear";
+        public const string FormGestionUsuarios_labelNombrePersona = "FormGestionUsuarios.labelNombrePersona";
+        public const string FormGestionUsuarios_labelApellido = "FormGestionUsuarios.labelApellido";
         public const string FormGestionUsuarios_dgvUsuarios_nombre = "FormGestionUsuarios.dgvUsuarios.nombre";
+        public const string FormGestionUsuarios_dgvUsuarios_nombrePersona = "FormGestionUsuarios.dgvUsuarios.nombrePersona";
+        public const string FormGestionUsuarios_dgvUsuarios_apellido = "FormGestionUsuarios.dgvUsuarios.apellido";
         public const string FormGestionUsuarios_dgvUsuarios_activo = "FormGestionUsuarios.dgvUsuarios.activo";
         public const string FormGestionUsuarios_dgvUsuarios_intentos = "FormGestionUsuarios.dgvUsuarios.intentos";
         public const string FormGestionUsuarios_dgvUsuarios_bloqueadoHasta = "FormGestionUsuarios.dgvUsuarios.bloqueadoHasta";
@@ -74,6 +79,8 @@ namespace BE
         public const string FormHistorialUsuario_dgvHistorial_idUsuario = "FormHistorialUsuario.dgvHistorial.idUsuario";
         public const string FormHistorialUsuario_dgvHistorial_fecha = "FormHistorialUsuario.dgvHistorial.fecha";
         public const string FormHistorialUsuario_dgvHistorial_usuario = "FormHistorialUsuario.dgvHistorial.usuario";
+        public const string FormHistorialUsuario_dgvHistorial_nombrePersona = "FormHistorialUsuario.dgvHistorial.nombrePersona";
+        public const string FormHistorialUsuario_dgvHistorial_apellido = "FormHistorialUsuario.dgvHistorial.apellido";
         public const string FormHistorialUsuario_dgvHistorial_estado = "FormHistorialUsuario.dgvHistorial.estado";
         public const string FormHistorialUsuario_dgvHistorial_editorNombre = "FormHistorialUsuario.dgvHistorial.editorNombre";
 
