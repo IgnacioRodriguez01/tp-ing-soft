@@ -46,7 +46,8 @@ namespace TpIngSoft
                 .ConItem(bitacoraToolStripMenuItem, BE.NombreControl.FormMain_bitacoraToolStripMenuItem)
                 .ConItem(controlCambiosToolStripMenuItem, BE.NombreControl.FormMain_controlCambiosToolStripMenuItem)
                 .ConItem(gestionPerfilesToolStripMenuItem, BE.NombreControl.FormMain_gestionPerfilesToolStripMenuItem)
-                .ConItem(gestionIdiomasToolStripMenuItem, BE.NombreControl.FormMain_gestionIdiomasToolStripMenuItem);
+                .ConItem(gestionIdiomasToolStripMenuItem, BE.NombreControl.FormMain_gestionIdiomasToolStripMenuItem)
+                .ConItem(verificarIntegridadToolStripMenuItem, BE.NombreControl.FormMain_verificarIntegridadToolStripMenuItem);
 
             _controlesTraducibles.Add(menuTraducible);
         }
@@ -148,6 +149,7 @@ namespace TpIngSoft
                 controlCambiosToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
                 gestionPerfilesToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
                 gestionIdiomasToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
+                verificarIntegridadToolStripMenuItem.Visible = SERVICIOS.SessionManager.Instance.TienePermiso("AccesoAdmin");
             }
             else
             {
@@ -157,6 +159,7 @@ namespace TpIngSoft
                 controlCambiosToolStripMenuItem.Visible = false;
                 gestionPerfilesToolStripMenuItem.Visible = false;
                 gestionIdiomasToolStripMenuItem.Visible = false;
+                verificarIntegridadToolStripMenuItem.Visible = false;
             }
 
             // Re-sync selected language in combobox when session config updates
@@ -271,6 +274,45 @@ namespace TpIngSoft
             frm.MdiParent = this;
             frm.FormClosed += (s, args) => CargarIdiomas();
             frm.Show();
+        }
+
+        private void verificarIntegridadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var reporte = new BLL.IntegridadBLL().VerificarIntegridad();
+                if (reporte.EsValido)
+                {
+                    MessageBox.Show("La integridad de la base de datos es correcta (Todos los dígitos verificadores coinciden).", 
+                        "Verificación de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    string usuariosCorruptosStr = string.Join(", ", reporte.UsuariosCorruptos);
+                    string msg = reporte.DvvInvalido
+                        ? "ATENCIÓN: Se detectaron fallos de integridad vertical (DVV) en la tabla Usuario."
+                        : $"ATENCIÓN: Se detectaron fallos de integridad horizontal (DVH) en la tabla Usuario.\n\nUsuarios afectados: {usuariosCorruptosStr}";
+
+                    DialogResult res = MessageBox.Show(
+                        msg + "\n\n¿Desea recalcular los dígitos verificadores ahora para reparar la base de datos?\n" +
+                        "Nota: Esto requiere privilegios de Administrador y se registrará en la bitácora.",
+                        "Fallo de Integridad Detectado",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning
+                    );
+
+                    if (res == DialogResult.Yes)
+                    {
+                        new BLL.IntegridadBLL().RepararIntegridad();
+                        MessageBox.Show("Dígitos verificadores recalculados y restaurados con éxito.",
+                            "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar integridad: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

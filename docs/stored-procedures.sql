@@ -12,7 +12,7 @@ CREATE PROCEDURE [dbo].[BuscarUsuarioPorNombre]
     @Nombre VARCHAR(50)
 AS
 BEGIN
-    SELECT id, nombre, pass, activo, intentos_fallidos, bloqueado_hasta, dvh
+    SELECT id, nombre, nombre_persona, apellido, pass, activo, intentos_fallidos, bloqueado_hasta, dvh, id_idioma
     FROM Usuario 
     WHERE nombre = @Nombre AND activo = 1;
 END
@@ -29,7 +29,7 @@ CREATE PROCEDURE [dbo].[BuscarUsuarioPorId]
     @Id INT
 AS
 BEGIN
-    SELECT id, nombre, pass, activo, intentos_fallidos, bloqueado_hasta, dvh
+    SELECT id, nombre, nombre_persona, apellido, pass, activo, intentos_fallidos, bloqueado_hasta, dvh, id_idioma
     FROM Usuario 
     WHERE id = @Id;
 END
@@ -45,7 +45,7 @@ GO
 CREATE PROCEDURE [dbo].[LeerUsuarios]
 AS
 BEGIN
-    SELECT id, nombre, pass, activo, intentos_fallidos, bloqueado_hasta, dvh
+    SELECT id, nombre, nombre_persona, apellido, pass, activo, intentos_fallidos, bloqueado_hasta, dvh, id_idioma
     FROM Usuario;
 END
 GO
@@ -59,13 +59,15 @@ GO
 
 CREATE PROCEDURE [dbo].[CrearUsuario]
     @Nombre VARCHAR(50),
+    @NombrePersona NVARCHAR(100),
+    @Apellido NVARCHAR(100),
     @Pass VARCHAR(100),
     @DVH BIGINT,
     @NuevoId INT OUTPUT
 AS
 BEGIN
-    INSERT INTO Usuario (nombre, pass, activo, dvh)
-    VALUES (@Nombre, @Pass, 1, @DVH);
+    INSERT INTO Usuario (nombre, nombre_persona, apellido, pass, activo, dvh)
+    VALUES (@Nombre, @NombrePersona, @Apellido, @Pass, 1, @DVH);
     SET @NuevoId = SCOPE_IDENTITY();
 END
 GO
@@ -80,13 +82,15 @@ GO
 CREATE PROCEDURE [dbo].[ActualizarUsuario]
     @Id INT,
     @Nombre VARCHAR(50),
+    @NombrePersona NVARCHAR(100),
+    @Apellido NVARCHAR(100),
     @Pass VARCHAR(100),
     @Activo BIT,
     @DVH BIGINT
 AS
 BEGIN
     UPDATE Usuario
-    SET nombre = @Nombre, pass = @Pass, activo = @Activo, dvh = @DVH
+    SET nombre = @Nombre, nombre_persona = @NombrePersona, apellido = @Apellido, pass = @Pass, activo = @Activo, dvh = @DVH
     WHERE id = @Id;
 END
 GO
@@ -305,6 +309,8 @@ GO
 CREATE PROCEDURE [dbo].[InsertarUsuarioHistorial]
     @IdUsuario INT, 
     @Nombre VARCHAR(50), 
+    @NombrePersona NVARCHAR(100),
+    @Apellido NVARCHAR(100),
     @Pass VARCHAR(100), 
     @Activo BIT, 
     @DVH BIGINT,
@@ -312,8 +318,8 @@ CREATE PROCEDURE [dbo].[InsertarUsuarioHistorial]
     @TipoOperacion VARCHAR(20)
 AS 
 BEGIN
-    INSERT INTO Usuario_Historial (id_usuario, nombre, pass, activo, dvh, id_usuario_autor, tipo_operacion)
-    VALUES (@IdUsuario, @Nombre, @Pass, @Activo, @DVH, @IdUsuarioAutor, @TipoOperacion);
+    INSERT INTO Usuario_Historial (id_usuario, nombre, nombre_persona, apellido, pass, activo, dvh, id_usuario_autor, tipo_operacion)
+    VALUES (@IdUsuario, @Nombre, @NombrePersona, @Apellido, @Pass, @Activo, @DVH, @IdUsuarioAutor, @TipoOperacion);
 END;
 GO
 
@@ -680,13 +686,20 @@ GO
 CREATE PROCEDURE [dbo].[EliminarIdioma]
     @IdIdioma INT
 AS BEGIN
-    -- 1. Quitar referencia de los usuarios (poner a NULL)
-    UPDATE Usuario SET id_idioma = NULL WHERE id_idioma = @IdIdioma;
-    
-    -- 2. Eliminar traducciones asociadas
-    DELETE FROM Traducciones WHERE ididioma = @IdIdioma;
-    
-    -- 3. Eliminar el idioma
-    DELETE FROM Idioma WHERE id = @IdIdioma;
+    -- Soft delete: set activo = 0
+    UPDATE Idioma SET activo = 0 WHERE id = @IdIdioma;
+END
+GO
+
+-- ====================================================
+-- ReasignarUsuariosIdioma
+-- ====================================================
+IF OBJECT_ID('[dbo].[ReasignarUsuariosIdioma]', 'P') IS NOT NULL DROP PROCEDURE [dbo].[ReasignarUsuariosIdioma];
+GO
+CREATE PROCEDURE [dbo].[ReasignarUsuariosIdioma]
+    @IdIdiomaDesactivado INT,
+    @IdIdiomaFallback INT
+AS BEGIN
+    UPDATE Usuario SET id_idioma = @IdIdiomaFallback WHERE id_idioma = @IdIdiomaDesactivado;
 END
 GO

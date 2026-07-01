@@ -25,6 +25,7 @@ namespace TpIngSoft
             this.controlCambiosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionPerfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionIdiomasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.verificarIntegridadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmbIdioma = new System.Windows.Forms.ToolStripComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblSesionInfo = new System.Windows.Forms.ToolStripStatusLabel();
@@ -83,7 +84,8 @@ namespace TpIngSoft
             this.bitacoraToolStripMenuItem,
             this.controlCambiosToolStripMenuItem,
             this.gestionPerfilesToolStripMenuItem,
-            this.gestionIdiomasToolStripMenuItem});
+            this.gestionIdiomasToolStripMenuItem,
+            this.verificarIntegridadToolStripMenuItem});
             this.adminToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.adminToolStripMenuItem.Name = "adminToolStripMenuItem";
             this.adminToolStripMenuItem.Size = new System.Drawing.Size(55, 23);
@@ -133,6 +135,15 @@ namespace TpIngSoft
             this.gestionIdiomasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.gestionIdiomasToolStripMenuItem.Text = "Gestión de Idiomas";
             this.gestionIdiomasToolStripMenuItem.Click += new System.EventHandler(this.GestionIdiomasToolStripMenuItem_Click);
+            // 
+            // verificarIntegridadToolStripMenuItem
+            // 
+            this.verificarIntegridadToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(93)))), ((int)(((byte)(115)))));
+            this.verificarIntegridadToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.verificarIntegridadToolStripMenuItem.Name = "verificarIntegridadToolStripMenuItem";
+            this.verificarIntegridadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verificarIntegridadToolStripMenuItem.Text = "Verificar Integridad de Datos";
+            this.verificarIntegridadToolStripMenuItem.Click += new System.EventHandler(this.verificarIntegridadToolStripMenuItem_Click);
             // 
             // cmbIdioma
             // 
@@ -202,5 +213,6 @@ namespace TpIngSoft
         private System.Windows.Forms.ToolStripStatusLabel lblSesionInfo;
         private System.Windows.Forms.ToolStripComboBox cmbIdioma;
         private System.Windows.Forms.ToolStripMenuItem gestionIdiomasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem verificarIntegridadToolStripMenuItem;
     }
 }
