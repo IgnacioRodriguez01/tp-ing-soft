@@ -5,7 +5,8 @@ namespace DAL
 {
     public class MapperBackup
     {
-        private string masterConnectionString = @"Data Source=NOTE-MAX\SQLEXPRESS;Initial Catalog=tpingsoft;Integrated Security=True;";
+        //private string masterConnectionString = @"Data Source=NOTE-MAX\SQLEXPRESS;Initial Catalog=master;Integrated Security=True;";
+        private string masterConnectionString = "Data Source=localhost;Initial Catalog=master;Integrated Security=True;";
         private string dbName = "tpingsoft";
 
         public string ObtenerDirectorioDefaultBackup()

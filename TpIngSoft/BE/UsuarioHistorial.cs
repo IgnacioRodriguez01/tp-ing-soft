@@ -7,6 +7,8 @@ namespace BE
         public int IdHistorial { get; set; }
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
+        public string NombrePersona { get; set; }
+        public string Apellido { get; set; }
         public string Password { get; set; }
         public bool Activo { get; set; }
         public long DVH { get; set; }

@@ -34,7 +34,7 @@ namespace TpIngSoft
                 {
                     string msg = reporte.DvvInvalido
                         ? "ERROR CRÍTICO DE INTEGRIDAD: La estructura de la tabla de usuarios ha sido alterada externamente."
-                        : "ERROR CRÍTICO DE INTEGRIDAD: Un usuario Administrador ha sido corrompido.";
+                        : "ERROR CRÍTICO DE INTEGRIDAD: Un usuario Administrador ha sido vulnerado.";
                     MessageBox.Show(
                         msg + "\n\nEl inicio de sesión ha sido deshabilitado por seguridad.\nPor favor, use la herramienta externa CLI para restaurar un backup.",
                         "Error de Integridad Crítico",

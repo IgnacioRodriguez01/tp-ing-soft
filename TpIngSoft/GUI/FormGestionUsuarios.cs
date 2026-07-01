@@ -30,6 +30,8 @@ namespace TpIngSoft
             _controlesTraducibles.Add(new EtiquetaTraducible(rbModoCrear, BE.NombreControl.FormGestionUsuarios_rbModoCrear));
             _controlesTraducibles.Add(new EtiquetaTraducible(rbModoEditar, BE.NombreControl.FormGestionUsuarios_rbModoEditar));
             _controlesTraducibles.Add(new EtiquetaTraducible(label1, BE.NombreControl.FormGestionUsuarios_label1));
+            _controlesTraducibles.Add(new EtiquetaTraducible(labelNombrePersona, BE.NombreControl.FormGestionUsuarios_labelNombrePersona));
+            _controlesTraducibles.Add(new EtiquetaTraducible(labelApellido, BE.NombreControl.FormGestionUsuarios_labelApellido));
             _controlesTraducibles.Add(new EtiquetaTraducible(label2, BE.NombreControl.FormGestionUsuarios_label2));
             _controlesTraducibles.Add(new EtiquetaTraducible(lblRol, BE.NombreControl.FormGestionUsuarios_lblRol));
             _controlesTraducibles.Add(new EtiquetaTraducible(chkActivo, BE.NombreControl.FormGestionUsuarios_chkActivo));
@@ -40,6 +42,8 @@ namespace TpIngSoft
 
             _dgvTraducible = new DataGridTraducible(dgvUsuarios, "FormGestionUsuarios.dgvUsuarios")
                 .ConColumna("Nombre", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_nombre)
+                .ConColumna("NombrePersona", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_nombrePersona)
+                .ConColumna("Apellido", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_apellido)
                 .ConColumna("Activo", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_activo)
                 .ConColumna("IntentosFallidos", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_intentos)
                 .ConColumna("BloqueadoHasta", BE.NombreControl.FormGestionUsuarios_dgvUsuarios_bloqueadoHasta);
@@ -65,6 +69,25 @@ namespace TpIngSoft
 
         private void FormGestionUsuarios_Load(object sender, EventArgs e)
         {
+            // Comprobación de integridad preventiva
+            try
+            {
+                var reporte = new BLL.IntegridadBLL().VerificarIntegridad();
+                if (!reporte.EsValido)
+                {
+                    string msg = reporte.DvvInvalido
+                        ? "ERROR DE INTEGRIDAD: La estructura de la tabla de usuarios ha sido alterada externamente."
+                        : $"ERROR DE INTEGRIDAD: Se ha detectado corrupción en los usuarios: {string.Join(", ", reporte.UsuariosCorruptos)}";
+
+                    MessageBox.Show(msg + "\n\nSe sugiere realizar una reparación o restaurar un backup antes de operar.",
+                        "Advertencia de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar integridad: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             // Cargar tiempo bloqueo opciones
             cmbTiempoBloqueo.Items.Clear();
             cmbTiempoBloqueo.Items.Add("5 min");
@@ -112,6 +135,8 @@ namespace TpIngSoft
             {
                 txtNombre.Text = "";
                 txtNombre.ReadOnly = false;
+                txtNombrePersona.Text = "";
+                txtApellido.Text = "";
                 txtPassword.Text = "";
                 chkActivo.Checked = true;
                 chkActivo.Enabled = false; // default for new user is true / active
@@ -143,6 +168,8 @@ namespace TpIngSoft
                 if (user != null)
                 {
                     txtNombre.Text = user.Nombre;
+                    txtNombrePersona.Text = user.NombrePersona;
+                    txtApellido.Text = user.Apellido;
                     txtPassword.Text = ""; // leave blank to keep existing
                     chkActivo.Checked = user.Activo;
 
@@ -166,6 +193,8 @@ namespace TpIngSoft
             else
             {
                 txtNombre.Text = "";
+                txtNombrePersona.Text = "";
+                txtApellido.Text = "";
                 txtPassword.Text = "";
                 chkActivo.Checked = false;
                 cmbRoles.SelectedIndex = -1;
@@ -192,11 +221,19 @@ namespace TpIngSoft
             try
             {
                 string nombre = txtNombre.Text.Trim();
+                string nombrePersona = txtNombrePersona.Text.Trim();
+                string apellido = txtApellido.Text.Trim();
                 string password = txtPassword.Text.Trim();
 
                 if (string.IsNullOrEmpty(nombre))
                 {
                     MessageBox.Show("El nombre de usuario es requerido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(nombrePersona) || string.IsNullOrEmpty(apellido))
+                {
+                    MessageBox.Show("El nombre y apellido son requeridos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -217,6 +254,8 @@ namespace TpIngSoft
                     Usuario nuevo = new Usuario
                     {
                         Nombre = nombre,
+                        NombrePersona = nombrePersona,
+                        Apellido = apellido,
                         Password = password,
                         Activo = true
                     };
@@ -244,6 +283,8 @@ namespace TpIngSoft
                     if (selected == null) return;
 
                     selected.Nombre = nombre;
+                    selected.NombrePersona = nombrePersona;
+                    selected.Apellido = apellido;
                     selected.Activo = chkActivo.Checked;
                     if (!string.IsNullOrEmpty(password))
                     {

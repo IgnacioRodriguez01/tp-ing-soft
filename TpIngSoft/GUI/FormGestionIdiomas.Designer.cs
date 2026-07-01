@@ -33,7 +33,6 @@ namespace TpIngSoft
             this.btnGuardarTraducciones = new System.Windows.Forms.Button();
             this.btnAplicar = new System.Windows.Forms.Button();
             this.btnToggleActivo = new System.Windows.Forms.Button();
-            this.btnEliminarIdioma = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIdiomas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTraducciones)).BeginInit();
             this.SuspendLayout();
@@ -158,9 +157,9 @@ namespace TpIngSoft
             this.btnAplicar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             this.btnAplicar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAplicar.ForeColor = System.Drawing.Color.White;
-            this.btnAplicar.Location = new System.Drawing.Point(310, 395);
+            this.btnAplicar.Location = new System.Drawing.Point(211, 395);
             this.btnAplicar.Name = "btnAplicar";
-            this.btnAplicar.Size = new System.Drawing.Size(120, 30);
+            this.btnAplicar.Size = new System.Drawing.Size(170, 30);
             this.btnAplicar.TabIndex = 7;
             this.btnAplicar.Text = "Aplicar Idioma";
             this.btnAplicar.UseVisualStyleBackColor = false;
@@ -172,27 +171,13 @@ namespace TpIngSoft
             this.btnToggleActivo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             this.btnToggleActivo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnToggleActivo.ForeColor = System.Drawing.Color.White;
-            this.btnToggleActivo.Location = new System.Drawing.Point(20, 395);
+            this.btnToggleActivo.Location = new System.Drawing.Point(23, 395);
             this.btnToggleActivo.Name = "btnToggleActivo";
-            this.btnToggleActivo.Size = new System.Drawing.Size(140, 30);
+            this.btnToggleActivo.Size = new System.Drawing.Size(170, 30);
             this.btnToggleActivo.TabIndex = 9;
-            this.btnToggleActivo.Text = "Activar / Desactivar";
+            this.btnToggleActivo.Text = "Activar / Desactivar (Eliminar)";
             this.btnToggleActivo.UseVisualStyleBackColor = false;
             this.btnToggleActivo.Click += new System.EventHandler(this.btnToggleActivo_Click);
-            // 
-            // btnEliminarIdioma
-            // 
-            this.btnEliminarIdioma.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEliminarIdioma.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
-            this.btnEliminarIdioma.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEliminarIdioma.ForeColor = System.Drawing.Color.White;
-            this.btnEliminarIdioma.Location = new System.Drawing.Point(170, 395);
-            this.btnEliminarIdioma.Name = "btnEliminarIdioma";
-            this.btnEliminarIdioma.Size = new System.Drawing.Size(130, 30);
-            this.btnEliminarIdioma.TabIndex = 10;
-            this.btnEliminarIdioma.Text = "Eliminar Idioma";
-            this.btnEliminarIdioma.UseVisualStyleBackColor = false;
-            this.btnEliminarIdioma.Click += new System.EventHandler(this.btnEliminarIdioma_Click);
             // 
             // FormGestionIdiomas
             // 
@@ -200,7 +185,6 @@ namespace TpIngSoft
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TpIngSoft.Properties.Resources.mesh_bg;
             this.ClientSize = new System.Drawing.Size(1014, 440);
-            this.Controls.Add(this.btnEliminarIdioma);
             this.Controls.Add(this.btnToggleActivo);
             this.Controls.Add(this.btnAplicar);
             this.Controls.Add(this.btnGuardarTraducciones);
@@ -230,6 +214,5 @@ namespace TpIngSoft
         private System.Windows.Forms.Button btnGuardarTraducciones;
         private System.Windows.Forms.Button btnAplicar;
         private System.Windows.Forms.Button btnToggleActivo;
-        private System.Windows.Forms.Button btnEliminarIdioma;
     }
 }

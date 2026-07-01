@@ -25,6 +25,10 @@ namespace TpIngSoft
             this.rbModoEditar = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
+            this.labelNombrePersona = new System.Windows.Forms.Label();
+            this.txtNombrePersona = new System.Windows.Forms.TextBox();
+            this.labelApellido = new System.Windows.Forms.Label();
+            this.txtApellido = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblRol = new System.Windows.Forms.Label();
@@ -84,6 +88,10 @@ namespace TpIngSoft
             this.grpAcciones.Controls.Add(this.rbModoEditar);
             this.grpAcciones.Controls.Add(this.label1);
             this.grpAcciones.Controls.Add(this.txtNombre);
+            this.grpAcciones.Controls.Add(this.labelNombrePersona);
+            this.grpAcciones.Controls.Add(this.txtNombrePersona);
+            this.grpAcciones.Controls.Add(this.labelApellido);
+            this.grpAcciones.Controls.Add(this.txtApellido);
             this.grpAcciones.Controls.Add(this.label2);
             this.grpAcciones.Controls.Add(this.txtPassword);
             this.grpAcciones.Controls.Add(this.lblRol);
@@ -128,11 +136,11 @@ namespace TpIngSoft
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 60);
+            this.label1.Location = new System.Drawing.Point(12, 55);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(94, 20);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Nombre:";
+            this.label1.Text = "Usuario:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtNombre
@@ -140,14 +148,52 @@ namespace TpIngSoft
             this.txtNombre.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
             this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNombre.ForeColor = System.Drawing.Color.White;
-            this.txtNombre.Location = new System.Drawing.Point(112, 60);
+            this.txtNombre.Location = new System.Drawing.Point(112, 55);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(180, 20);
             this.txtNombre.TabIndex = 3;
             // 
+            // labelNombrePersona
+            // 
+            this.labelNombrePersona.Location = new System.Drawing.Point(12, 90);
+            this.labelNombrePersona.Name = "labelNombrePersona";
+            this.labelNombrePersona.Size = new System.Drawing.Size(94, 20);
+            this.labelNombrePersona.TabIndex = 14;
+            this.labelNombrePersona.Text = "Nombre:";
+            this.labelNombrePersona.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtNombrePersona
+            // 
+            this.txtNombrePersona.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
+            this.txtNombrePersona.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNombrePersona.ForeColor = System.Drawing.Color.White;
+            this.txtNombrePersona.Location = new System.Drawing.Point(112, 90);
+            this.txtNombrePersona.Name = "txtNombrePersona";
+            this.txtNombrePersona.Size = new System.Drawing.Size(180, 20);
+            this.txtNombrePersona.TabIndex = 15;
+            // 
+            // labelApellido
+            // 
+            this.labelApellido.Location = new System.Drawing.Point(12, 125);
+            this.labelApellido.Name = "labelApellido";
+            this.labelApellido.Size = new System.Drawing.Size(94, 20);
+            this.labelApellido.TabIndex = 16;
+            this.labelApellido.Text = "Apellido:";
+            this.labelApellido.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtApellido
+            // 
+            this.txtApellido.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
+            this.txtApellido.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtApellido.ForeColor = System.Drawing.Color.White;
+            this.txtApellido.Location = new System.Drawing.Point(112, 125);
+            this.txtApellido.Name = "txtApellido";
+            this.txtApellido.Size = new System.Drawing.Size(180, 20);
+            this.txtApellido.TabIndex = 17;
+            // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(12, 100);
+            this.label2.Location = new System.Drawing.Point(12, 160);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(94, 20);
             this.label2.TabIndex = 4;
@@ -159,7 +205,7 @@ namespace TpIngSoft
             this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(57)))), ((int)(((byte)(79)))));
             this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPassword.ForeColor = System.Drawing.Color.White;
-            this.txtPassword.Location = new System.Drawing.Point(112, 100);
+            this.txtPassword.Location = new System.Drawing.Point(112, 160);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(180, 20);
             this.txtPassword.TabIndex = 5;
@@ -167,7 +213,7 @@ namespace TpIngSoft
             // 
             // lblRol
             // 
-            this.lblRol.Location = new System.Drawing.Point(12, 140);
+            this.lblRol.Location = new System.Drawing.Point(12, 195);
             this.lblRol.Name = "lblRol";
             this.lblRol.Size = new System.Drawing.Size(94, 21);
             this.lblRol.TabIndex = 6;
@@ -181,7 +227,7 @@ namespace TpIngSoft
             this.cmbRoles.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbRoles.ForeColor = System.Drawing.Color.White;
             this.cmbRoles.FormattingEnabled = true;
-            this.cmbRoles.Location = new System.Drawing.Point(112, 140);
+            this.cmbRoles.Location = new System.Drawing.Point(112, 195);
             this.cmbRoles.Name = "cmbRoles";
             this.cmbRoles.Size = new System.Drawing.Size(180, 21);
             this.cmbRoles.TabIndex = 7;
@@ -191,7 +237,7 @@ namespace TpIngSoft
             this.chkActivo.AutoSize = true;
             this.chkActivo.Checked = true;
             this.chkActivo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkActivo.Location = new System.Drawing.Point(112, 180);
+            this.chkActivo.Location = new System.Drawing.Point(112, 230);
             this.chkActivo.Name = "chkActivo";
             this.chkActivo.Size = new System.Drawing.Size(56, 17);
             this.chkActivo.TabIndex = 8;
@@ -200,7 +246,7 @@ namespace TpIngSoft
             // 
             // lblTiempoBloqueo
             // 
-            this.lblTiempoBloqueo.Location = new System.Drawing.Point(6, 215);
+            this.lblTiempoBloqueo.Location = new System.Drawing.Point(6, 260);
             this.lblTiempoBloqueo.Name = "lblTiempoBloqueo";
             this.lblTiempoBloqueo.Size = new System.Drawing.Size(100, 20);
             this.lblTiempoBloqueo.TabIndex = 9;
@@ -214,7 +260,7 @@ namespace TpIngSoft
             this.cmbTiempoBloqueo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbTiempoBloqueo.ForeColor = System.Drawing.Color.White;
             this.cmbTiempoBloqueo.FormattingEnabled = true;
-            this.cmbTiempoBloqueo.Location = new System.Drawing.Point(112, 215);
+            this.cmbTiempoBloqueo.Location = new System.Drawing.Point(112, 260);
             this.cmbTiempoBloqueo.Name = "cmbTiempoBloqueo";
             this.cmbTiempoBloqueo.Size = new System.Drawing.Size(180, 21);
             this.cmbTiempoBloqueo.TabIndex = 10;
@@ -224,7 +270,7 @@ namespace TpIngSoft
             this.btnRegistrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             this.btnRegistrar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRegistrar.ForeColor = System.Drawing.Color.White;
-            this.btnRegistrar.Location = new System.Drawing.Point(112, 260);
+            this.btnRegistrar.Location = new System.Drawing.Point(112, 300);
             this.btnRegistrar.Name = "btnRegistrar";
             this.btnRegistrar.Size = new System.Drawing.Size(180, 30);
             this.btnRegistrar.TabIndex = 11;
@@ -237,7 +283,7 @@ namespace TpIngSoft
             this.btnBloquear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             this.btnBloquear.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBloquear.ForeColor = System.Drawing.Color.White;
-            this.btnBloquear.Location = new System.Drawing.Point(112, 310);
+            this.btnBloquear.Location = new System.Drawing.Point(112, 345);
             this.btnBloquear.Name = "btnBloquear";
             this.btnBloquear.Size = new System.Drawing.Size(85, 30);
             this.btnBloquear.TabIndex = 12;
@@ -250,7 +296,7 @@ namespace TpIngSoft
             this.btnDesbloquear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(75)))), ((int)(((byte)(160)))));
             this.btnDesbloquear.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDesbloquear.ForeColor = System.Drawing.Color.White;
-            this.btnDesbloquear.Location = new System.Drawing.Point(207, 310);
+            this.btnDesbloquear.Location = new System.Drawing.Point(207, 345);
             this.btnDesbloquear.Name = "btnDesbloquear";
             this.btnDesbloquear.Size = new System.Drawing.Size(85, 30);
             this.btnDesbloquear.TabIndex = 13;
@@ -295,5 +341,9 @@ namespace TpIngSoft
         private System.Windows.Forms.Button btnRegistrar;
         private System.Windows.Forms.Button btnBloquear;
         private System.Windows.Forms.Button btnDesbloquear;
+        private System.Windows.Forms.Label labelNombrePersona;
+        private System.Windows.Forms.TextBox txtNombrePersona;
+        private System.Windows.Forms.Label labelApellido;
+        private System.Windows.Forms.TextBox txtApellido;
     }
 }

@@ -245,6 +245,24 @@ namespace DAL
             }
         }
 
+        public void ReasignarUsuariosIdioma(int idIdiomaDesactivado, int idIdiomaFallback)
+        {
+            acceso.Abrir();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@IdIdiomaDesactivado", idIdiomaDesactivado),
+                    acceso.CrearParametro("@IdIdiomaFallback", idIdiomaFallback)
+                };
+                acceso.Escribir("ReasignarUsuariosIdioma", parameters);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
         public void EliminarIdioma(int idIdioma)
         {
             acceso.Abrir();
