@@ -32,6 +32,8 @@ namespace TpIngSoft
                 .ConColumna("IdHistorial", BE.NombreControl.FormHistorialUsuario_dgvHistorial_idHistorial)
                 .ConColumna("IdUsuario", BE.NombreControl.FormHistorialUsuario_dgvHistorial_idUsuario)
                 .ConColumna("Nombre", BE.NombreControl.FormHistorialUsuario_dgvHistorial_usuario)
+                .ConColumna("NombrePersona", BE.NombreControl.FormHistorialUsuario_dgvHistorial_nombrePersona)
+                .ConColumna("Apellido", BE.NombreControl.FormHistorialUsuario_dgvHistorial_apellido)
                 .ConColumna("Activo", BE.NombreControl.FormHistorialUsuario_dgvHistorial_estado)
                 .ConColumna("FechaCambio", BE.NombreControl.FormHistorialUsuario_dgvHistorial_fecha)
                 .ConColumna("EditorNombre", BE.NombreControl.FormHistorialUsuario_dgvHistorial_editorNombre);
@@ -89,7 +91,7 @@ namespace TpIngSoft
             {
                 var historial = (UsuarioHistorial)dgvHistorial.CurrentRow.DataBoundItem;
                 
-                DialogResult dr = MessageBox.Show($"¿Desea restaurar al usuario '{historial.Nombre}' al estado del {historial.FechaCambio}?", 
+                DialogResult dr = MessageBox.Show($"¿Desea restaurar al usuario '{historial.Nombre}' al estado del {historial.FechaCambio}?\n\nNota: Se restaurarán únicamente los campos descriptivos (Nombre, Apellido) y el estado Activo. Las credenciales de acceso (Nombre de usuario y Contraseña) se mantendrán intactas por seguridad.", 
                     "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (dr == DialogResult.Yes)
@@ -97,7 +99,7 @@ namespace TpIngSoft
                     try
                     {
                         usuarioBLL.Restaurar(historial.IdHistorial);
-                        MessageBox.Show("Usuario restaurado con éxito. Se ha generado un nuevo registro en el historial y se han actualizado los DVs.", 
+                        MessageBox.Show("Usuario restaurado con éxito (Campos descriptivos y estado Activo). Se ha generado un nuevo registro en el historial y se han actualizado los DVs.", 
                             "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         btnCargarHistorial_Click(null, null); // Refrescar grilla
                     }
